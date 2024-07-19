@@ -1,1 +1,0 @@
--- vim.api.nvim_err_writeln("KaVimTeX.")
