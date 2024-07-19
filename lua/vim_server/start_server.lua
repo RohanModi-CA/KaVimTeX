@@ -11,9 +11,9 @@ function llvp.connect()
 	client = socket.connect(HOST, PORT)
 
 	if client then
-		print("Connected to the JS Process")
+		-- print("Connected to the JS Process")
 	else
-		print("Failed to connect to the JS Process")
+		-- print("Failed to connect to the JS Process")
 	end
 end
 
