@@ -3,7 +3,6 @@ local lfs = require('lfs')
 local pwd = lfs.currentdir()
 vim.cmd [[
 	let s:plugindir = expand('<sfile>:p:h:h')
-	print(s:plugindir)
 
 ]]
 
@@ -12,5 +11,5 @@ pwd = s:plugindir
 
 local webkit_location = pwd .. "backend/viewer/webkit_viewer.py"
 
-os.execute("/usr/bin/env python3 " .. webkit_location)
+print("/usr/bin/env python3 " .. webkit_location)
 
