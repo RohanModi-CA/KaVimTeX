@@ -1,4 +1,4 @@
---local lfs = require('luafilesystem')
+local lfs = require('luafilesystem')
 
 local pwd = lfs.currentdir()
 pwd = pwd:sub(1,-16) -- there has got to be a better way than this.
