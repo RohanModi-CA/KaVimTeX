@@ -3,6 +3,8 @@ local lfs = require('lfs')
 local pwd = lfs.currentdir()
 vim.cmd [[
 	let s:plugindir = expand('<sfile>:p:h:h')
+	print(s:plugindir)
+
 ]]
 
 pwd = pwd:sub(1,-15) -- there has got to be a better way than this.
