@@ -3,7 +3,7 @@ local llvp = {}
 local socket = require('socket')
 
 local HOST = "127.0.0.1"
-local PORT = 3000
+local PORT = 63002
 
 local client
 
@@ -40,20 +40,9 @@ end
 
 
 function llvp.process_current_line()
-  local current_line = vim.fn.getline('.') -- :gsub("^%s*[%d]+", "")  -- Get current line and strip line numbers
+  local current_line = vim.fn.getline('.')
   llvp.send_data(current_line)
 
---[[
-  local processed_line = llvp.receive_data()
-
-  -- Handle potential errors if processed_line is nil 
-  if processed_line then 
-    vim.fn.setline('.', processed_line) -- Update the current line in the buffer 
-  else
-    print("Error receiving processed line from JavaScript")
-  end
-
-  ]]--
 end
 
 vim.api.nvim_create_autocmd({"TextChangedI"},{
