@@ -10,7 +10,7 @@ function KVTCommence()
 	lua require("node_run")
 endfunction
 
-command! KVTCommence KVTCommence()
+command! KVTCommence call KVTCommence()
 
 
 let &cpo = s:save_cpo " and restore after
