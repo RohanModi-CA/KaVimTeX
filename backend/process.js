@@ -5,7 +5,7 @@ const render = require('./render.js');
 
 
 const server = net.createServer((socket) => {
-  console.log('Neovim connected.');
+	//  console.log('Neovim connected.');
 
   socket.on('data', (data) => {
 
@@ -23,12 +23,12 @@ const server = net.createServer((socket) => {
 
 
   socket.on('end', () => {
-    console.log('Neovim disconnected.');
+    // console.log('Neovim disconnected.');
   });
 });
 
 
 
 server.listen(63002, () => { 
-  console.log('Server listening on port 63002'); 
+  // console.log('Server listening on port 63002'); 
 });

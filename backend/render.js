@@ -54,12 +54,12 @@ function createHTML(fixed_latex) {
 		htmlFile = math;
 	}
 	catch(error) {
-		console.log(error);
+		// console.log(error);
 	}
 
 	finally{
 		const client = net.createConnection({ host: serverHost, port: viewerPort }, () => {
-			console.log(htmlFile);
+			// console.log(htmlFile);
 			client.write(htmlFile);
 			client.end();
 		});

@@ -21,7 +21,7 @@ function llvp.send_data(data)
 	if client then
 		client:send(data .. "\n")
 	else
-		print("Not connected to JavaScript process")
+		-- print("Not connected to JavaScript process")
 	end
 end
 

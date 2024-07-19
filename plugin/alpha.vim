@@ -14,8 +14,8 @@ set cpo&vim           " reset them to defaults" command to run our plugin
 
 
 command! KVTServer lua require("vim_server")
-command! KVTPython lua require("python_run")
-command! KVTNode lua require("node_run")
+"command! KVTPython lua require("python_run")
+"command! KVTNode lua require("node_run")
 
 
 
