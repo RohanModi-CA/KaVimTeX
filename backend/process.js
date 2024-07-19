@@ -21,7 +21,7 @@ fs.readFile(newcommands_file, 'utf8', (err, data) => {
   	// Process each line
   	lines.forEach(line => {
     	// Split the line based on the delimiter
-    	const [oldAlias, newAlias] = line.split(delimiter);
+    	const [newAlias, oldAlias] = line.split(delimiter);
 		
     	// Check if both parts exist after splitting
     	if (oldAlias.trim() && newAlias.trim()) {
