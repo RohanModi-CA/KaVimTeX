@@ -3,7 +3,7 @@
 const net = require('net');
 const fs = require('fs');
 const render = require('./render.js');
-const newcommands_file = "/home/rohan/.local/share/nvim/KaVimTex/backend/resources/aliases.txt";
+const newcommands_file = "/home/rohan/.local/share/nvim/plugged/KaVimTex/backend/resources/aliases.txt";
 const delimiter = "KVTNEWCOMMAND";
 const newCommands = []; // you can still push to a const array.
 const oldCommands = [];
