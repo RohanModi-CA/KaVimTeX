@@ -7,6 +7,11 @@ local PORT = 63002
 
 local client
 
+-- check newcommands:
+local newcommands = require('command_aliasing')
+--
+
+
 function llvp.connect()
 	client = socket.connect(HOST, PORT)
 
