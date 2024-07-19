@@ -9,7 +9,7 @@ const newCommands = []; // you can still push to a const array.
 const oldCommands = [];
 
 // Read the file asynchronously
-fs.readFile(filename, 'utf8', (err, data) => {
+fs.readFile(newcommands_file, 'utf8', (err, data) => {
 	if (err) {
 		console.error("Failed to read the file:", err);
     	return;
