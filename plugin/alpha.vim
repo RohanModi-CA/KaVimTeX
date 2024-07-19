@@ -7,9 +7,9 @@ set cpo&vim           " reset them to defaults" command to run our plugin
       
 function KVTCommence()
   " Start each Lua function as a separate job
-  execute 'silent !lua require("vim_server") &"'
-  execute 'silent !lua require("python_run") &"'
-  execute 'silent !lua require("node_run") &"'
+  execute '!lua require("vim_server") &"'
+  execute '!lua require("python_run") &"'
+  execute '!lua require("node_run") &"'
 endfunction
 
 
