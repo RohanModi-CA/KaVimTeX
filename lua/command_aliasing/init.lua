@@ -53,7 +53,7 @@ local universal_fixes = [[
 \\bigskipKVTNEWCOMMANDbigskip
 \\KVTNEWCOMMAND--
 ]]
-file.write(universal_fixes)
+file:write(universal_fixes)
 
 
 -- Close the file
