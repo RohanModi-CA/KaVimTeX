@@ -59,6 +59,20 @@ vim.api.nvim_create_autocmd({"TextChangedI"},{
 
 })
 
+vim.api.nvim_create_autocmd({"CursorMoved"}, {
+  pattern = "*.tex",
+  callback = function()
+    local prev_line = vim.fn.line("'-") -- Get previous line number
+    local current_line = vim.fn.line(".") -- Get current line number
+
+    -- Only process if the line actually changed
+    if prev_line ~= current_line then 
+      llvp.process_current_line()
+    end
+  end,
+})
+
+
 
 -- Call the connect when we load
 llvp.connect()
