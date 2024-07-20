@@ -4,21 +4,8 @@ let s:save_cpo = &cpo " save user coptions
 set cpo&vim           " reset them to defaults" command to run our plugin
 
 
-      
-"function KVTCommence()
-  " Start each Lua function as a separate job
- " execute '!lua require("vim_server") &"'
-  "execute '!lua require("python_run") &"'
-  "execute '!lua require("node_run") &"'
-"endfunction
-
 
 command! KVTServer lua require("vim_server")
-"command! KVTPython lua require("python_run")
-"command! KVTNode lua require("node_run")
-
-
-
 
 
 let &cpo = s:save_cpo " and restore after

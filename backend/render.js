@@ -5,18 +5,18 @@ const net = require('net');
 const serverHost = 'localhost';
 const viewerPort = 63001;
 
-// Create TCP Socket Client
-
 
 function expandAliases(rawTek, newlist, oldlist) {
-
-	expanded = rawTek;
-    newlist.forEach((item, index) => {
-        expanded = expanded.split(item).join(oldlist[index]);
-    });
-	return expanded;
-
+  let expanded = rawTek;
+  newlist.forEach((item, index) => {
+    // Escape backslashes in the alias for the regex
+    const escapedItem = item.replace(/\\/g, '\\\\');
+    const regex = new RegExp(escapedItem.trim() + "(?![a-zA-Z])", 'g');
+    expanded = expanded.replace(regex, oldlist[index].trim());
+  });
+  return expanded;
 }
+
 
 function addText(rawTek) {
 
@@ -49,12 +49,12 @@ function createHTML(fixed_latex) {
 	let htmlFile = "Error";
 	try{
 	
-		let math = katex.renderToString(fixed_latex);
+		let math = katex.renderToString(fixed_latex, {displayMode: true});
 		
 		htmlFile = math;
 	}
 	catch(error) {
-		// console.log(error);
+		console.log(error);
 	}
 
 	finally{
