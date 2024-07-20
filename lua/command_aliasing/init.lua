@@ -4,7 +4,7 @@ local line_array = vim.api.nvim_buf_get_lines(buffer, 1, -1, false)
 local KVTPath = vim.g.KVTRoot
 
 -- Open "resources/aliases.txt" in write mode (overwrites existing content)
-local file = io.open(KVTPath .. "/backend/aliases.txt", "w")
+local file = io.open(KVTPath .. "/backend/resources/aliases.txt", "w")
 
 for i = 1, #line_array do
     if stop_on_doc and string.find(line_array[i], "\\begin{document}") then
