@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import socket
 import add_css
+# import io
 
 class HTMLServer(QThread):
     new_html_received = pyqtSignal(str)
@@ -47,27 +48,24 @@ class MainWindow(QMainWindow):
 
     def update_html(self, html):
         stored = html + "\n\n\n\n\n\ BUGGS \n\n\n\n"
-        if "katex" in html:
-            html = add_css.addCSS(html)
-        self.browser.setHtml(html, self.base_url)
-        self.browser.page().loadFinished.connect(self.auto_zoom)
+        if html.find("katex") != -1:
 
-    def auto_zoom(self):
-        javascript = """
-        (function() {
-            var body = document.body;
-            var html = document.documentElement;
-            var height = Math.max(body.scrollHeight, body.offsetHeight,
-                                  html.clientHeight, html.scrollHeight, html.offsetHeight);
-            var windowHeight = window.innerHeight;
-            var zoom = windowHeight / height;
-            document.body.style.zoom = zoom;
-        })();
-        """
-        self.browser.page().runJavaScript(javascript)
+            html = add_css.addCSS(html)
+            """
+            with open('/home/rohan/.config/nvim/lua/llvp/render/resources/hello.html', 'a') as file:
+                # Write the string to the file
+                file.write(stored)
+
+            with open('/home/rohan/.config/nvim/lua/llvp/render/resources/das.html', 'w') as file:
+                # Write the string to the file
+                file.write(html)
+            """
+            self.browser.setHtml(html)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()
     sys.exit(app.exec_())
+
