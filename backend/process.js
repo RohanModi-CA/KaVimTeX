@@ -31,6 +31,8 @@ const server = net.createServer((socket) => {
 			// Check if both parts exist after splitting
 			if ((oldAlias && newAlias) && (oldAlias.trim() && oldAlias.trim())) {
 				// Remove leading/trailing whitespace and push to arrays
+				console.log(newAlias.trim());
+				console.log(oldAlias.trim());
 				newCommands.push(newAlias.trim());
 				oldCommands.push(oldAlias.trim());
 			} else {
