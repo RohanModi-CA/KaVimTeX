@@ -54,7 +54,7 @@ function createHTML(fixed_latex) {
 		htmlFile = math;
 	}
 	catch(error) {
-		console.log(error);
+		// console.log(error);
 	}
 
 	finally{
