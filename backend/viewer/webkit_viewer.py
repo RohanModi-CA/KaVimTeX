@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import socket
 import add_css
-# import io
 
 class HTMLServer(QThread):
     new_html_received = pyqtSignal(str)
@@ -42,30 +41,33 @@ class MainWindow(QMainWindow):
         self.base_url = QUrl.fromLocalFile("/home/rohan/.config/nvim/lua/llvp/render/resources/")
         self.browser.setHtml("<html><body><h1>Placeholder</h1></body></html>")
 
+        # Connect loadFinished signal for zoom adjustment
+        self.browser.loadFinished.connect(self.adjust_zoom)
+
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
         self.server.start()
 
+    def adjust_zoom(self, ok):
+        if ok:
+            frame = self.browser.page().mainFrame()
+            frame.setScrollBarPolicy(Qt.Vertical, Qt.ScrollBarAlwaysOff)
+            frame.setScrollBarPolicy(Qt.Horizontal, Qt.ScrollBarAlwaysOff)
+            document_size = frame.contentsSize()
+            view_size = self.browser.size()
+            zoom_factor = view_size.width() / document_size.width()
+            frame.setZoomFactor(zoom_factor)
+
     def update_html(self, html):
         stored = html + "\n\n\n\n\n\ BUGGS \n\n\n\n"
         if html.find("katex") != -1:
-
             html = add_css.addCSS(html)
-            """
-            with open('/home/rohan/.config/nvim/lua/llvp/render/resources/hello.html', 'a') as file:
-                # Write the string to the file
-                file.write(stored)
-
-            with open('/home/rohan/.config/nvim/lua/llvp/render/resources/das.html', 'w') as file:
-                # Write the string to the file
-                file.write(html)
-            """
-            self.browser.setHtml(html)
-
+            
+            # No need to write to files, directly set HTML
+            self.browser.setHtml(html) 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     mainWindow = MainWindow()
     mainWindow.show()
     sys.exit(app.exec_())
-
