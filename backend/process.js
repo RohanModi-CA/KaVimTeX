@@ -3,7 +3,9 @@
 const net = require('net');
 const fs = require('fs');
 const render = require('./render.js');
+const { exec } = require('child_process')
 const newcommands_file = "/home/rohan/.local/share/nvim/plugged/KaVimTex/backend/resources/aliases.txt";
+const kill_script_path = "/home/rohan/.local/share/nvim/plugged/KaVimTex/backend/kill_processes.sh"
 const delimiter = "KVTNEWCOMMAND";
 const newCommands = []; // you can still push to a const array.
 const oldCommands = [];
@@ -58,6 +60,20 @@ const server = net.createServer((socket) => {
 
   socket.on('end', () => {
     console.log('Neovim disconnected.');
+	exec(kill_script_path, (error,stdout,stderr) => {
+		if (error) {
+    		console.error(`error: ${error.message}`);
+    		return;
+  		}
+
+  		if (stderr) {
+    		console.error(`stderr: ${stderr}`);
+    		return;
+  		}
+		
+  		console.log(`stdout:\n${stdout}`);
+		});
+	});
   });
 });
 
