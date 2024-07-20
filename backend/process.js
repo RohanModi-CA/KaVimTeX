@@ -1,6 +1,6 @@
 // process.js
 
-const exec = require('child_process');
+const {exec} = require('child_process');
 const net = require('net');
 const fs = require('fs');
 const render = require('./render.js');
