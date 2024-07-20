@@ -46,5 +46,15 @@ for i = 1, #line_array do
     end
 end
 
+-- add the universal fixes:
+local universal_fixes = [[
+\\medskipKVTNEWCOMMANDmedskip
+\\smallskipKVTNEWCOMMANDsmallskip
+\\bigskipKVTNEWCOMMANDbigskip
+\\KVTNEWCOMMAND--
+]]
+file.write(universal_fixes)
+
+
 -- Close the file
 file:close()
