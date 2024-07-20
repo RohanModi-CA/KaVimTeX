@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtCore import QUrl, QThread, pyqtSignal, Qt
+from PyQt5.QtCore import QUrl, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 import socket
@@ -41,8 +41,8 @@ class MainWindow(QMainWindow):
         self.base_url = QUrl.fromLocalFile("/home/rohan/.config/nvim/lua/llvp/render/resources/")
         self.browser.setHtml("<html><body><h1>Placeholder</h1></body></html>")
 
-        # Enable zoom factor adjustments
-        self.browser.settings().setAttribute(QWebEngineSettings.WebAttribute.PageCacheSize, 1)
+        # Enable zoom factor changes
+        self.browser.settings().setAttribute(QWebEngineSettings.WebAttribute.PageScaleFactor, True)
 
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
@@ -52,26 +52,17 @@ class MainWindow(QMainWindow):
         stored = html + "\n\n\n\n\n\ BUGGS \n\n\n\n"
         if html.find("katex") != -1:
             html = add_css.addCSS(html)
+            self.browser.setHtml(html)
 
-            self.browser.setHtml(html, self.base_url)
+        # Autozoom after content is loaded
+        self.browser.loadFinished.connect(self.adjust_zoom)
 
-            # Auto-resize logic:
-            document = self.browser.page().runJavaScript(
-                """
-                {
-                  width: document.body.scrollWidth,
-                  height: document.body.scrollHeight
-                }
-                """,
-                script_source_url="",
-                callback=lambda result: self.resize_to_content(result)
-            )
-
-    def resize_to_content(self, size):
-        if size:
-            width = size['width']
-            height = size['height']
-            self.resize(width, height)
+    def adjust_zoom(self):
+        frame = self.browser.page().frame()
+        doc_width = frame.contentsSize().width()
+        view_width = self.browser.width()
+        zoom_factor = view_width / doc_width
+        self.browser.setZoomFactor(zoom_factor)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
