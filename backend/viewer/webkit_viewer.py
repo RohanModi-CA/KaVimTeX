@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtCore import QUrl, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 import socket
 import add_css
 
@@ -41,28 +41,30 @@ class MainWindow(QMainWindow):
         self.base_url = QUrl.fromLocalFile("/home/rohan/.config/nvim/lua/llvp/render/resources/")
         self.browser.setHtml("<html><body><h1>Placeholder</h1></body></html>")
 
-        # Enable zoom factor changes
-        self.browser.settings().setAttribute(QWebEngineSettings.WebAttribute.PageScaleFactor, True)
-
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
         self.server.start()
 
     def update_html(self, html):
         stored = html + "\n\n\n\n\n\ BUGGS \n\n\n\n"
-        if html.find("katex") != -1:
+        if "katex" in html:
             html = add_css.addCSS(html)
-            self.browser.setHtml(html)
+        self.browser.setHtml(html, self.base_url)
+        self.browser.page().loadFinished.connect(self.auto_zoom)
 
-        # Autozoom after content is loaded
-        self.browser.loadFinished.connect(self.adjust_zoom)
-
-    def adjust_zoom(self):
-        frame = self.browser.page().frame()
-        doc_width = frame.contentsSize().width()
-        view_width = self.browser.width()
-        zoom_factor = view_width / doc_width
-        self.browser.setZoomFactor(zoom_factor)
+    def auto_zoom(self):
+        javascript = """
+        (function() {
+            var body = document.body;
+            var html = document.documentElement;
+            var height = Math.max(body.scrollHeight, body.offsetHeight,
+                                  html.clientHeight, html.scrollHeight, html.offsetHeight);
+            var windowHeight = window.innerHeight;
+            var zoom = windowHeight / height;
+            document.body.style.zoom = zoom;
+        })();
+        """
+        self.browser.page().runJavaScript(javascript)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
