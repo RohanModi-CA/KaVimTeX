@@ -74,8 +74,8 @@ const server = net.createServer((socket) => {
   		console.log(`stdout:\n${stdout}`);
 		});
 	});
-  });
 });
+
 
 
 
