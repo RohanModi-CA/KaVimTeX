@@ -24,7 +24,7 @@ fs.readFile(newcommands_file, 'utf8', (err, data) => {
     	const [newAlias, oldAlias] = line.split(delimiter);
 		
     	// Check if both parts exist after splitting
-    	if (oldAlias.trim() && newAlias.trim()) {
+    	if ((oldAlias && newAlias) && (oldAlias.trim() && oldAlias.trim())) {
       		// Remove leading/trailing whitespace and push to arrays
       		newCommands.push(newAlias.trim());
       		oldCommands.push(oldAlias.trim());
