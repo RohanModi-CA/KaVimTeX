@@ -49,7 +49,7 @@ function createHTML(fixed_latex) {
 	let htmlFile = "Error";
 	try{
 	
-		let math = katex.renderToString(fixed_latex);
+		let math = katex.renderToString(fixed_latex, {displayMode: true});
 		
 		htmlFile = math;
 	}
