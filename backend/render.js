@@ -12,7 +12,7 @@ function expandAliases(rawTek, newlist, oldlist) {
 
 	expanded = rawTek;
     newlist.forEach((item, index) => {
-        expanded = expanded.split(item).join(oldlist[index]);
+        expanded = expanded.split(item.trim() + " ").join(oldlist[index].trim() + "");
     });
 	return expanded;
 
