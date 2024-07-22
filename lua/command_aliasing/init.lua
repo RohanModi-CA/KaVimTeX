@@ -51,7 +51,7 @@ local universal_fixes = [[
 \medskipKVTNEWCOMMANDmedskip
 \smallskipKVTNEWCOMMANDsmallskip
 \bigskipKVTNEWCOMMANDbigskip
-\\KVTNEWCOMMAND--
+
 ]] -- in lua strings in [[]] do not require escape characters
 file:write(universal_fixes)
 
