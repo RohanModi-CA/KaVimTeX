@@ -36,7 +36,7 @@ function llvp.receive_data(data)
 		if data then
 			return data
 		else
-			print("Error receiving data: ", err)
+			--print("Error receiving data: ", err)
 		end
 	else
 		print("Not Connected to JS Process")
