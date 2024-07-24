@@ -4,6 +4,11 @@ local start_server = require('vim_server.start_server')
 local KVTRuntimePathArray = vim.api.nvim_get_runtime_file("lua/", true)
 local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTex, so keep that in mind.
 
+local WEBKIT_PORT = 63001
+local PROCESS_PORT = 63002
+
+
+
 for _, str in ipairs(KVTRuntimePathArray) do
 	if str then
 		local lowerStr = string.lower(str)
@@ -20,7 +25,7 @@ end
 
 local function run_script(interpreter, script_path)
   if vim.fn.filereadable(script_path) == 1 then
-    local cmd = {interpreter, script_path, KVTRoot}
+    local cmd = {interpreter, script_path, KVTRoot, WEBKIT_PORT, PROCESS_PORT }
     vim.fn.jobstart(cmd, {detach = true})
   else
     print("File not found: " .. script_path)

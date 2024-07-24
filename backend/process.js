@@ -3,15 +3,18 @@
 const net = require('net');
 const fs = require('fs');
 const render = require('./render.js');
-const { exec } = require('child_process')
+const { exec } = require('child_process');
 
-const KVTRoot = process.argv[2]
+const KVTRoot = process.argv[2];
 
 const newcommands_file = KVTRoot + "/backend/resources/aliases.txt";
 const kill_script_path = KVTRoot + "/backend/kill_processes.sh"
 const delimiter = "KVTNEWCOMMAND";
 const newCommands = []; // you can still push to a const array.
 const oldCommands = [];
+
+const WEBKIT_PORT = parseInt(process.argv[3]);
+const PROCESS_PORT = parseInt(process.argv[4]);
 
 const server = net.createServer((socket) => {
 	console.log('Neovim connected.');
@@ -58,7 +61,7 @@ const server = net.createServer((socket) => {
 		processed_line = render.expandAliases(processed_line,newCommands, oldCommands);
 		processed_line = render.stripMathMode(processed_line);
 		 
-		render.createHTML(processed_line);
+		render.createHTML(processed_line, WEBKIT_PORT);
 	});
 
 

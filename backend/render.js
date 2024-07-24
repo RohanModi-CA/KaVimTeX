@@ -3,7 +3,6 @@ const katex = require('katex');
 const net = require('net');
 
 const serverHost = 'localhost';
-const viewerPort = 63001;
 
 
 function expandAliases(rawTek, newlist, oldlist) {
@@ -44,7 +43,7 @@ function stripMathMode(rawTek) {
 }
 
 
-function createHTML(fixed_latex) {
+function createHTML(fixed_latex, WEBKIT_PORT) {
 	
 	let htmlFile = "Error";
 	try{
@@ -58,7 +57,7 @@ function createHTML(fixed_latex) {
 	}
 
 	finally{
-		const client = net.createConnection({ host: serverHost, port: viewerPort }, () => {
+		const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 			// console.log(htmlFile);
 			client.write(htmlFile);
 			client.end();
