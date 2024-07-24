@@ -21,12 +21,14 @@ for _, str in ipairs(KVTRuntimePathArray) do
 end
 
 
-
+local function handle_output(job_id, data, event)
+  print(vim.inspect(data))  -- Display output in Nvim's message area
+end
 
 local function run_script(interpreter, script_path)
   if vim.fn.filereadable(script_path) == 1 then
     local cmd = {interpreter, script_path, KVTRoot, WEBKIT_PORT, PROCESS_PORT }
-    vim.fn.jobstart(cmd, {detach = true})
+    vim.fn.jobstart(cmd, {detach = true, on_stdout = handle_output, on_stderr = handle_output})
   else
     print("File not found: " .. script_path)
   end
