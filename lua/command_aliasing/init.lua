@@ -1,7 +1,22 @@
 local stop_on_doc = vim.g.KVTSearchForCommandsPastBeginDoc == nil
 local buffer = vim.api.nvim_get_current_buf()
 local line_array = vim.api.nvim_buf_get_lines(buffer, 1, -1, false)
-local KVTPath = vim.g.KVTRoot
+
+local KVTRuntimePathArray = vim.api.nvim_get_runtime_file("lua/", true)
+local KVTRoot = ""
+
+for _, str in ipairs(KVTRuntimePathArray) do
+    local lowerStr = string.lower(str)
+    local startIdx, endIdx = string.find(lowerStr, pattern)
+    if startIdx then
+        KVTRoot = string.sub(str, 1, endIdx)
+        break
+    end
+end
+
+
+
+
 
 -- Open "resources/aliases.txt" in write mode (overwrites existing content)
 local file = io.open(KVTPath .. "/backend/resources/aliases.txt", "w")
