@@ -8,7 +8,7 @@ local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTe
 for _, str in ipairs(KVTRuntimePathArray) do
 	if str then
 		local lowerStr = string.lower(str)
-		local startIdx, endIdx = string.find(lowerStr, pattern)
+		local startIdx, endIdx = string.find(lowerStr, "kavimtex")
 		if startIdx then
 			KVTRoot = string.sub(str, 1, endIdx)
 			break
