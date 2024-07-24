@@ -34,6 +34,9 @@ class HTMLServer(QThread):
                     break
         except ConnectionResetError:
             print("Connection reset by peer")
+
+            self.browser.setHtml("<html><body><h1>Connection Reset</h1></body></html>")
+
         finally:
             client_socket.close()
 
@@ -44,7 +47,7 @@ class MainWindow(QMainWindow):
         self.browser = QWebEngineView()
         self.setCentralWidget(self.browser)
         self.base_url = QUrl.fromLocalFile("/home/rohan/.config/nvim/lua/llvp/render/resources/")
-        self.browser.setHtml("<html><body><h1>Placeholder</h1></body></html>")
+        self.browser.setHtml("<html><body><h1>No Connections</h1></body></html>")
 
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
@@ -55,15 +58,6 @@ class MainWindow(QMainWindow):
         if html.find("katex") != -1:
 
             html = add_css.addCSS(html)
-            """
-            with open('/home/rohan/.config/nvim/lua/llvp/render/resources/hello.html', 'a') as file:
-                # Write the string to the file
-                file.write(stored)
-
-            with open('/home/rohan/.config/nvim/lua/llvp/render/resources/das.html', 'w') as file:
-                # Write the string to the file
-                file.write(html)
-            """
             self.browser.setHtml(html)
 
 
