@@ -13,8 +13,8 @@ const delimiter = "KVTNEWCOMMAND";
 const newCommands = []; // you can still push to a const array.
 const oldCommands = [];
 
-const WEBKIT_PORT = parseInt(process.argv[3]);
-const PROCESS_PORT = parseInt(process.argv[4]);
+const WEBKIT_PORT = (process.argv[3]);
+const PROCESS_PORT = (process.argv[4]);
 
 const server = net.createServer((socket) => {
 	console.log('Neovim connected.');
