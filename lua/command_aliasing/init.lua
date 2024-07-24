@@ -6,12 +6,14 @@ local KVTRuntimePathArray = vim.api.nvim_get_runtime_file("lua/", true)
 local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTex, so keep that in mind.
 
 for _, str in ipairs(KVTRuntimePathArray) do
-    local lowerStr = string.lower(str)
-    local startIdx, endIdx = string.find(lowerStr, pattern)
-    if startIdx then
-        KVTRoot = string.sub(str, 1, endIdx)
-        break
-    end
+	if str then
+		local lowerStr = string.lower(str)
+		local startIdx, endIdx = string.find(lowerStr, pattern)
+		if startIdx then
+			KVTRoot = string.sub(str, 1, endIdx)
+			break
+		end
+	end
 end
 
 
