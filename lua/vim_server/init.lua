@@ -14,6 +14,9 @@ for _, str in ipairs(KVTRuntimePathArray) do
 end
 
 
+
+
+
 local function run_script(interpreter, script_path)
   if vim.fn.filereadable(script_path) == 1 then
     local cmd = {interpreter, script_path, KVTRoot}
