@@ -23,8 +23,8 @@ end
 
 local function handle_output(job_id, data, event)
 	file = io.open(KVTRoot .. "/backend/resources/consoleoutput.txt","a")
-	file.write(data .. "\n\n\n")
-	file.close()
+	file:write(data .. "\n\n\n")
+	file:close()
 end
 
 local function run_script(interpreter, script_path)
