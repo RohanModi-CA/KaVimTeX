@@ -4,8 +4,11 @@ const net = require('net');
 const fs = require('fs');
 const render = require('./render.js');
 const { exec } = require('child_process')
-const newcommands_file = "/home/rohan/.local/share/nvim/plugged/KaVimTex/backend/resources/aliases.txt";
-const kill_script_path = "/home/rohan/.local/share/nvim/plugged/KaVimTex/backend/kill_processes.sh"
+
+const KVTRoot = process.argv[2]
+
+const newcommands_file = KVTRoot + "/backend/resources/aliases.txt";
+const kill_script_path = KVTRoot + "/backend/kill_processes.sh"
 const delimiter = "KVTNEWCOMMAND";
 const newCommands = []; // you can still push to a const array.
 const oldCommands = [];

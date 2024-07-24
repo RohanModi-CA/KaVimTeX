@@ -3,7 +3,7 @@ local buffer = vim.api.nvim_get_current_buf()
 local line_array = vim.api.nvim_buf_get_lines(buffer, 1, -1, false)
 
 local KVTRuntimePathArray = vim.api.nvim_get_runtime_file("lua/", true)
-local KVTRoot = ""
+local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTex, so keep that in mind.
 
 for _, str in ipairs(KVTRuntimePathArray) do
     local lowerStr = string.lower(str)
