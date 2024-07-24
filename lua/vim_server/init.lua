@@ -20,12 +20,13 @@ for _, str in ipairs(KVTRuntimePathArray) do
 	end
 end
 
-
+[[
 local function handle_output(job_id, data, event)
-	file = io.open(KVTRoot .. "/backend/resources/consoleoutput.txt","a")
+	local file = io.open(KVTRoot .. "/backend/resources/consoleoutput.txt","a")
 	file:write(data .. "\n end of entry \n")
 	file:close()
 end
+]]
 
 local function run_script(interpreter, script_path)
   if vim.fn.filereadable(script_path) == 1 then
