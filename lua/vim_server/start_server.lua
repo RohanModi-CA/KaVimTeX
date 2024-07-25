@@ -38,7 +38,7 @@ function llvp.connect()
 	if client then
 		 print("Connected to the JS Process")
 	else
-		 print(WEBKIT_PORT .. "  " .. PROCESS_PORT.. "  " .. "Failed to connect to the JS Process")
+		 print(KVTRoot.." "..WEBKIT_PORT .. "  " .. PROCESS_PORT.. "  " .. "Failed to connect to the JS Process")
 	end
 end
 
@@ -144,11 +144,11 @@ vim.defer_fn(function()
   run_script("python3", KVTRoot .. "/backend/viewer/webkit_viewer.py")
 end, 0)
 
---[[
+
 vim.defer_fn(function()
   run_script("node", KVTRoot .. "/backend/process.js")
 end, 0)
-]]
+
 
 
 
