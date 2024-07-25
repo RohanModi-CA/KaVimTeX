@@ -66,23 +66,9 @@ const server = net.createServer((socket) => {
 
 
 
-  socket.on('end', () => {
-    console.log('Neovim disconnected.');
-	  render.createHTML("Lost Connection to the server", WEBKIT_PORT)
-	/* exec(kill_script_path, (error,stdout,stderr) => {
-		if (error) {
-    		console.error(`error: ${error.message}`);
-    		return;
-  		}
-
-  		if (stderr) {
-    		console.error(`stderr: ${stderr}`);
-    		return;
-  		}
-		
-  		console.log(`stdout:\n${stdout}`);
-		});
-	*/
+	socket.on('end', () => {
+    	console.log('Neovim disconnected.');
+		render.terminateViewer(WEBKIT_PORT)
 	});
 });
 

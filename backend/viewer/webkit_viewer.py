@@ -54,7 +54,9 @@ class MainWindow(QMainWindow):
         self.server.start()
 
     def update_html(self, html):
-        stored = html + "\n\n\n\n\n\ BUGGS \n\n\n\n"
+        
+        if html == "KAVIMTEX TERMINATED":
+            sys.exit(app.exec_())
         if html.find("katex") != -1:
 
             html = add_css.addCSS(html)

@@ -68,10 +68,18 @@ function createHTML(fixed_latex, WEBKIT_PORT) {
 }
 
 
+function terminateViewer(WEBKIT_PORT) {
+	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
+			client.write("KAVIMTEX TERMINATED");
+			client.end();
+}
+
+
 
 module.exports = {
     expandAliases: expandAliases,
     addText: addText,
     stripMathMode: stripMathMode,
-    createHTML: createHTML
+    createHTML: createHTML,
+	terminateViewer: terminateViewer
 };
