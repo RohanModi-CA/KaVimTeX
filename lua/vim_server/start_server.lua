@@ -10,7 +10,7 @@ local uv = vim.uv
 
 local function find_open_port()
   local socket = uv.new_tcp()
-  local err = socket:bind("127.0.0.1", 0) -- Bind to port 0 for ephemeral port
+  local err = socket:bind("127.0.0.1", 63000) -- Bind to port 0 for ephemeral port
   if err then
     socket:close()
     return nil, err
