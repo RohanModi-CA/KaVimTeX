@@ -127,7 +127,7 @@ end
 local function run_script(interpreter, script_path)
   if vim.fn.filereadable(script_path) == 1 then
     local cmd = {interpreter, script_path, KVTRoot, WEBKIT_PORT, PROCESS_PORT }
-    vim.fn.jobstart(cmd, {detach = true})
+    vim.fn.jobstart(cmd, {detach = false})
   else
     print("File not found: " .. script_path)
   end
@@ -136,11 +136,9 @@ end
 
 -- Run the scripts.
 
---[[
 vim.defer_fn(function()
   run_script("python3", KVTRoot .. "/backend/viewer/webkit_viewer.py")
 end, 0)
-]]
 
 vim.defer_fn(function()
   run_script("node", KVTRoot .. "/backend/process.js")
