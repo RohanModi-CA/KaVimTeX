@@ -2,6 +2,7 @@ local llvp = {}
 
 local socket = require('socket')
 
+local RunOnAllFileTypes = not (vim.g.KVTRunOnAllFileTypes==nil)
 local KVTRuntimePathArray = vim.api.nvim_get_runtime_file("lua/", true)
 local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTex, so keep that in mind.
 
@@ -76,19 +77,32 @@ vim.api.nvim_create_autocmd({"TextChangedI"},{
 	end,
 })
 
-vim.api.nvim_create_autocmd({"CursorMoved"}, {
-	pattern = "*.tex",
-	callback = function()
-    local prev_line = vim.fn.line("'-") -- Get previous line number
-    local current_line = vim.fn.line(".") -- Get current line number
+if RunOnAllFileTypes then
+	vim.api.nvim_create_autocmd({"CursorMoved"}, {
+		callback = function()
+		local prev_line = vim.fn.line("'-") -- Get previous line number
+		local current_line = vim.fn.line(".") -- Get current line number
 
-    -- Only process if the line actually changed
-    if prev_line ~= current_line then 
-      llvp.process_current_line()
-    end
-  end,
-})
+		-- Only process if the line actually changed
+		if prev_line ~= current_line then 
+		  llvp.process_current_line()
+		end
+	  end,
+	})
+else
+	vim.api.nvim_create_autocmd({"CursorMoved"}, {
+		pattern = "*.tex",
+		callback = function()
+		local prev_line = vim.fn.line("'-") -- Get previous line number
+		local current_line = vim.fn.line(".") -- Get current line number
 
+		-- Only process if the line actually changed
+		if prev_line ~= current_line then 
+		  llvp.process_current_line()
+		end
+	  end,
+	})
+end
 
 
 -- Call the connect when we load

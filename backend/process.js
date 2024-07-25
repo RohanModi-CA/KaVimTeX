@@ -70,11 +70,6 @@ const server = net.createServer((socket) => {
 	socket.on('end', () => {
     	console.log('Neovim disconnected.');
 		render.terminateViewer(WEBKIT_PORT);
-		
-	    const start = Date.now();
-    	while (Date.now() - start < 2000) {
-        	// Busy-wait loop
-    	}
 
 		server.close();
 	});
