@@ -1,0 +1,4 @@
+backend/node_modules/** -linguist-vendored
+backend/package.json -linguist-vendored
+backend/package-lock.json -linguist-vendored
+backend/viewer.add_css.py -linguist-vendored
