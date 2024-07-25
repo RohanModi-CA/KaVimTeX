@@ -102,7 +102,8 @@ vim.api.nvim_create_autocmd({"CursorMoved"}, {
 
 
 
-
+PROCESS_PORT = 63002
+WEBKIT_PORT = 63001
 
 
 
