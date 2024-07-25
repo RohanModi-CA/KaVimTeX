@@ -1,10 +1,27 @@
 local stop_on_doc = vim.g.KVTSearchForCommandsPastBeginDoc == nil
 local buffer = vim.api.nvim_get_current_buf()
 local line_array = vim.api.nvim_buf_get_lines(buffer, 1, -1, false)
-local KVTPath = vim.g.KVTRoot
+
+local KVTRuntimePathArray = vim.api.nvim_get_runtime_file("lua/", true)
+local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTex, so keep that in mind.
+
+for _, str in ipairs(KVTRuntimePathArray) do
+	if str then
+		local lowerStr = string.lower(str)
+		local startIdx, endIdx = string.find(lowerStr, "kavimtex")
+		if startIdx then
+			KVTRoot = string.sub(str, 1, endIdx)
+			break
+		end
+	end
+end
+
+
+
+
 
 -- Open "resources/aliases.txt" in write mode (overwrites existing content)
-local file = io.open(KVTPath .. "/backend/resources/aliases.txt", "w")
+local file = io.open(KVTRoot .. "/backend/resources/aliases.txt", "w")
 
 for i = 1, #line_array do
     if stop_on_doc and string.find(line_array[i], "\\begin{document}") then
@@ -51,7 +68,7 @@ local universal_fixes = [[
 \medskipKVTNEWCOMMANDmedskip
 \smallskipKVTNEWCOMMANDsmallskip
 \bigskipKVTNEWCOMMANDbigskip
-\\KVTNEWCOMMAND--
+
 ]] -- in lua strings in [[]] do not require escape characters
 file:write(universal_fixes)
 

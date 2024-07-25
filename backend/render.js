@@ -3,7 +3,6 @@ const katex = require('katex');
 const net = require('net');
 
 const serverHost = 'localhost';
-const viewerPort = 63001;
 
 
 function expandAliases(rawTek, newlist, oldlist) {
@@ -44,7 +43,7 @@ function stripMathMode(rawTek) {
 }
 
 
-function createHTML(fixed_latex) {
+function createHTML(fixed_latex, WEBKIT_PORT) {
 	
 	let htmlFile = "Error";
 	try{
@@ -54,25 +53,40 @@ function createHTML(fixed_latex) {
 		htmlFile = math;
 	}
 	catch(error) {
-		console.log(error);
+		// console.log(error);
 	}
 
 	finally{
-		const client = net.createConnection({ host: serverHost, port: viewerPort }, () => {
+		const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 			// console.log(htmlFile);
 			client.write(htmlFile);
 			client.end();
 		});
 	}
 
-
 }
 
+function greetViewer(WEBKIT_PORT) {
+	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
+		client.write("KAVIMTEX CONNECTED");
+		client.end();
+	});
+}
+
+
+function terminateViewer(WEBKIT_PORT) {
+	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
+		client.write("KAVIMTEX TERMINATED");
+		client.end();
+	});
+}
 
 
 module.exports = {
     expandAliases: expandAliases,
     addText: addText,
     stripMathMode: stripMathMode,
-    createHTML: createHTML
+    createHTML: createHTML,
+	terminateViewer: terminateViewer,
+	greetViewer: greetViewer
 };
