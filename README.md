@@ -1,3 +1,4 @@
+
 ## KaVimTex: Live LaTeX Preview in Neovim 
 
 KaVimTex provides a live preview of your LaTeX code within Neovim, using KaTeX and a dedicated QT window. This can be useful for visualizing complex mathematical expressions, matrices, etc in real-time. 
