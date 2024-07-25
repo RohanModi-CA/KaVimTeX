@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
         if html.find("katex") != -1:
 
             html = add_css.addCSS(html)
-                self.browser.setHtml(html)
+            self.browser.setHtml(html)
 
 
 if __name__ == '__main__':
