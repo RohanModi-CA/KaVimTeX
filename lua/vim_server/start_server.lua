@@ -144,10 +144,11 @@ vim.defer_fn(function()
   run_script("python3", KVTRoot .. "/backend/viewer/webkit_viewer.py")
 end, 0)
 
+--[[
 vim.defer_fn(function()
   run_script("node", KVTRoot .. "/backend/process.js")
 end, 0)
-
+]]
 
 
 
