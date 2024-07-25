@@ -6,7 +6,7 @@ import socket
 import add_css
 # import io
 
-WEBKIT_PORT = int(sys.argv[3])
+WEBKIT_PORT = int(sys.argv[2])
 
 
 class HTMLServer(QThread):
