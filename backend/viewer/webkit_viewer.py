@@ -42,7 +42,7 @@ class HTMLServer(QThread):
 
 class MainWindow(QMainWindow):
     def __init__(self):
-            super().__init__()
+        super().__init__()
         self.setWindowTitle(str(WEBKIT_PORT))
         self.browser = QWebEngineView()
         self.setCentralWidget(self.browser)

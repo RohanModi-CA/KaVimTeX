@@ -21,8 +21,8 @@ local port2 = get_free_port()
 
 
 local HOST = "127.0.0.1"
-WEBKIT_PORT = port1
-PROCESS_PORT = port2
+local WEBKIT_PORT = port1
+local PROCESS_PORT = port2
 
 
 local client
