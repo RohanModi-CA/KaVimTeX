@@ -21,8 +21,8 @@ local port2 = get_free_port()
 
 
 local HOST = "127.0.0.1"
-local WEBKIT_PORT = port1
-local PROCESS_PORT = port2
+WEBKIT_PORT = port1
+PROCESS_PORT = port2
 
 
 local client
@@ -127,7 +127,7 @@ end
 local function run_script(interpreter, script_path)
   if vim.fn.filereadable(script_path) == 1 then
     local cmd = {interpreter, script_path, KVTRoot, WEBKIT_PORT, PROCESS_PORT }
-    vim.fn.jobstart(cmd, {detach = false})
+    vim.fn.jobstart(cmd, {detach = true})
   else
     print("File not found: " .. script_path)
   end
