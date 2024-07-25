@@ -1,0 +1,74 @@
+[
+    {
+        "border": "normal",
+        "floating": "auto_off",
+        "layout": "splitv",
+        "marks": [],
+        "percent": 0.5,
+        "type": "con",
+        "nodes": [
+            {
+                "border": "normal",
+                "current_border_width": 2,
+                "floating": "auto_off",
+                "geometry": {
+                    "height": 480,
+                    "width": 640,
+                    "x": 0,
+                    "y": 0
+                },
+                "marks": [],
+                "name": "webkit_viewer.py",
+                "percent": 0.187087653157399,
+                "swallows": [
+                    {
+                        "class": "^webkit_viewer\\.py$",
+                        "instance": "^webkit_viewer\\.py$"
+                    }
+                ],
+                "type": "con"
+            },
+            {
+                "border": "normal",
+                "current_border_width": 2,
+                "floating": "auto_off",
+                "geometry": {
+                    "height": 1031,
+                    "width": 1906,
+                    "x": 0,
+                    "y": 0
+                },
+                "marks": [],
+                "name": "rohan@lattitude-ubuntu: ~/Documents/FileFolder/School/PHYS103",
+                "percent": 0.812912346842601,
+                "swallows": [
+                    {
+                        "class": "^kitty$",
+                        "instance": "^kitty$"
+                    }
+                ],
+                "type": "con"
+            }
+        ]
+    },
+    {
+        "border": "normal",
+        "current_border_width": 2,
+        "floating": "auto_off",
+        "geometry": {
+            "height": 600,
+            "width": 800,
+            "x": 0,
+            "y": 0
+        },
+        "marks": [],
+        "name": "org.pwmt.zathura",
+        "percent": 0.5,
+        "swallows": [
+            {
+                "class": "^Zathura$"
+            }
+        ],
+        "type": "con"
+    }
+]
