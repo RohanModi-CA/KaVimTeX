@@ -18,6 +18,7 @@ const PROCESS_PORT = (process.argv[4]);
 
 const server = net.createServer((socket) => {
 	console.log('Neovim connected.');
+	render.greetViewer(WEBKIT_PORT)
 
 	// Read the file asynchronously
 	fs.readFile(newcommands_file, 'utf8', (err, data) => {

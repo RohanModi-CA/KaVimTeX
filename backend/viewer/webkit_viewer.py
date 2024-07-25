@@ -62,6 +62,10 @@ class MainWindow(QMainWindow):
 
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
+
+        if html == "KAVIMTEX CONNECTED":
+            self.browser.setHtml('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>'
+
             
 
 if __name__ == '__main__':
