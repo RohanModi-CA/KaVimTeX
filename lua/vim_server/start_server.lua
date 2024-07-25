@@ -2,6 +2,10 @@ local llvp = {}
 
 local socket = require('socket')
 
+local KVTRuntimePathArray = vim.api.nvim_get_runtime_file("lua/", true)
+local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTex, so keep that in mind.
+
+
 local HOST = "127.0.0.1"
 local WEBKIT_PORT = 63001
 local PROCESS_PORT = 63002
