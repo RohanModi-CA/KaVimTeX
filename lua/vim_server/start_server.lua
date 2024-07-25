@@ -102,11 +102,6 @@ vim.api.nvim_create_autocmd({"CursorMoved"}, {
 
 
 
-PROCESS_PORT = 63002
-WEBKIT_PORT = 63001
-
-
-
 
 
 
@@ -141,10 +136,11 @@ end
 
 -- Run the scripts.
 
+--[[
 vim.defer_fn(function()
   run_script("python3", KVTRoot .. "/backend/viewer/webkit_viewer.py")
 end, 0)
-
+]]
 
 vim.defer_fn(function()
   run_script("node", KVTRoot .. "/backend/process.js")
