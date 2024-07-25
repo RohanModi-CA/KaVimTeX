@@ -40,7 +40,7 @@ function llvp.connect()
 	if client then
 		 print("Connected to the JS Process")
 	else
-		 print(WEBKIT_PORT .. "  " .. "PROCESS_PORT".. "  " .. "Failed to connect to the JS Process")
+		 print(WEBKIT_PORT .. "  " .. PROCESS_PORT.. "  " .. "Failed to connect to the JS Process")
 	end
 end
 
