@@ -6,9 +6,38 @@ local KVTRuntimePathArray = vim.api.nvim_get_runtime_file("lua/", true)
 local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTex, so keep that in mind.
 
 
+local uv = vim.uv
+
+local function find_open_port()
+  local socket = uv.new_tcp()
+  local err = socket:bind("127.0.0.1", 0) -- Bind to port 0 for ephemeral port
+  if err then
+    socket:close()
+    return nil, err
+  end
+  local port = socket:getsockname().port
+  socket:close()
+  return port
+end
+
+local port1, err1 = find_open_port()
+if not port1 then
+  print("Error finding port 1:", err1)
+  return
+end
+
+local port2, err2 = find_open_port()
+if not port2 then
+  print("Error finding port 2:", err2)
+  return
+end
+
+
+
+
 local HOST = "127.0.0.1"
-local WEBKIT_PORT = 63001
-local PROCESS_PORT = 63002
+local WEBKIT_PORT = port1
+local PROCESS_PORT = port2
 
 
 local client
@@ -137,18 +166,6 @@ end, 0)
 vim.defer_fn(function()
   run_script("node", KVTRoot .. "/backend/process.js")
 end, 0)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

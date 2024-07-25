@@ -42,7 +42,7 @@ class HTMLServer(QThread):
 
 class MainWindow(QMainWindow):
     def __init__(self):
-        super().__init__()
+            super().__init__()
         self.setWindowTitle(str(WEBKIT_PORT))
         self.browser = QWebEngineView()
         self.setCentralWidget(self.browser)
@@ -58,7 +58,7 @@ class MainWindow(QMainWindow):
         if html.find("katex") != -1:
 
             html = add_css.addCSS(html)
-            self.browser.setHtml(html)
+                self.browser.setHtml(html)
 
 
 if __name__ == '__main__':
