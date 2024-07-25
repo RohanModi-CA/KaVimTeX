@@ -13,7 +13,7 @@ local function find_available_ports(count)
   local ports = {}
   for _ = 1, count do
     local socket = vim.uv.new_tcp()
-    socket:bind("0.0.0.0", 0) -- Bind to a random port
+    socket:bind("localhost", 0) -- Bind to a random port
     local port = socket:getsockname().port 
     table.insert(ports, port)
     socket:close() -- Close the socket to release the port
