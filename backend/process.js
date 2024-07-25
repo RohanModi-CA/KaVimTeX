@@ -68,7 +68,8 @@ const server = net.createServer((socket) => {
 
 	socket.on('end', () => {
     	console.log('Neovim disconnected.');
-		render.terminateViewer(WEBKIT_PORT)
+		render.terminateViewer(WEBKIT_PORT);
+		server.close();
 	});
 });
 

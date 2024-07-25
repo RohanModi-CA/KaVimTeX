@@ -56,12 +56,13 @@ class MainWindow(QMainWindow):
     def update_html(self, html):
         
         if html == "KAVIMTEX TERMINATED":
+            self.server.close()
             sys.exit(app.exec_())
         if html.find("katex") != -1:
 
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
-
+            
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
