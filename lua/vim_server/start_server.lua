@@ -6,28 +6,20 @@ local KVTRuntimePathArray = vim.api.nvim_get_runtime_file("lua/", true)
 local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTex, so keep that in mind.
 
 
-local function find_open_port(start_port)
-local sock = vim.uv.new_tcp()
-local port = start_port
-
-while true do
-  local err = sock:bind("127.0.0.1", port)
-  if not err then
-	sock:close()
-	return port
-  end
-  if err == "EADDRINUSE" then -- Port in use, try the next one
-	port = port + 1
-  else
-	sock:close()
-	error("Error binding socket: " .. err)
-  end
-end
+local function get_free_port()
+  local server = socket.tcp()
+  server:setoption("reuseaddr", true) -- Allow reusing the address
+  server:bind("*", 0) -- Bind to any address, port 0
+  local _, port = server:getsockname()
+  server:close() -- Close the temporary server
+  return port
 end
 
--- Example usage:
-local port1 = find_open_port(5000)  -- Start searching from port 5000
-local port2 = find_open_port(port1 + 1)  -- Start from the next port after port1
+local port1 = get_free_port()
+local port2 = get_free_port()
+
+
+
 
 
 local HOST = "127.0.0.1"
