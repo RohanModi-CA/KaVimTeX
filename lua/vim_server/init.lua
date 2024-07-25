@@ -20,7 +20,7 @@ for _, str in ipairs(KVTRuntimePathArray) do
 	end
 end
 
-[[
+--[[
 local function handle_output(job_id, data, event)
 	local file = io.open(KVTRoot .. "/backend/resources/consoleoutput.txt","a")
 	file:write(data .. "\n end of entry \n")
