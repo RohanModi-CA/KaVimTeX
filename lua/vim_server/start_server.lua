@@ -7,18 +7,16 @@ local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTe
 
 
 local function get_free_port()
-  local server = socket.tcp()
-  server:setoption("reuseaddr", true) -- Allow reusing the address
-  server:bind("*", 0) -- Bind to any address, port 0
-  local _, port = server:getsockname()
-  server:close() -- Close the temporary server
-  return port
+	local server = socket.tcp()
+  	server:setoption("reuseaddr", true) -- Allow reusing the address
+  	server:bind("*", 0) -- Bind to any address, port 0
+  	local _, port = server:getsockname()
+  	server:close() -- Close the temporary server
+  	return port
 end
 
 local port1 = get_free_port()
 local port2 = get_free_port()
-
-
 
 
 
@@ -67,23 +65,20 @@ end
 
 
 function llvp.process_current_line()
-  local current_line = vim.fn.getline('.')
-  llvp.send_data(current_line)
-
+	local current_line = vim.fn.getline('.')
+	llvp.send_data(current_line)
 end
 
 vim.api.nvim_create_autocmd({"TextChangedI"},{
-	
 	pattern = "*.tex",
 	callback = function()
 		llvp.process_current_line()
 	end,
-
 })
 
 vim.api.nvim_create_autocmd({"CursorMoved"}, {
-  pattern = "*.tex",
-  callback = function()
+	pattern = "*.tex",
+	callback = function()
     local prev_line = vim.fn.line("'-") -- Get previous line number
     local current_line = vim.fn.line(".") -- Get current line number
 
@@ -97,7 +92,6 @@ vim.api.nvim_create_autocmd({"CursorMoved"}, {
 
 
 -- Call the connect when we load
-llvp.connect()
 
 
 
@@ -172,6 +166,7 @@ end, 0)
 
 
 
+llvp.connect()
 
 
 return llvp
