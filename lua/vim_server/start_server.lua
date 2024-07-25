@@ -3,7 +3,9 @@ local llvp = {}
 local socket = require('socket')
 
 local HOST = "127.0.0.1"
-local PORT = 63002
+local WEBKIT_PORT = 63001
+local PROCESS_PORT = 63002
+
 
 local client
 
@@ -13,7 +15,7 @@ local newcommands = require('command_aliasing')
 
 
 function llvp.connect()
-	client = socket.connect(HOST, PORT)
+	client = socket.connect(HOST, PROCESS_PORT)
 
 	if client then
 		 print("Connected to the JS Process")
@@ -76,5 +78,92 @@ vim.api.nvim_create_autocmd({"CursorMoved"}, {
 
 -- Call the connect when we load
 llvp.connect()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+for _, str in ipairs(KVTRuntimePathArray) do
+	if str then
+		local lowerStr = string.lower(str)
+		local startIdx, endIdx = string.find(lowerStr, "kavimtex")
+		if startIdx then
+			KVTRoot = string.sub(str, 1, endIdx)
+			break
+		end
+	end
+end
+
+--[[
+local function handle_output(job_id, data, event)
+	local file = io.open(KVTRoot .. "/backend/resources/consoleoutput.txt","a")
+	file:write(data .. "\n end of entry \n")
+	file:close()
+end
+]]
+
+local function run_script(interpreter, script_path)
+  if vim.fn.filereadable(script_path) == 1 then
+    local cmd = {interpreter, script_path, KVTRoot, WEBKIT_PORT, PROCESS_PORT }
+    vim.fn.jobstart(cmd, {detach = true})
+  else
+    print("File not found: " .. script_path)
+  end
+end
+
+
+-- Run the scripts.
+
+vim.defer_fn(function()
+  run_script("python3", KVTRoot .. "/backend/viewer/webkit_viewer.py")
+end, 0)
+
+vim.defer_fn(function()
+  run_script("node", KVTRoot .. "/backend/process.js")
+end, 0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 return llvp

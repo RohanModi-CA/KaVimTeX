@@ -6,7 +6,7 @@ import socket
 import add_css
 # import io
 
-WEBKIT_PORT = int(sys.argv[2])
+WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
 
 
 class HTMLServer(QThread):
