@@ -166,7 +166,7 @@ end, 0)
 
 vim.defer_fn(function() 
   llvp.connect() 
-end, 100) -- Delay for 100 milliseconds
+end, 400) -- Delay for 100 milliseconds
 
 
 return llvp
