@@ -55,7 +55,10 @@ class MainWindow(QMainWindow):
 
     def update_html(self, html):
         
-        if html == "KAVIMTEX TERMINATED":
+        iif html == "KAVIMTEX CONNECTED":
+            self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display Connection Terminated</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">Connection Terminated</div></body></html>""")
+
+f html == "KAVIMTEX TERMINATED":
             self.server.close()
             sys.exit(app.exec_())
         if html.find("katex") != -1:
