@@ -19,7 +19,7 @@ function expandAliases(rawTek, newlist, oldlist) {
 
 function addText(rawTek) {
 
-	let fixed = rawTek.trim();
+	leti fixed = rawTek.trim();
 	if( fixed.length > 0 &&  !(fixed.substring(0,2) === "\\[" )  ) {
 		fixed = "\\text{" + fixed + "}";
 	}
@@ -67,7 +67,7 @@ function createHTML(fixed_latex, WEBKIT_PORT) {
 }
 
 function greetViewer(WEBKIT_PORT) {
-	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
+	const client i= net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 		client.write("KAVIMTEX CONNECTED");
 		client.end();
 	});
