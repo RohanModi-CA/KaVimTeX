@@ -68,10 +68,11 @@ const server = net.createServer((socket) => {
 
 
 	socket.on('end', () => {
-
+		/*
 		exec('notify-send 100', (error, stdout, stderr) => {
 		  console.log(`stdout: ${stdout}`);
 		});
+		*/
     	console.log('Neovim disconnected.');
 		render.terminateViewer(WEBKIT_PORT);
 
