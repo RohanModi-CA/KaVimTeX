@@ -69,6 +69,7 @@ const server = net.createServer(async (socket) => { // Make the handler async
         const nameOutput = await execAsync(`xdotool search --name '${filepath.slice(0,-3)}.pdf'`);
         const viewerNamePIDs = nameOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
 
+		notify(nameOutput)
         // Iterate through the PIDs and kill matching windows
         for (const classPID of viewerClassPIDs) {
           notify("1");
