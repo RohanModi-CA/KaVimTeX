@@ -84,14 +84,14 @@ const server = net.createServer((socket) => {
 
 		exec('xdotool search --classname \'zathura\'', (error, stdout, stderr) => {
 			if (error) {
-				console.error(`Error executing command: ${error.message}`);
+				notify(`Error executing command: ${error.message}`);
 				return;
 			}
 			viewer_class_pids = stdout.split("\n").filter(pid => pid.trim() !== '');
 
 			exec(`xdotool search --name '${filepath.slice(0,-3)}.pdf'`, (error, stdout, stderr) => {
 				if (error) {
-					console.error(`Error executing command: ${error.message}`);
+					notify(`Error executing command: ${error.message}`);
 					return;
 				}
 				viewer_name_pids = stdout.split("\n").filter(pid => pid.trim() !== '');
@@ -105,7 +105,7 @@ const server = net.createServer((socket) => {
 							exec(`xdotool windowkill ${name_pid.trim()}`, (error, stdout, stderr) => {								
 								notify("3")
 								if (error) {
-									console.log(`Error executing the kill,  '${error.message}'`)
+									notify(`Error executing the kill,  '${error.message}'`)
 									render.createHTML(error.message, WEBKIT_PORT);
 								}
 							});
