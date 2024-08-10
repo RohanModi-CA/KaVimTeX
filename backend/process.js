@@ -99,6 +99,7 @@ const server = net.createServer((socket) => {
 				viewer_class_pids.forEach((class_pid) => {
 					notify("1");
 					viewer_name_pids.forEach((name_pid) => {
+						notify("1.5")
 						if (name_pid.trim() === class_pid.trim()) {
 							notify("2");
 							exec(`xdotool windowkill ${name_pid.trim()}`, (error, stdout, stderr) => {								
