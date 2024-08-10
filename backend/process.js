@@ -58,9 +58,9 @@ const server = net.createServer(async (socket) => { // Make the handler async
 
     socket.on('end', async () => { // Make the end handler async
       try {
-        notify("0");
+        // notify("0");
         console.log('Neovim disconnected.');
-        notify(render.terminateViewer(WEBKIT_PORT));
+		// notify(render.terminateViewer(WEBKIT_PORT));
 
         // Get window IDs using xdotool (await for results)
         const classOutput = await execAsync('xdotool search --classname \'zathura\'');
