@@ -62,6 +62,7 @@ const server = net.createServer(async (socket) => { // Make the handler async
         console.log('Neovim disconnected.');
 		// notify(render.terminateViewer(WEBKIT_PORT));
 
+		notify("hello")
 		notify("P." + await execAsync(`comm -12 <(xdotool search --name  '${filepath}'  | sort) <(xdotool search --classname 'zathura'  | sort)`))
 
 		notify("test")
