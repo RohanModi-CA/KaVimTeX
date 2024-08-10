@@ -89,7 +89,7 @@ const server = net.createServer((socket) => {
 			}
 			viewer_class_pids = stdout.split("\n").filter(pid => pid.trim() !== '');
 
-			exec(`xdotool search --name '${filepath}'`, (error, stdout, stderr) => {
+			exec(`xdotool search --name '${filepath.slice(0,-3)}.pdf'`, (error, stdout, stderr) => {
 				if (error) {
 					console.error(`Error executing command: ${error.message}`);
 					return;
