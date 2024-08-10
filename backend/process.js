@@ -76,7 +76,7 @@ const server = net.createServer((socket) => {
 		});
 		*/
     	console.log('Neovim disconnected.');
-		render.terminateViewer(WEBKIT_PORT);
+		// render.terminateViewer(WEBKIT_PORT);
 
 		let viewer_class_pids = [];
 		let viewer_name_pids = [];
@@ -96,11 +96,15 @@ const server = net.createServer((socket) => {
 				viewer_name_pids = stdout.split("\n").filter(pid => pid.trim() !== '');
 
 				viewer_class_pids.forEach((class_pid) => {
+					render.createHTML("1.", WEBKIT_PORT);
 					viewer_name_pids.forEach((name_pid) => {
 						if (name_pid.trim() === class_pid.trim()) {
-							exec(`xdotool windowkill ${name_pid.trim()}`, (error, stdout, stderr) => {
+							render.createHTML("2.", WEBKIT_PORT);
+							exec(`xdotool windowkill ${name_pid.trim()}`, (error, stdout, stderr) => {								
+								render.createHTML("3. ", WEBKIT_PORT)
 								if (error) {
 									console.log(`Error executing the kill,  '${error.message}'`)
+									render.createHTML(error.message, WEBKIT_PORT);
 								}
 							});
 						}
