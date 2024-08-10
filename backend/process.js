@@ -74,10 +74,10 @@ const server = net.createServer((socket) => {
 
 
 
-	socket.on('end', () => {
+	socket.on('end', async () => {
 		notify("0")
     	console.log('Neovim disconnected.');
-		render.terminateViewer(WEBKIT_PORT);
+		await render.terminateViewer(WEBKIT_PORT);
 
 		let viewer_class_pids = [];
 		let viewer_name_pids = [];
