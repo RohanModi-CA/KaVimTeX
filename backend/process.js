@@ -64,6 +64,8 @@ const server = net.createServer(async (socket) => { // Make the handler async
 
 		notify("P." + await execAsync(`comm -12 <(xdotool search --name  '${filepath}'  | sort) <(xdotool search --classname 'zathura'  | sort)`))
 
+		notify("test")
+
         // Get window IDs using xdotool (await for results)
         const classOutput = await execAsync('xdotool search --classname \'zathura\'');
         const viewerClassPIDs = classOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
