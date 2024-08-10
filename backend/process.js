@@ -22,10 +22,16 @@ const PROCESS_PORT = (process.argv[4]);
 const execAsync = promisify(exec);
 
 function notify(message) {
-  exec(`notify-send ${message}`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`Error sending notification: ${error.message}`);
-    }
+  return new Promise((resolve, reject) => {
+    exec(`notify-send "${message}"`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error sending notification: ${error.message}`);
+        reject(error);
+      } else {
+        console.log(`Notification sent: ${message}`);
+        resolve();
+      }
+    });
   });
 }
 
@@ -58,14 +64,14 @@ const server = net.createServer(async (socket) => { // Make the handler async
 
     socket.on('end', async () => { // Make the end handler async
       try {
-		// notify("0");
+		// await notify("0");
         console.log('Neovim disconnected.');
-		// notify(render.terminateViewer(WEBKIT_PORT));
+		// await notify(render.terminateViewer(WEBKIT_PORT));
 
-		notify("hello")
-		notify("P." + await execAsync(`comm -12 <(xdotool search --name  '${filepath}'  | sort) <(xdotool search --classname 'zathura'  | sort)`))
+		await notify("hello")
+		await notify("P." + await execAsync(`comm -12 <(xdotool search --name  '${filepath}'  | sort) <(xdotool search --classname 'zathura'  | sort)`))
 
-		notify("test")
+		await notify("test")
 
         // Get window IDs using xdotool (await for results)
         const classOutput = await execAsync('xdotool search --classname \'zathura\'');
@@ -74,26 +80,26 @@ const server = net.createServer(async (socket) => { // Make the handler async
         const nameOutput = await execAsync(`xdotool search --name '${filepath.slice(0,-3)}.pdf'`);
         const viewerNamePIDs = nameOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
 
-		notify("Hello " + nameOutput)
+		await notify("Hello " + nameOutput)
         // Iterate through the PIDs and kill matching windows
         for (const classPID of viewerClassPIDs) {
-          notify("1");
+          await notify("1");
           for (const namePID of viewerNamePIDs) {
-            notify("1.5");
+            await notify("1.5");
             if (namePID.trim() === classPID.trim()) {
-              notify("2");
+              await notify("2");
               try {
                 await execAsync(`xdotool windowkill ${namePID.trim()}`);
-                notify("3");
+                await notify("3");
               } catch (error) {
-                notify(`Error executing the kill: ${error.message}`);
+                await notify(`Error executing the kill: ${error.message}`);
                 render.createHTML(error.message, WEBKIT_PORT);
               }
             }
           }
         } 
       } catch (error) {
-        notify(`Error in socket.on('end'): ${error.message}`); 
+        await notify(`Error in socket.on('end'): ${error.message}`); 
         console.error(`Error in socket.on('end'): ${error.message}`); 
       }
     }); 
