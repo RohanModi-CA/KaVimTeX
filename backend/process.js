@@ -6,12 +6,14 @@ const render = require('./render.js');
 const { exec } = require('child_process');
 
 const KVTRoot = process.argv[2];
+const filepath = process.argv[5];
 
 const newcommands_file = KVTRoot + "/backend/resources/aliases.txt";
 const kill_script_path = KVTRoot + "/backend/kill_processes.sh"
 const delimiter = "KVTNEWCOMMAND";
 const newCommands = []; // you can still push to a const array.
 const oldCommands = [];
+
 
 const WEBKIT_PORT = (process.argv[3]);
 const PROCESS_PORT = (process.argv[4]);
@@ -76,10 +78,37 @@ const server = net.createServer((socket) => {
     	console.log('Neovim disconnected.');
 		render.terminateViewer(WEBKIT_PORT);
 
-		server.close();
-	});
-});
+		let viewer_class_pids = [];
+		let viewer_name_pids = [];
 
+		exec('xdotool search --classname \'zathura\'', (error, stdout, stderr) => {
+			if (error) {
+				console.error(`Error executing command: ${error.message}`);
+				return;
+			}
+			viewer_class_pids = stdout.split("\n").filter(pid => pid.trim() !== '');
+
+			exec(`xdotool search --name '${filepath}'`, (error, stdout, stderr) => {
+				if (error) {
+					console.error(`Error executing command: ${error.message}`);
+					return;
+				}
+				viewer_name_pids = stdout.split("\n").filter(pid => pid.trim() !== '');
+
+				viewer_class_pids.forEach((class_pid) => {
+					viewer_name_pids.forEach((name_pid) => {
+						if (name_pid.trim() === class_pid.trim()) {
+							exec(`xdotool windowkill ${name_pid.trim()}`, (error, stdout, stderr) => {
+								if (error) {
+									console.log(`Error executing the kill,  '${error.message}'`)
+								}
+							})'
+						}
+					});
+				});
+
+			});
+		});
 
 
 

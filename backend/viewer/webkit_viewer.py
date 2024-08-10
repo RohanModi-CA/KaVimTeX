@@ -9,6 +9,7 @@ import add_css
 # import io
 
 WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
+FILENAME = sys.argv[4]
 
 
 class HTMLServer(QThread):
@@ -45,7 +46,7 @@ class HTMLServer(QThread):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle(str(WEBKIT_PORT))
+        self.setWindowTitle("KaVimTex, " + FILENAME + ", on: "str(WEBKIT_PORT))
         self.browser = QWebEngineView()
         self.setCentralWidget(self.browser)
         self.base_url = QUrl.fromLocalFile("/home/rohan/.config/nvim/lua/llvp/render/resources/")
