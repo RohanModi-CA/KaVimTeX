@@ -102,13 +102,15 @@ const server = net.createServer((socket) => {
 								if (error) {
 									console.log(`Error executing the kill,  '${error.message}'`)
 								}
-							})'
+							});
 						}
 					});
 				});
 
 			});
 		});
+	});
+});
 
 
 
