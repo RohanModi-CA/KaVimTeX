@@ -66,19 +66,21 @@ function createHTML(fixed_latex, WEBKIT_PORT) {
 
 }
 
-async function greetViewer(WEBKIT_PORT) {
+function greetViewer(WEBKIT_PORT) {
 	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 		client.write("KAVIMTEX CONNECTED");
 		client.end();
 	});
+	return "Greeted"
 }
 
 
-async function terminateViewer(WEBKIT_PORT) {
+function terminateViewer(WEBKIT_PORT) {
 	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 		client.write("KAVIMTEX TERMINATED");
 		client.end();
 	});
+	return "Terminated"
 }
 
 
