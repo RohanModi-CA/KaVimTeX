@@ -18,6 +18,11 @@ const oldCommands = [];
 const WEBKIT_PORT = (process.argv[3]);
 const PROCESS_PORT = (process.argv[4]);
 
+function notify(message) {
+	exec(`notify-send ${message}`, (error, stdout, stderr) => {
+	});
+}
+
 const server = net.createServer((socket) => {
 	console.log('Neovim connected.');
 	render.greetViewer(WEBKIT_PORT)
@@ -70,13 +75,8 @@ const server = net.createServer((socket) => {
 
 
 	socket.on('end', () => {
-		/*
-		exec('notify-send 100', (error, stdout, stderr) => {
-		  console.log(`stdout: ${stdout}`);
-		});
-		*/
     	console.log('Neovim disconnected.');
-		// render.terminateViewer(WEBKIT_PORT);
+		render.terminateViewer(WEBKIT_PORT);
 
 		let viewer_class_pids = [];
 		let viewer_name_pids = [];
@@ -96,12 +96,12 @@ const server = net.createServer((socket) => {
 				viewer_name_pids = stdout.split("\n").filter(pid => pid.trim() !== '');
 
 				viewer_class_pids.forEach((class_pid) => {
-					render.createHTML("1.", WEBKIT_PORT);
+					notify("1");
 					viewer_name_pids.forEach((name_pid) => {
 						if (name_pid.trim() === class_pid.trim()) {
-							render.createHTML("2.", WEBKIT_PORT);
+							notify("2");
 							exec(`xdotool windowkill ${name_pid.trim()}`, (error, stdout, stderr) => {								
-								render.createHTML("3. ", WEBKIT_PORT)
+								notify("3")
 								if (error) {
 									console.log(`Error executing the kill,  '${error.message}'`)
 									render.createHTML(error.message, WEBKIT_PORT);
