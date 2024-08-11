@@ -62,11 +62,14 @@ const server = net.createServer(async (socket) => {
       try {
         console.log('Neovim disconnected.'); 
 
+
+        let { stdout: echoOutput } = await execAsync(`echo "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+		await notify(`echo ${echoOut}`);
+
         // *** Retrieve stdout and store for later use ***
         let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 
         // ... (your other notify calls) ...
-		await new Promise(resolve => setTimeout(resolve, 2000));
         await notify(commOutput + " is it."); // Use stored commOutput 
 
         // ... (continue with your window closing logic) ...
