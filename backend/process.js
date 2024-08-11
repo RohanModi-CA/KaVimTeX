@@ -63,7 +63,7 @@ const server = net.createServer(async (socket) => {
         console.log('Neovim disconnected.'); 
 
 
-        let { stdout: echoOutput } = await execAsync(`echo "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+        let { stdout: echoOut } = await execAsync(`echo "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 		await notify(`echo ${echoOut}`);
 
         // *** Retrieve stdout and store for later use ***
