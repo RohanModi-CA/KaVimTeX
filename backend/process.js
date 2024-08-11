@@ -69,16 +69,17 @@ const server = net.createServer(async (socket) => { // Make the handler async
 		// await notify(render.terminateViewer(WEBKIT_PORT));
 
 		await notify("hello")
+		
 
-		let { stdout } = await (execAsync(`echo hello`));
+		/* let { stdout } = await (execAsync(`echo hello`));
 		await notify(stdout)
-		stdout = null
+		stdout = null */
 
 
-		await notify("echo: " + await execAsync(`echo hello`).stdout.trim())
-		await notify("P." + await execAsync(`comm -12 <(xdotool search --name  '${filepath}'  | sort) <(xdotool search --classname 'zathura'  | sort)`))
+		let { stdout } = await execAsync(`comm -12 <(xdotool search --name  '${filepath}'  | sort) <(xdotool search --classname 'zathura'  | sort)`);
+	  	await notify(stdout);
+	  	stdout = null;
 
-		await notify("test")
 
         // Get window IDs using xdotool (await for results)
         const classOutput = await execAsync('xdotool search --classname \'zathura\'');
