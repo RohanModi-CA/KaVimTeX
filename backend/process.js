@@ -70,7 +70,7 @@ const server = net.createServer(async (socket) => { // Make the handler async
 
 		await notify("hello")
 
-		{ stdout } = await (execAsync(`echo hello`));
+		let { stdout } = await (execAsync(`echo hello`));
 		await notify(stdout)
 		stdout = null
 
