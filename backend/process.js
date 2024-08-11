@@ -20,84 +20,77 @@ const PROCESS_PORT = (process.argv[4]);
 const execAsync = promisify(exec);
 
 function notify(message) {
-  return new Promise((resolve, reject) => {
-    exec(`notify-send "${message}"`, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error sending notification: ${error.message}`);
-        reject(error);
-      } else {
-        console.log(`Notification sent: ${message}`);
-        resolve();
-      }
-    });
-  });
+	return new Promise((resolve, reject) => {
+		exec(`notify-send "${message}"`, (error, stdout, stderr) => {
+			if (error) {
+				console.error(`Error sending notification: ${error.message}`);
+				reject(error);
+			} else {
+				console.log(`Notification sent: ${message}`);
+				resolve();
+			}
+		});
+	});
 }
 
 const server = net.createServer(async (socket) => { 
-  console.log('Neovim connected.');
-  render.greetViewer(WEBKIT_PORT);
+	console.log('Neovim connected.');
+	render.greetViewer(WEBKIT_PORT);
 
-  try {
-    const data = await fs.promises.readFile(newcommands_file, 'utf8');
-    const lines = data.split('\n');
-    lines.forEach(line => {
-      const [newAlias, oldAlias] = line.split(delimiter);
-      if ((oldAlias && newAlias) && (oldAlias.trim() && oldAlias.trim())) {
-        newCommands.push(newAlias.trim());
-        oldCommands.push(oldAlias.trim());
-      } else {
-        console.warn(`Skipping line with unexpected format: ${line}`);
-      }
-    });
+	try {
+		const data = await fs.promises.readFile(newcommands_file, 'utf8');
+		const lines = data.split('\n');
+		lines.forEach(line => {
+			const [newAlias, oldAlias] = line.split(delimiter);
+			if ((oldAlias && newAlias) && (oldAlias.trim() && oldAlias.trim())) {
+				newCommands.push(newAlias.trim());
+				oldCommands.push(oldAlias.trim());
+			} else {
+				console.warn(`Skipping line with unexpected format: ${line}`);
+			}
+		});
 
-    socket.on('data', async (data) => {
-      let processed_line = data.toString();
-      processed_line = render.addText(processed_line);
-      processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
-      processed_line = render.stripMathMode(processed_line);
-      // *** Retrieve stdout and store for later use ***
-      /* let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+		socket.on('data', async (data) => {
+			let processed_line = data.toString();
+			processed_line = render.addText(processed_line);
+			processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
+			processed_line = render.stripMathMode(processed_line);
 
-      // ... (your other notify calls) ...
-      await notify(commOutput + " is it."); // Use stored commOutput 
-		*/
+			render.createHTML(processed_line, WEBKIT_PORT);
+		});
 
-      render.createHTML(processed_line, WEBKIT_PORT);
-    });
+		socket.on('end', async () => { 
+			try {
+				console.log('Neovim disconnected.'); 
 
-    socket.on('end', async () => { 
-      try {
-        console.log('Neovim disconnected.'); 
+				/*
+				let { stdout: echoOut } = await execAsync(`echo "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+				await notify(`echo ${echoOut}`); */
 
-		/*
-        let { stdout: echoOut } = await execAsync(`echo "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
-		await notify(`echo ${echoOut}`); */
+				// *** Retrieve stdout and store for later use ***
+				let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 
+				// ... (your other notify calls) ...
+				await notify(commOutput + " is it."); // Use stored commOutput 
 
-        // *** Retrieve stdout and store for later use ***
-        let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+				let commOutputArray = commOutput.split("\n");
+				for (pid of commOutputArray) {
+					if (pid && pid.trim()) {
+						await execAsync(`bash -c "xdotool windowkill ${pid}"`)
+					}
+				}
 
-        // ... (your other notify calls) ...
-        await notify(commOutput + " is it."); // Use stored commOutput 
+			} catch (error) {
+				await notify(`Error in socket.on('end'): ${error.message}`); 
+				console.error(`Error in socket.on('end'): ${error.message}`); 
+			}
+		}); 
 
-		  let commOutputArray = commOutput.split("\n");
-		  for (pid of commOutputArray) {
-			if (pid && pid.trim()) {
-			await execAsync(`bash -c "xdotool windowkill ${pid}"`)
-		 		}
-		  }
-
-      } catch (error) {
-        await notify(`Error in socket.on('end'): ${error.message}`); 
-        console.error(`Error in socket.on('end'): ${error.message}`); 
-      }
-    }); 
-
-  } catch (err) {
-    console.error("Error reading aliases file:", err);
-  }
+	} catch (err) {
+		console.error("Error reading aliases file:", err);
+	}
 });
 
 server.listen(PROCESS_PORT, () => {
-  console.log(`Server listening on port ${PROCESS_PORT}`);
+	console.log(`Server listening on port ${PROCESS_PORT}`);
 });
