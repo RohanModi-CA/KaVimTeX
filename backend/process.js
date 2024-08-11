@@ -76,6 +76,7 @@ const server = net.createServer(async (socket) => { // Make the handler async
 		stdout = null */
 
 
+		await notify(`'${filepath}'`)
 		let { stdout } = await execAsync(`comm -12 <(xdotool search --name  '${filepath}'  | sort) <(xdotool search --classname 'zathura'  | sort)`);
 	  	await notify(stdout + " is it.");
 	  	stdout = null;
