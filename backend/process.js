@@ -66,7 +66,7 @@ const server = net.createServer(async (socket) => {
 				render.terminateViewer(WEBKIT_PORT);
 
 				let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
-				await notify(commOutput + " is it."); // Use stored commOutput 
+				// await notify(commOutput + " is the one to kill."); // Use stored commOutput 
 				let commOutputArray = commOutput.split("\n");
 				for (pid of commOutputArray) {
 					if (pid && pid.trim()) {
