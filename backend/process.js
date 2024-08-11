@@ -50,7 +50,7 @@ const server = net.createServer(async (socket) => {
       }
     });
 
-    socket.on('data', (data) => {
+    socket.on('data', async (data) => {
       let processed_line = data.toString();
       processed_line = render.addText(processed_line);
       processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
