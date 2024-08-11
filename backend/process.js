@@ -66,7 +66,7 @@ const server = net.createServer(async (socket) => {
 				// render.terminateViewer(WEBKIT_PORT); this is too finnicky
 				
 
-				let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'kvt_viewer'  | sort)"`); 
+				let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'webkit_viewer.py'  | sort)"`); 
 				// await notify(KVTCommOut + " is the one to kill."); // Use stored KVTCommOut 
 				let KVTCommOutArray = KVTCommOut.split("\n");
 				for (pid of KVTCommOutArray) {
