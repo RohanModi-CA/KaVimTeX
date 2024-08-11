@@ -1,5 +1,3 @@
-// process.js
-
 const net = require('net');
 const fs = require('fs');
 const { promisify } = require('util');
@@ -35,12 +33,11 @@ function notify(message) {
   });
 }
 
-const server = net.createServer(async (socket) => { // Make the handler async
+const server = net.createServer(async (socket) => { 
   console.log('Neovim connected.');
   render.greetViewer(WEBKIT_PORT);
 
   try {
-    // Read the aliases file
     const data = await fs.promises.readFile(newcommands_file, 'utf8');
     const lines = data.split('\n');
     lines.forEach(line => {
@@ -54,53 +51,38 @@ const server = net.createServer(async (socket) => { // Make the handler async
     });
 
     socket.on('data', (data) => {
-      const line = data.toString();
-      processed_line = line;
+      let processed_line = data.toString();
       processed_line = render.addText(processed_line);
       processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
       processed_line = render.stripMathMode(processed_line);
       render.createHTML(processed_line, WEBKIT_PORT);
     });
 
-    socket.on('end', async () => { // Make the end handler async
+    socket.on('end', async () => { 
       try {
-        console.log('Neovim disconnected.');
-		// await notify(render.terminateViewer(WEBKIT_PORT));
+        console.log('Neovim disconnected.'); 
 
-		await notify("Reached Terminator")
-		
+        // *** Retrieve stdout and store for later use ***
+        let { stdout: commOutput } = await execAsync(`comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}.pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)`); 
 
-		/* let { stdout } = await (execAsync(`echo hello`));
-		await notify(stdout)
-		stdout = null */
+        // ... (your other notify calls) ...
 
+        await notify("buggs");
+        await notify(commOutput + " is it."); // Use stored commOutput 
 
-		await notify(`'${filepath.slice(0,-3) + "pdf"}'`)
-		let { stdout } = await execAsync(`comm -12 <(xdotool search --name  '(${filepath.slice(0,-3) + "pdf"}'  | sort) <(xdotool search --classname 'zathura'  | sort)`);
-		await notify("buggs")
-	  	await notify(stdout + " is it.");
-	  	// stdout = null;
+        // ... (continue with your window closing logic) ...
 
-		await notify("passed")
-
-        // Get window IDs using xdotool (await for results)
         const classOutput = await execAsync('xdotool search --classname \'zathura\'');
         const viewerClassPIDs = classOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
 
         const nameOutput = await execAsync(`xdotool search --name '${filepath.slice(0,-3)}.pdf'`);
         const viewerNamePIDs = nameOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
 
-		await notify("Hello " + nameOutput)
-        // Iterate through the PIDs and kill matching windows
         for (const classPID of viewerClassPIDs) {
-          await notify("1");
           for (const namePID of viewerNamePIDs) {
-            await notify("1.5");
             if (namePID.trim() === classPID.trim()) {
-              await notify("2");
               try {
-                await execAsync(`xdotool windowkill ${namePID.trim()}`);
-                await notify("3");
+                await execAsync(`xdotool windowkill ${namePID.trim()}`); 
               } catch (error) {
                 await notify(`Error executing the kill: ${error.message}`);
                 render.createHTML(error.message, WEBKIT_PORT);
@@ -108,6 +90,7 @@ const server = net.createServer(async (socket) => { // Make the handler async
             }
           }
         } 
+
       } catch (error) {
         await notify(`Error in socket.on('end'): ${error.message}`); 
         console.error(`Error in socket.on('end'): ${error.message}`); 
