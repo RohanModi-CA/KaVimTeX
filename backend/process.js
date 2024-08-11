@@ -72,8 +72,8 @@ const server = net.createServer(async (socket) => {
 
         // ... (continue with your window closing logic) ...
 
-        const classOutput = await execAsync('xdotool search --classname \'zathura\'');
-        const viewerClassPIDs = classOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
+		// const classOutput = await execAsync('xdotool search --classname \'zathura\'');
+        // const viewerClassPIDs = classOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
 
         const nameOutput = await execAsync(`xdotool search --name '${filepath.slice(0,-3)}.pdf'`);
         const viewerNamePIDs = nameOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
