@@ -56,11 +56,11 @@ const server = net.createServer(async (socket) => {
       processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
       processed_line = render.stripMathMode(processed_line);
       // *** Retrieve stdout and store for later use ***
-      let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+      /* let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 
       // ... (your other notify calls) ...
       await notify(commOutput + " is it."); // Use stored commOutput 
-
+		*/
 
       render.createHTML(processed_line, WEBKIT_PORT);
     });
