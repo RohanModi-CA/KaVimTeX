@@ -63,12 +63,24 @@ const server = net.createServer(async (socket) => {
 			try {
 				console.log('Neovim disconnected.'); 
 
-				render.terminateViewer(WEBKIT_PORT);
+				// render.terminateViewer(WEBKIT_PORT); this is too finnicky
+				
 
-				let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
-				// await notify(commOutput + " is the one to kill."); // Use stored commOutput 
-				let commOutputArray = commOutput.split("\n");
-				for (pid of commOutputArray) {
+				let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'kvt_viewer'  | sort)"`); 
+				// await notify(KVTCommOut + " is the one to kill."); // Use stored KVTCommOut 
+				let KVTCommOutArray = KVTCommOut.split("\n");
+				for (pid of KVTCommOutArray) {
+					if (pid && pid.trim()) {
+						await execAsync(`bash -c "xdotool windowkill ${pid}"`);
+					}
+				}
+
+
+
+				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+				// await notify(ZathuraCommOut + " is the one to kill."); // Use stored ZathuraCommOut 
+				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
+				for (pid of ZathuraCommOutArray) {
 					if (pid && pid.trim()) {
 						await execAsync(`bash -c "xdotool windowkill ${pid}"`);
 					}
