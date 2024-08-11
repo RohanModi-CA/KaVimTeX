@@ -46,7 +46,7 @@ class HTMLServer(QThread):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setObjectName("kvt_viewer");
+        self.setObjectName("kvt_viewer")
         self.setWindowTitle("KaVimTex, " + FILENAME + ", on: " + str(WEBKIT_PORT))
         self.browser = QWebEngineView()
         self.setCentralWidget(self.browser)
