@@ -63,25 +63,19 @@ const server = net.createServer(async (socket) => {
 			try {
 				console.log('Neovim disconnected.'); 
 
-				/*
-				let { stdout: echoOut } = await execAsync(`echo "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
-				await notify(`echo ${echoOut}`); */
+				render.terminateViewer(WEBKIT_PORT);
 
-				// *** Retrieve stdout and store for later use ***
 				let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
-
-				// ... (your other notify calls) ...
 				await notify(commOutput + " is it."); // Use stored commOutput 
-
 				let commOutputArray = commOutput.split("\n");
 				for (pid of commOutputArray) {
 					if (pid && pid.trim()) {
-						await execAsync(`bash -c "xdotool windowkill ${pid}"`)
+						await execAsync(`bash -c "xdotool windowkill ${pid}"`);
 					}
 				}
 
 			} catch (error) {
-				await notify(`Error in socket.on('end'): ${error.message}`); 
+				// await notify(`Error in socket.on('end'): ${error.message}`); 
 				console.error(`Error in socket.on('end'): ${error.message}`); 
 			}
 		}); 
