@@ -66,31 +66,30 @@ const server = net.createServer(async (socket) => {
         let { stdout: commOutput } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 
         // ... (your other notify calls) ...
-
-        await notify("buggs");
+		await new Promise(resolve => setTimeout(resolve, 2000));
         await notify(commOutput + " is it."); // Use stored commOutput 
 
         // ... (continue with your window closing logic) ...
 
 		// const classOutput = await execAsync('xdotool search --classname \'zathura\'');
         // const viewerClassPIDs = classOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
-
-        const nameOutput = await execAsync(`xdotool search --name '${filepath.slice(0,-3)}.pdf'`);
-        const viewerNamePIDs = nameOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
-
-        for (const classPID of viewerClassPIDs) {
-          for (const namePID of viewerNamePIDs) {
-            if (namePID.trim() === classPID.trim()) {
-              try {
-                await execAsync(`xdotool windowkill ${namePID.trim()}`); 
-              } catch (error) {
-                await notify(`Error executing the kill: ${error.message}`);
-                render.createHTML(error.message, WEBKIT_PORT);
-              }
-            }
-          }
-        } 
-
+// 
+//         const nameOutput = await execAsync(`xdotool search --name '${filepath.slice(0,-3)}.pdf'`);
+//         const viewerNamePIDs = nameOutput.stdout.split("\n").filter(pid => pid.trim() !== '');
+// 
+//         for (const classPID of viewerClassPIDs) {
+//           for (const namePID of viewerNamePIDs) {
+//             if (namePID.trim() === classPID.trim()) {
+//               try {
+//                 await execAsync(`xdotool windowkill ${namePID.trim()}`); 
+//               } catch (error) {
+//                 await notify(`Error executing the kill: ${error.message}`);
+//                 render.createHTML(error.message, WEBKIT_PORT);
+//               }
+//             }
+//           }
+//         } 
+// 
       } catch (error) {
         await notify(`Error in socket.on('end'): ${error.message}`); 
         console.error(`Error in socket.on('end'): ${error.message}`); 
