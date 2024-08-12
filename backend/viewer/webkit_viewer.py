@@ -58,8 +58,6 @@ class MainWindow(QMainWindow):
         self.server.start()
 
     def update_html(self, html):
-        
-
         if html == "KAVIMTEX TERMINATED":
             self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display Connection Terminated</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">Connection Terminated</div></body></html>""")
             self.server.terminate()
@@ -79,11 +77,9 @@ class MainWindow(QMainWindow):
         document_width = frame.contentsSize().width()
         viewer_width = self.browser.width()
 
-        zoom_factor = view_width / document_width
+        zoom_factor = viewer_width / document_width
         frame.setZoomFactor(zoom_factor)
         frame.setHtml(f'{document_width} and {viewer_width}')
-
-        raise Exception
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
