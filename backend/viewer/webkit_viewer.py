@@ -84,7 +84,10 @@ class MainWindow(QMainWindow):
     def resize_to_content_height(self, height):
         # self.resize(self.width(), height)
         self.update_html(f"katex {height}")
-        self.browser.setZoomFactor(5)
+        browser_h = self.browser.height()
+
+
+        self.browser.setZoomFactor(browser_h / height)
 
     def resize_to_content_width(self, width):
         # self.resize(width, self.height())
