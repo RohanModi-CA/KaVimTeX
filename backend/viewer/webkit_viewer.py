@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys
 from PyQt5.QtCore import QUrl, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -7,6 +9,7 @@ import add_css
 # import io
 
 WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
+FILENAME = sys.argv[4]
 
 
 class HTMLServer(QThread):
@@ -43,7 +46,8 @@ class HTMLServer(QThread):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle(str(WEBKIT_PORT))
+
+        self.setWindowTitle("KaVimTex, " + FILENAME + ", on: " + str(WEBKIT_PORT))
         self.browser = QWebEngineView()
         self.setCentralWidget(self.browser)
         self.base_url = QUrl.fromLocalFile("/home/rohan/.config/nvim/lua/llvp/render/resources/")
@@ -55,8 +59,11 @@ class MainWindow(QMainWindow):
 
     def update_html(self, html):
         
+
         if html == "KAVIMTEX TERMINATED":
-            self.server.close()
+            self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display Connection Terminated</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">Connection Terminated</div></body></html>""")
+            self.server.terminate()
+            QApplication.quit()
             sys.exit(app.exec_())
         if html.find("katex") != -1:
 
@@ -70,6 +77,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    app.setApplicationName("kvt_viewer")
     mainWindow = MainWindow()
     mainWindow.show()
     sys.exit(app.exec_())

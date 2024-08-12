@@ -71,6 +71,7 @@ function greetViewer(WEBKIT_PORT) {
 		client.write("KAVIMTEX CONNECTED");
 		client.end();
 	});
+	return "Greeted"
 }
 
 
@@ -79,6 +80,7 @@ function terminateViewer(WEBKIT_PORT) {
 		client.write("KAVIMTEX TERMINATED");
 		client.end();
 	});
+	return "Terminated"
 }
 
 

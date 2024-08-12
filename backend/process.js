@@ -1,83 +1,100 @@
-// process.js
-
 const net = require('net');
 const fs = require('fs');
+const { promisify } = require('util');
 const render = require('./render.js');
 const { exec } = require('child_process');
 
 const KVTRoot = process.argv[2];
+const filepath = process.argv[5];
 
 const newcommands_file = KVTRoot + "/backend/resources/aliases.txt";
-const kill_script_path = KVTRoot + "/backend/kill_processes.sh"
+const kill_script_path = KVTRoot + "/backend/kill_processes.sh";
 const delimiter = "KVTNEWCOMMAND";
-const newCommands = []; // you can still push to a const array.
+const newCommands = []; 
 const oldCommands = [];
 
 const WEBKIT_PORT = (process.argv[3]);
 const PROCESS_PORT = (process.argv[4]);
 
-const server = net.createServer((socket) => {
-	console.log('Neovim connected.');
-	render.greetViewer(WEBKIT_PORT)
+// Promisify exec for easier use with async/await
+const execAsync = promisify(exec);
 
-	// Read the file asynchronously
-	fs.readFile(newcommands_file, 'utf8', (err, data) => {
-		if (err) {
-			console.error("Failed to read the file:", err);
-			return;
-		}
-		
-		// Split the file content into lines
+function notify(message) {
+	return new Promise((resolve, reject) => {
+		exec(`notify-send "${message}"`, (error, stdout, stderr) => {
+			if (error) {
+				console.error(`Error sending notification: ${error.message}`);
+				reject(error);
+			} else {
+				console.log(`Notification sent: ${message}`);
+				resolve();
+			}
+		});
+	});
+}
+
+const server = net.createServer(async (socket) => { 
+	console.log('Neovim connected.');
+	render.greetViewer(WEBKIT_PORT);
+
+	try {
+		const data = await fs.promises.readFile(newcommands_file, 'utf8');
 		const lines = data.split('\n');
-		
-		// Process each line
 		lines.forEach(line => {
-			// Split the line based on the delimiter
 			const [newAlias, oldAlias] = line.split(delimiter);
-			
-			// Check if both parts exist after splitting
 			if ((oldAlias && newAlias) && (oldAlias.trim() && oldAlias.trim())) {
-				// Remove leading/trailing whitespace and push to arrays
-				console.log(newAlias.trim());
-				console.log(oldAlias.trim());
 				newCommands.push(newAlias.trim());
 				oldCommands.push(oldAlias.trim());
 			} else {
-			// Log a warning if the line doesn't match the expected format
-			console.warn(`Skipping line with unexpected format: ${line}`);
+				console.warn(`Skipping line with unexpected format: ${line}`);
 			}
 		});
-		
-	});
 
+		socket.on('data', async (data) => {
+			let processed_line = data.toString();
+			processed_line = render.addText(processed_line);
+			processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
+			processed_line = render.stripMathMode(processed_line);
 
+			render.createHTML(processed_line, WEBKIT_PORT);
+		});
 
-	socket.on('data', (data) => {
+		socket.on('end', async () => { 
+			try {
+				console.log('Neovim disconnected.'); 
 
-		const line = data.toString();
-		const aw1 = ['\\w', '\\B'];
-		const aw2 = ['\\sad2','\\sadas']
-		processed_line = line
-		processed_line = render.addText(processed_line);
-		processed_line = render.expandAliases(processed_line,newCommands, oldCommands);
-		processed_line = render.stripMathMode(processed_line);
-		 
-		render.createHTML(processed_line, WEBKIT_PORT);
-	});
+				// render.terminateViewer(WEBKIT_PORT); this is too finnicky
+				
 
+				let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'webkit_viewer.py'  | sort)"`); 
+				// await notify(KVTCommOut + " is the one to kill."); // Use stored KVTCommOut 
+				let KVTCommOutArray = KVTCommOut.split("\n");
+				for (pid of KVTCommOutArray) {
+					if (pid && pid.trim()) {
+						await execAsync(`bash -c "xdotool windowkill ${pid}"`);
+					}
+				}
 
+				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+				// await notify(ZathuraCommOut + " is the one to kill."); // Use stored ZathuraCommOut 
+				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
+				for (pid of ZathuraCommOutArray) {
+					if (pid && pid.trim()) {
+						await execAsync(`bash -c "xdotool windowkill ${pid}"`);
+					}
+				}
 
-	socket.on('end', () => {
-    	console.log('Neovim disconnected.');
-		render.terminateViewer(WEBKIT_PORT);
+			} catch (error) {
+				// await notify(`Error in socket.on('end'): ${error.message}`); 
+				console.error(`Error in socket.on('end'): ${error.message}`); 
+			}
+		}); 
 
-		server.close();
-	});
+	} catch (err) {
+		console.error("Error reading aliases file:", err);
+	}
 });
 
-
-
-
-server.listen(PROCESS_PORT, () => { 
-	console.log(`Server listening on port ${PROCESS_PORT}`); 
+server.listen(PROCESS_PORT, () => {
+	console.log(`Server listening on port ${PROCESS_PORT}`);
 });
