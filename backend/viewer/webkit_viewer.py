@@ -76,14 +76,15 @@ class MainWindow(QMainWindow):
         """Resizes the window to fit the content's size."""
         self.browser.page().runJavaScript(
             "document.body.scrollHeight;", self.resize_to_content_height
-        )
+        ) # this does work to give us the page height
         self.browser.page().runJavaScript(
             "document.body.scrollWidth;", self.resize_to_content_width
-        )
+        ) # this must then too
 
     def resize_to_content_height(self, height):
         # self.resize(self.width(), height)
         self.update_html(f"katex {height}")
+        self.browser.setZoomFactor(5)
 
     def resize_to_content_width(self, width):
         # self.resize(width, self.height())
