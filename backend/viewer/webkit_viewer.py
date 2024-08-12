@@ -69,11 +69,18 @@ class MainWindow(QMainWindow):
 
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
+            self.adjust_zoom()
 
         if html == "KAVIMTEX CONNECTED":
             self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
 
-            
+    def adjust_zoom(self):
+        frame = self.browser.page().mainFrame()
+        document_width = frame.contentsSize().width()
+        viewer_width = self.browser.width()
+
+        zoom_factor = view_width / document_width
+        frame.setZoomFactor(zoom_factor)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
