@@ -83,7 +83,7 @@ class MainWindow(QMainWindow):
 
     def resize_to_content_height(self, height):
         # self.resize(self.width(), height)
-        self.update_html(f"katex {height}")
+        # self.update_html(f"katex {height}")
         browser_h = self.browser.height()
 
 
