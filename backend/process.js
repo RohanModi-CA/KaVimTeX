@@ -75,7 +75,7 @@ const server = net.createServer(async (socket) => {
 					}
 				}
 
-
+				await execAsync(`bash -c "fuser -k ${WEBKIT_PORT}"`)
 
 				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 				// await notify(ZathuraCommOut + " is the one to kill."); // Use stored ZathuraCommOut 

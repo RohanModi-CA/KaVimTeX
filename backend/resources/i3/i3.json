@@ -22,8 +22,7 @@
                 "percent": 0.187087653157399,
                 "swallows": [
                     {
-                        "class": "^webkit_viewer\\.py$",
-                        "instance": "^webkit_viewer\\.py$"
+                        "class": "^kvt_viewer$"
                     }
                 ],
                 "type": "con"
@@ -39,7 +38,7 @@
                     "y": 0
                 },
                 "marks": [],
-                "name": "rohan@lattitude-ubuntu: ~/Documents/FileFolder/School/PHYS103",
+                "name": "kitty",
                 "percent": 0.812912346842601,
                 "swallows": [
                     {
@@ -63,7 +62,7 @@
         },
         "marks": [],
         "name": "org.pwmt.zathura",
-        "percent": 0.5,
+		"percent": 0.385625,
         "swallows": [
             {
                 "class": "^Zathura$"
