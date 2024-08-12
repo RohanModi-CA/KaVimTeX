@@ -83,6 +83,8 @@ class MainWindow(QMainWindow):
         frame.setZoomFactor(zoom_factor)
         frame.setHtml(f'{document_width} and {viewer_width}')
 
+        raise Exception
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     app.setApplicationName("kvt_viewer")
