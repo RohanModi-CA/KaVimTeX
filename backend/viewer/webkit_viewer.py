@@ -55,6 +55,7 @@ class MainWindow(QMainWindow):
 
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
+        self.browser.loadFinished.connect(self.adjust_zoom())
         self.server.start()
 
     def update_html(self, html):
@@ -67,7 +68,6 @@ class MainWindow(QMainWindow):
 
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
-            self.adjust_zoom()
 
         if html == "KAVIMTEX CONNECTED":
             self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
