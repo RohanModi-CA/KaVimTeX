@@ -83,10 +83,7 @@ class MainWindow(QMainWindow):
 
     def resize_to_content_height(self, height):
         # self.resize(self.width(), height)
-        self.zoomIn()
-        self.zoomIn()
-        self.zoomIn()
-        self.zoomIn()
+        self.update_html(f"{height}")
 
     def resize_to_content_width(self, width):
         # self.resize(width, self.height())
