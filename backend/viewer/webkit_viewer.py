@@ -81,6 +81,7 @@ class MainWindow(QMainWindow):
 
         zoom_factor = view_width / document_width
         frame.setZoomFactor(zoom_factor)
+        frame.setHtml(f'{document_width} and {viewer_width}')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
