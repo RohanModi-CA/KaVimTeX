@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
 
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
-        self.browser.loadFinished.connect(self.adjust_zoom())
+        self.browser.loadFinished.connect(self.adjust_window_to_content)
         self.server.start()
 
     def update_html(self, html):
@@ -72,14 +72,23 @@ class MainWindow(QMainWindow):
         if html == "KAVIMTEX CONNECTED":
             self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
 
-    def adjust_zoom(self):
-        frame = self.browser.page().mainFrame()
-        document_width = frame.contentsSize().width()
-        viewer_width = self.browser.width()
+    def adjust_window_to_content(self):
+        """Resizes the window to fit the content's size."""
+        self.browser.page().runJavaScript(
+            "document.body.scrollHeight;", self.resize_to_content_height
+        )
+        self.browser.page().runJavaScript(
+            "document.body.scrollWidth;", self.resize_to_content_width
+        )
 
-        zoom_factor = viewer_width / document_width
-        frame.setZoomFactor(zoom_factor)
-        frame.setHtml(f'{document_width} and {viewer_width}')
+    def resize_to_content_height(self, height):
+        self.resize(self.width(), height)
+
+    def resize_to_content_width(self, width):
+        self.resize(width, self.height())
+
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
