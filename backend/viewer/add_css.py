@@ -1313,7 +1313,7 @@ body {
 
 .katex-display {
   display: block;
-  margin: 1em 0;
+  margin: 0em 0;
   text-align: center;
 }
 .katex-display > .katex {
