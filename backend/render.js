@@ -68,7 +68,7 @@ function createDisplayHTML(fixed_latex, WEBKIT_PORT) {
 		// console.log(error); // this constantly errors because of user typing. 
 	}
 	finally{
-		sendHTML(htmlFile);
+		sendHTML(htmlFile, WEBKIT_PORT);
 	};
 }
 
