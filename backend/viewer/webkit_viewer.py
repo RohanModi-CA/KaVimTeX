@@ -86,9 +86,9 @@ class MainWindow(QMainWindow):
         # self.resize(self.width(), height)
         # self.update_html(f"katex {height}")
         browser_h = self.browser.height()
-
-
         self.browser.setZoomFactor(((browser_h ) / height) )
+        with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
+            buggs.write(browser_h + "    JS height: "  + height)
         self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
 
 
