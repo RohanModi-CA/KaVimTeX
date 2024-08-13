@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
         browser_h = self.browser.height()
         self.browser.setZoomFactor(((browser_h ) / height) )
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-            buggs.write("hello \n")
+            buggs.write(f"{browser_h} and {height} \n")
         self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
 
 
