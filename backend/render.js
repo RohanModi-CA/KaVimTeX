@@ -96,11 +96,6 @@ function createTextHTML(fixed_latex, WEBKIT_PORT) {
 
 	
 	finally{
-		const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
-			// console.log(htmlFile);
-			client.write(htmlFile);
-			client.end();
-		});
 	}
 
 }
