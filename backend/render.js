@@ -27,7 +27,7 @@ function addText(rawTek, WEBKIT_PORT) {
 		
 
 		const regex = /\$(.*?)\$/g;
-		fixed =  fixed.replace(regex, (match, p1) => {
+		fixed = "<!-- katex --> " + fixed.replace(regex, (match, p1) => {
 			// Call the createTextHTML function with the content inside dollar signs
 			return renderDollarSign(p1);
 		});
