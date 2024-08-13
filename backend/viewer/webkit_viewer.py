@@ -89,7 +89,7 @@ class MainWindow(QMainWindow):
         browser_h = self.browser.height()
 
 
-        self.browser.setZoomFactor((browser_h - 40) / height)
+        self.browser.setZoomFactor(((browser_h) / height) * (2/3))
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggsLog:
             buggsLog.write(f"\n\n\n\n here: {browser_h} and JS height {height}")
 
