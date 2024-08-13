@@ -57,30 +57,29 @@ function stripMathMode(rawTek) {
 }
 
 
-function createDisplayHTML(fixed_latex, WEBKIT_PORT) {
-	
+function createDisplayHTML(fixed_latex, WEBKIT_PORT) {	
 	let htmlFile = "Error";
 	try{
-	
 		let math = katex.renderToString(fixed_latex, {displayMode: true});
 		
 		htmlFile = math;
 	}
 	catch(error) {
-		// console.log(error);
+		// console.log(error); // this constantly errors because of user typing. 
 	}
-
 	finally{
-		const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
-			// console.log(htmlFile);
-			client.write(htmlFile);
-			client.end();
-		});
-	}
-
+		sendHTML(htmlFile);
+	};
 }
 
 
+function sendHTML(final_send, WEBKIT_PORT) {
+	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
+				// console.log(htmlFile);
+				client.write(final_send);
+				client.end();
+			});
+}
 
 function createTextHTML(fixed_latex, WEBKIT_PORT) {
 	
@@ -95,6 +94,7 @@ function createTextHTML(fixed_latex, WEBKIT_PORT) {
 		// console.log(error);
 	}
 
+	
 	finally{
 		const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 			// console.log(htmlFile);
@@ -104,8 +104,6 @@ function createTextHTML(fixed_latex, WEBKIT_PORT) {
 	}
 
 }
-
-
 
 
 
