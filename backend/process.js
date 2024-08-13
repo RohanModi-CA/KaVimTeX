@@ -52,11 +52,14 @@ const server = net.createServer(async (socket) => {
 
 		socket.on('data', async (data) => {
 			let processed_line = data.toString();
-			processed_line = render.addText(processed_line);
 			processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
-			processed_line = render.stripMathMode(processed_line);
-
-			render.createHTML(processed_line, WEBKIT_PORT);
+			addTextArray = render.addText(processed_line, WEBKIT_PORT);
+			processed_line = addTextArray[0];
+			
+			if (!(addTextArray[1])) {
+				processed_line = render.stripMathMode(processed_line);
+				render.createDisplayHTML(processed_line, WEBKIT_PORT);
+			}
 		});
 
 		socket.on('end', async () => { 
