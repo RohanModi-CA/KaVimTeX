@@ -6,19 +6,18 @@ const serverHost = 'localhost';
 
 
 function expandAliases(rawTek, newlist, oldlist) {
-  let expanded = rawTek;
-  newlist.forEach((item, index) => {
-    // Escape backslashes in the alias for the regex
-    const escapedItem = item.replace(/\\/g, '\\\\');
-    const regex = new RegExp(escapedItem.trim() + "(?![a-zA-Z])", 'g');
-    expanded = expanded.replace(regex, oldlist[index].trim());
-  });
-  return expanded;
+	let expanded = rawTek;
+	newlist.forEach((item, index) => {
+		// Escape backslashes in the alias for the regex
+		const escapedItem = item.replace(/\\/g, '\\\\');
+		const regex = new RegExp(escapedItem.trim() + "(?![a-zA-Z])", 'g');
+		expanded = expanded.replace(regex, oldlist[index].trim());
+	});
+	return expanded;
 }
 
 
 function addText(rawTek) {
-
 	let isTextAndDone = false;
 	let fixed = rawTek.trim();
 	
@@ -29,7 +28,7 @@ function addText(rawTek) {
 		const regex = /\$(.*?)\$/g;
 		fixed =  fixed.replace(regex, (match, p1) => {
 			// Call the createTextHTML function with the content inside dollar signs
-			return createTextHTML(p1);
+			return renderDollarSign(p1);
 		});
 
 		// createTextHTML(fixed, WEBKIT_PORT);
@@ -38,7 +37,6 @@ function addText(rawTek) {
 
 
 	return [fixed, isTextAndDone];
-
 }
 
 function stripMathMode(rawTek) {
@@ -81,23 +79,18 @@ function sendHTML(final_send, WEBKIT_PORT) {
 			});
 }
 
-function createTextHTML(fixed_latex, WEBKIT_PORT) {
-	
-	let htmlFile = "Error";
+function renderDollarSign(fixed_latex, WEBKIT_PORT) {
+	let rendered_dollar_sign = "Error";
 	try{
-	
 		let math = katex.renderToString(fixed_latex, {displayMode: false});
-		
-		htmlFile = math;
+		rendered_dollar_sign = math;
 	}
 	catch(error) {
-		// console.log(error);
+		// console.log(error)
 	}
-
-	
-	finally{
+	finally {
+		return rendered_dollar_sign
 	}
-
 }
 
 
