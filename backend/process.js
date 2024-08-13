@@ -53,7 +53,7 @@ const server = net.createServer(async (socket) => {
 		socket.on('data', async (data) => {
 			let processed_line = data.toString();
 			processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
-			addTextArray = render.addText(processed_line);
+			addTextArray = render.addText(processed_line, WEBKIT_PORT);
 			processed_line = addTextArray[0];
 			
 			if (!(addTextArray[1])) {

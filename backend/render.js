@@ -17,7 +17,7 @@ function expandAliases(rawTek, newlist, oldlist) {
 }
 
 
-function addText(rawTek) {
+function addText(rawTek, WEBKIT_PORT) {
 	let isTextAndDone = false;
 	let fixed = rawTek.trim();
 	
@@ -25,6 +25,7 @@ function addText(rawTek) {
 		// fixed = "\\text{" + fixed + "}";
 		// we already expanded aliases in process.js, so we just directly create the html
 		
+
 		const regex = /\$(.*?)\$/g;
 		fixed =  fixed.replace(regex, (match, p1) => {
 			// Call the createTextHTML function with the content inside dollar signs
