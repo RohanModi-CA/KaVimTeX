@@ -31,7 +31,7 @@ function addText(rawTek) {
 			return renderDollarSign(p1);
 		});
 		
-		sendHTML(fixed, WEBKIT_PORT)
+		sendHTML("hello", WEBKIT_PORT)
 		// createTextHTML(fixed, WEBKIT_PORT);
 		isTextAndDone = true;
 	}
