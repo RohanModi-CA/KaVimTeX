@@ -19,11 +19,25 @@ function expandAliases(rawTek, newlist, oldlist) {
 
 function addText(rawTek) {
 
+	let isTextAndDone = false;
 	let fixed = rawTek.trim();
-	if( fixed.length > 0 &&  !(fixed.substring(0,2) === "\\[" )  ) {
-		fixed = "\\text{" + fixed + "}";
+	
+	if( fixed.length > 0 &&  !(fixed.substring(0,2) === "\\[" || fixed.substring(0,2) === "$$" )  ) {
+		// fixed = "\\text{" + fixed + "}";
+		// we already expanded aliases in process.js, so we just directly create the html
+		
+		const regex = /\$(.*?)\$/g;
+		fixed =  fixed.replace(regex, (match, p1) => {
+			// Call the createTextHTML function with the content inside dollar signs
+			return createTextHTML(p1);
+		});
+
+		// createTextHTML(fixed, WEBKIT_PORT);
+		isTextAndDone = true;
 	}
-	return fixed;
+
+
+	return [fixed, isTextAndDone];
 
 }
 
@@ -31,10 +45,10 @@ function stripMathMode(rawTek) {
     let cleaned = rawTek.trim();
     
     if (cleaned.length >= 2) {
-        if (cleaned.substring(0, 2) === "\\[") {
+        if ((cleaned.substring(0, 2) === "\\[") || (cleaned.substring(0, 2) === "$$")) {
             cleaned = cleaned.substring(2); 
         }
-        if (cleaned.substring(cleaned.length - 2) === "\\]") {
+        if ((cleaned.substring(cleaned.length - 2) === "\\]") || (cleaned.substring(0, 2) === "$$") )   {
             cleaned = cleaned.substring(0, cleaned.length - 2); 
         }
     }
@@ -43,7 +57,32 @@ function stripMathMode(rawTek) {
 }
 
 
-function createHTML(fixed_latex, WEBKIT_PORT) {
+function createDisplayHTML(fixed_latex, WEBKIT_PORT) {
+	
+	let htmlFile = "Error";
+	try{
+	
+		let math = katex.renderToString(fixed_latex, {displayMode: true});
+		
+		htmlFile = math;
+	}
+	catch(error) {
+		// console.log(error);
+	}
+
+	finally{
+		const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
+			// console.log(htmlFile);
+			client.write(htmlFile);
+			client.end();
+		});
+	}
+
+}
+
+
+
+function createTextHTML(fixed_latex, WEBKIT_PORT) {
 	
 	let htmlFile = "Error";
 	try{
@@ -65,6 +104,14 @@ function createHTML(fixed_latex, WEBKIT_PORT) {
 	}
 
 }
+
+
+
+
+
+
+
+
 
 function greetViewer(WEBKIT_PORT) {
 	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
@@ -88,7 +135,7 @@ module.exports = {
     expandAliases: expandAliases,
     addText: addText,
     stripMathMode: stripMathMode,
-    createHTML: createHTML,
+    createDisplayHTML: createDisplayHTML,
 	terminateViewer: terminateViewer,
 	greetViewer: greetViewer
 };
