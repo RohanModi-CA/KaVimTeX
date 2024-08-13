@@ -80,7 +80,7 @@ function sendHTML(final_send, WEBKIT_PORT) {
 			});
 }
 
-function renderDollarSign(fixed_latex, WEBKIT_PORT) {
+function renderDollarSign(fixed_latex) {
 	let rendered_dollar_sign = "Error";
 	try{
 		let math = katex.renderToString(fixed_latex, {displayMode: false});
