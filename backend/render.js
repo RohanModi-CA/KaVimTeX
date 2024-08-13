@@ -32,7 +32,7 @@ function addText(rawTek, WEBKIT_PORT) {
 			return renderDollarSign(p1);
 		});
 		
-		sendHTML("katex hello", WEBKIT_PORT)
+		sendHTML(fixed, WEBKIT_PORT)
 		// createTextHTML(fixed, WEBKIT_PORT);
 		isTextAndDone = true;
 	}
