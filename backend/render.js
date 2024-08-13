@@ -48,7 +48,7 @@ function createHTML(fixed_latex, WEBKIT_PORT) {
 	let htmlFile = "Error";
 	try{
 	
-		let math = katex.renderToString(fixed_latex, {displayMode: true});
+		let math = katex.renderToString(fixed_latex, {displayMode: false});
 		
 		htmlFile = math;
 	}
