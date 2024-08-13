@@ -11,7 +11,6 @@ import add_css
 WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
 FILENAME = sys.argv[4]
 
-
 class HTMLServer(QThread):
     new_html_received = pyqtSignal(str)
 
@@ -49,17 +48,17 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("KaVimTex, " + FILENAME + ", on: " + str(WEBKIT_PORT))
         self.browser = QWebEngineView()
+
         self.setCentralWidget(self.browser)
         self.base_url = QUrl.fromLocalFile("/home/rohan/.config/nvim/lua/llvp/render/resources/")
         self.browser.setHtml("<html><body><h1>No Connections</h1></body></html>")
 
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
+        self.browser.loadFinished.connect(self.adjust_window_to_content)
         self.server.start()
 
     def update_html(self, html):
-        
-
         if html == "KAVIMTEX TERMINATED":
             self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display Connection Terminated</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">Connection Terminated</div></body></html>""")
             self.server.terminate()
@@ -69,11 +68,40 @@ class MainWindow(QMainWindow):
 
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
+            with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggsLog:
+                buggsLog.write(html)
 
         if html == "KAVIMTEX CONNECTED":
-            self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
+            # self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
+            self.browser.setHtml("KVT")
 
-            
+    def adjust_window_to_content(self):
+        """Resizes the window to fit the content's size."""
+        self.browser.page().runJavaScript(
+            "document.body.scrollHeight;", self.resize_to_content_height
+        ) # this does work to give us the page height
+        self.browser.page().runJavaScript(
+            "document.body.scrollWidth;", self.resize_to_content_width
+        ) # this must then too
+
+    def resize_to_content_height(self, height):
+        # self.resize(self.width(), height)
+        # self.update_html(f"katex {height}")
+        browser_h = self.browser.height()
+
+
+        self.browser.setZoomFactor(((browser_h ) / height) )
+        self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
+        with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggsLog:
+            buggsLog.write(f"\n\n\n\n here: {browser_h} and JS height {height}")
+
+
+    def resize_to_content_width(self, width):
+        # self.resize(width, self.height())
+        pass
+
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

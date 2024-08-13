@@ -62,6 +62,9 @@ css_style_tags = """
 
 
 
+body {
+    margin: 0;
+}
 
 
 
@@ -1310,7 +1313,7 @@ css_style_tags = """
 
 .katex-display {
   display: block;
-  margin: 1em 0;
+  margin: 0px;
   text-align: center;
 }
 .katex-display > .katex {
@@ -1335,6 +1338,11 @@ css_style_tags = """
 .katex-display.fleqn > .katex {
   text-align: left;
   padding-left: 2em;
+}
+
+
+.katex-html {
+padding: 8px
 }
 
 body {
