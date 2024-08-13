@@ -49,6 +49,7 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("KaVimTex, " + FILENAME + ", on: " + str(WEBKIT_PORT))
         self.browser = QWebEngineView()
+
         self.setCentralWidget(self.browser)
         self.base_url = QUrl.fromLocalFile("/home/rohan/.config/nvim/lua/llvp/render/resources/")
         self.browser.setHtml("<html><body><h1>No Connections</h1></body></html>")
@@ -68,12 +69,8 @@ class MainWindow(QMainWindow):
 
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
-            self.browser.page().runJavaScript("""
-            document.documentElement.style.overflow = 'hidden';
-            document.body.style.overflow = 'hidden';
-            """)
 
-        if html == "KAVIMTEX CONNECTED":
+          if html == "KAVIMTEX CONNECTED":
             self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
 
     def adjust_window_to_content(self):
