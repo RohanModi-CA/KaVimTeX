@@ -96,11 +96,6 @@ function renderDollarSign(fixed_latex) {
 }
 
 
-
-
-
-
-
 function greetViewer(WEBKIT_PORT) {
 	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 		client.write("KAVIMTEX CONNECTED");
