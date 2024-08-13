@@ -1340,6 +1340,11 @@ body {
   padding-left: 2em;
 }
 
+
+.katex-html {
+padding: 8px
+}
+
 body {
   counter-reset: katexEqnNo mmlEqnNo;
 }
