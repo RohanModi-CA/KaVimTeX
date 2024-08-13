@@ -62,6 +62,9 @@ css_style_tags = """
 
 
 
+body {
+    margin: 0;
+}
 
 
 
