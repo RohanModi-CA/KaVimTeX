@@ -109,7 +109,7 @@ class MainWindow(QMainWindow):
                 self.check_ratio()
 
                 return False
-        self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
+        self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
 
 
 
