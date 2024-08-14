@@ -91,7 +91,7 @@ class MainWindow(QMainWindow):
                 return False
 
             ratio = height / self.browser.height()
-            self.notify(f"Ratio: {str(ratio)[:4]} and height: {height}")
+            self.notify(f"Ratio: {str(ratio)[:4]} and RC {recursion_count}")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
                 # self.notify(" done true ")
