@@ -82,7 +82,7 @@ class MainWindow(QMainWindow):
         # self.resize(self.width(), height)
         # self.update_html(f"katex {height}")
         browser_h = self.browser.height()
-        self.browser.setZoomFactor(((browser_h ) / height) )
+        self.browser.page().setZoomFactor(((browser_h ) / height) )
         
         self.notify(f"{browser_h} and {height} \n")
         # self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
@@ -102,10 +102,10 @@ class MainWindow(QMainWindow):
                     current_zoom_factor = self.browser.page().zoomFactor()
                     if ratio > self.ratio_upper_bound:
                         # self.notify(f"gs {str(height)[:3]} / {self.browser.height()} ")
-                        self.browser.setZoomFactor(current_zoom_factor * 0.9)
+                        self.browser.page().setZoomFactor(current_zoom_factor * 0.9)
                     elif ratio < self.ratio_lower_bound:
                         # self.notify(f"gb {ratio} ")
-                        self.browser.setZoomFactor(current_zoom_factor * 1.1)
+                        self.browser.page().setZoomFactor(current_zoom_factor * 1.1)
                     
                     self.check_ratio(max_loops - 1)
 
