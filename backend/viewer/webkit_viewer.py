@@ -87,28 +87,29 @@ class MainWindow(QMainWindow):
         self.notify(f"{browser_h} and {height} \n")
         # self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
  
-    def check_ratio(self):
+    def check_ratio(self, max_loops=100):
         def after_height_retrieved(height):
             
-            ratio = height / self.browser.height()
-            self.notify(f"Ratio: {str(ratio)[:4]} and height: {height}")
-            
-            if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
-                # self.notify(" done true ")
-                return True
-            else: # recursion time...
+            if max_loops > 0:
+                ratio = height / self.browser.height()
+                self.notify(f"Ratio: {str(ratio)[:4]} and height: {height}")
                 
-                current_zoom_factor = self.browser.page().zoomFactor()
-                if ratio > self.ratio_upper_bound:
-                    # self.notify(f"gs {str(height)[:3]} / {self.browser.height()} ")
-                    self.browser.setZoomFactor(current_zoom_factor * 0.9)
-                elif ratio < self.ratio_lower_bound:
-                    # self.notify(f"gb {ratio} ")
-                    self.browser.setZoomFactor(current_zoom_factor * 1.1)
-                
-                self.check_ratio()
+                if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
+                    # self.notify(" done true ")
+                    return True
+                else: # recursion time...
+                    
+                    current_zoom_factor = self.browser.page().zoomFactor()
+                    if ratio > self.ratio_upper_bound:
+                        # self.notify(f"gs {str(height)[:3]} / {self.browser.height()} ")
+                        self.browser.setZoomFactor(current_zoom_factor * 0.9)
+                    elif ratio < self.ratio_lower_bound:
+                        # self.notify(f"gb {ratio} ")
+                        self.browser.setZoomFactor(current_zoom_factor * 1.1)
+                    
+                    self.check_ratio(max_loops - 1)
 
-                return False
+                    return False
         self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
 
 
