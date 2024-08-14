@@ -97,6 +97,7 @@ class MainWindow(QMainWindow):
                     self.browser.page().setZoomFactor(current_zoom_factor * 1.1)
                 
                 iterator = max_runs - 1
+                iterator = 7
                 self.notify(iterator)
                 self.check_ratio(str(iterator) + " ")
 
