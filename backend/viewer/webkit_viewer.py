@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         self.page_height = 0
         self.ratio_lower_bound = 0.6
         self.ratio_upper_bound = 0.9
-        self.over_recursed = False
+        self.recursion_count = 0
 
     def update_html(self, html):
         if html == "KAVIMTEX TERMINATED":
@@ -73,7 +73,8 @@ class MainWindow(QMainWindow):
 
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
-            self.over_recursed = False
+            # self.over_recursed = False
+            self.recursion_count = 0  # Initialize recursion counter
 
         if html == "KAVIMTEX CONNECTED":
             # self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
@@ -82,16 +83,15 @@ class MainWindow(QMainWindow):
 
     def check_ratio(self):
         def after_height_retrieved(height):
-            nonlocal recursion_count  # Declare recursion_count as nonlocal
+            self.recursion_count  # Declare recursion_count as nonlocal
 
-            recursion_count += 1
-            if recursion_count > 100 or self.over_recursed: 
+            self.recursion_count += 1
+            if self.recursion_count > 100: 
                 self.notify("Max recursion limit reached.")
-                self.over_recursed = True
                 return False
 
             ratio = height / self.browser.height()
-            self.notify(f"Ratio: {str(ratio)[:4]} and RC {recursion_count}")
+            self.notify(f"Ratio: {str(ratio)[:4]} and RC {self.recursion_count}")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
                 # self.notify(" done true ")
@@ -107,7 +107,6 @@ class MainWindow(QMainWindow):
                 
                 return self.check_ratio()  # Recursion call
 
-        recursion_count = 0  # Initialize recursion counter
         self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
 
 
