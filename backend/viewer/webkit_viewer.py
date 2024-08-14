@@ -113,7 +113,8 @@ class MainWindow(QMainWindow):
         ratio = 0
         while not self.check_ratio():
             with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-                buggs.write(f"{self.browser.height()} and ratio {ratio}")
+                buggs.write("hello")
+                #buggs.write(f"{self.browser.height()} and ratio {ratio}")
             ratio = self.browser.height() / self.page_height
             if ratio > self.ratio_upper_bound:
                 self.browser.setZoomFactor(self.browser.getZoomFactor()*0.9)
