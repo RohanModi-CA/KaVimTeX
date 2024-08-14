@@ -138,8 +138,8 @@ class MainWindow(QMainWindow):
         trials = 0
         while not self.check_ratio():
 
-            """
             ratio = self.page_height / self.browser.height()
+            """
             if ratio > self.ratio_upper_bound:
                 pass
                 #current_zoom_factor = self.browser.page().zoomFactor()
@@ -150,7 +150,7 @@ class MainWindow(QMainWindow):
                 #current_zoom_factor = self.browser.page().zoomFactor()
                 #self.browser.setZoomFactor(current_zoom_factor * 1.1)
                 self.notify(current_zoom_factor * 1.1) 
-
+            
                 # self.browser.setZoomFactor(0.7)
                 # self.browser.getZoomFactor()*1.1
             """
