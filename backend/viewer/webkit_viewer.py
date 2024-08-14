@@ -107,7 +107,7 @@ class MainWindow(QMainWindow):
             self.record_page_height(height)
             
             ratio = self.page_height / self.browser.height()
-            self.notify(f"Ratio: {ratio} and height: {self.page_height}")
+            #self.notify(f"Ratio: {ratio} and height: {self.page_height}")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
                 self.notify(" done true ")
@@ -139,6 +139,7 @@ class MainWindow(QMainWindow):
         while not self.check_ratio():
 
             ratio = self.page_height / self.browser.height()
+            self.notify(f" ratio-{ratio} ")
             """
             if ratio > self.ratio_upper_bound:
                 pass
