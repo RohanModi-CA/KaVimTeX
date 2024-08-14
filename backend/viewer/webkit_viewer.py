@@ -56,7 +56,7 @@ class MainWindow(QMainWindow):
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
         #self.browser.loadFinished.connect(self.adjust_window_to_content)
-        self.browser.loadFinished.connect(self.text_find_ideal_zoom)
+        self.browser.loadFinished.connect(self.check_ratio)
         self.server.start()
 
         self.page_height = 0
@@ -112,40 +112,20 @@ class MainWindow(QMainWindow):
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
                 self.notify(" done true ")
                 return True
-            else:
+            else: # recursion time...
                 self.notify(" done false ")
-                return True
+                
+                current_zoom_factor = self.browser.zoomFactor()
+                if ratio > self.ratio_upper_bound:
+                    self.browser.setZoomFactor(current_zoom_factor * 0.9)
+                elif ratio < self.ratio_lower_bound:
+                    self.browser.setZoomFactor(current_zoom_factor * 1.1)
+                
+                check_ratio()
+
+                return False
 
         self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
-
-    def text_find_ideal_zoom(self):
-        ratio = 0
-        trials = 0
-        while not self.check_ratio():
-
-            ratio = self.page_height / self.browser.height()
-            self.notify(f" ratio-{ratio} ")
-            """
-            if ratio > self.ratio_upper_bound:
-                pass
-                #current_zoom_factor = self.browser.page().zoomFactor()
-                #self.browser.setZoomFactor(current_zoom_factor * 0.9)
-                self.notify(current_zoom_factor * 0.9) 
-            elif ratio < self.ratio_lower_bound:
-                pass
-                #current_zoom_factor = self.browser.page().zoomFactor()
-                #self.browser.setZoomFactor(current_zoom_factor * 1.1)
-                self.notify(current_zoom_factor * 1.1) 
-            
-                # self.browser.setZoomFactor(0.7)
-                # self.browser.getZoomFactor()*1.1
-            """
-            trials += 1
-            if trials >= 100:
-                self.notify("broken!")
-                break
-        self.notify(" |TRUE| ")
-
 
 
 
