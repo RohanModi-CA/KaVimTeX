@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import time
 from PyQt5.QtCore import QUrl, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -127,6 +128,7 @@ class MainWindow(QMainWindow):
                 return False
 
         self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
+        time.sleep(0.1)
 
 
 
