@@ -99,7 +99,7 @@ class MainWindow(QMainWindow):
                 iterator = max_runs - 1
                 #iterator = 7
                 self.notify(str(iterator) + " ")
-                self.check_ratio()
+                self.check_ratio(iterator)
 
                 return False
         if (max_runs > 0):
