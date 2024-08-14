@@ -73,8 +73,7 @@ class MainWindow(QMainWindow):
 
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
-            #with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-             #   buggs.write(f"{html} \n \n \n")
+            self.notify(html)
 
         if html == "KAVIMTEX CONNECTED":
             # self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
@@ -105,16 +104,16 @@ class MainWindow(QMainWindow):
             #self.notify(f"Ratio: {ratio} and height: {self.page_height}")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
-                self.notify(" done true ")
+                # self.notify(" done true ")
                 return True
             else: # recursion time...
                 
                 current_zoom_factor = self.browser.page().zoomFactor()
                 if ratio > self.ratio_upper_bound:
-                    self.notify(f"gs {str(height)[:3]} / {self.browser.height()} ")
+                    # self.notify(f"gs {str(height)[:3]} / {self.browser.height()} ")
                     self.browser.setZoomFactor(current_zoom_factor * 0.9)
                 elif ratio < self.ratio_lower_bound:
-                    self.notify(f"gb {ratio} ")
+                    # self.notify(f"gb {ratio} ")
                     self.browser.setZoomFactor(current_zoom_factor * 1.1)
                 
                 self.check_ratio()
