@@ -107,7 +107,7 @@ class MainWindow(QMainWindow):
 
         ratio = self.page_height / self.browser.height()
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-            buggs.write(f"{self.page_height}")
+            buggs.write(f"{self.page_height} and viewer {self.browser.height()}")
         if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
             pass
             return True
