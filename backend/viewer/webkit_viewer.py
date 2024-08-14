@@ -128,6 +128,7 @@ class MainWindow(QMainWindow):
                 pass
                 #self.browser.setZoomFactor(0.25)
                 # self.browser.getZoomFactor()*1.1
+            break
 
 
 
