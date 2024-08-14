@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import socket
 import add_css
-# import io
 
 WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
 FILENAME = sys.argv[4]
@@ -36,7 +35,6 @@ class HTMLServer(QThread):
                     break
         except ConnectionResetError:
             print("Connection reset by peer")
-
             self.browser.setHtml("<html><body><h1>Connection Reset</h1></body></html>")
 
         finally:
@@ -50,7 +48,6 @@ class MainWindow(QMainWindow):
         self.browser = QWebEngineView()
 
         self.setCentralWidget(self.browser)
-        self.base_url = QUrl.fromLocalFile("/home/rohan/.config/nvim/lua/llvp/render/resources/")
         self.browser.setHtml("<html><body><h1>No Connections</h1></body></html>")
 
         self.server = HTMLServer()
@@ -64,45 +61,30 @@ class MainWindow(QMainWindow):
         self.recursion_count = 0
 
     def update_html(self, html):
-        if html == "KAVIMTEX TERMINATED":
-            self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display Connection Terminated</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">Connection Terminated</div></body></html>""")
-            self.server.terminate()
-            QApplication.quit()
-            sys.exit(app.exec_())
         if html.find("katex") != -1:
-
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
-            # self.over_recursed = False
-            self.recursion_count = 0  # Initialize recursion counter
-
+            self.recursion_count = 0
         if html == "KAVIMTEX CONNECTED":
-            # self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
             self.browser.setHtml("KVT")
-
 
     def check_ratio(self):
         def after_height_retrieved(height):
-            self.recursion_count  # Declare recursion_count as nonlocal
 
             self.recursion_count += 1
             if self.recursion_count > 100: 
-                self.notify("Max recursion limit reached.")
                 return False
 
             ratio = height / self.browser.height()
-            self.notify(f"Ratio: {str(ratio)[:4]} and RC {self.recursion_count}")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
-                # self.notify(" done true ")
-                return True
+                return True # it is within range
+
             else: # recursion time...
                 current_zoom_factor = self.browser.page().zoomFactor()
                 if ratio > self.ratio_upper_bound:
-                    # self.notify(f"gs {str(height)[:3]} / {self.browser.height()} ")
                     self.browser.page().setZoomFactor(current_zoom_factor * 0.9)
                 elif ratio < self.ratio_lower_bound:
-                    # self.notify(f"gb {ratio} ")
                     self.browser.page().setZoomFactor(current_zoom_factor * 1.1)
                 
                 return self.check_ratio()  # Recursion call
@@ -111,9 +93,7 @@ class MainWindow(QMainWindow):
 
 
     def notify(self,text):
-        with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-            buggs.write(text)
-
+        print(text)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
