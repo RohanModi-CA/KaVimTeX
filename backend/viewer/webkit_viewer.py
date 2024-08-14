@@ -55,7 +55,6 @@ class MainWindow(QMainWindow):
 
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
-        #self.browser.loadFinished.connect(self.adjust_window_to_content)
         self.browser.loadFinished.connect(self.check_ratio)
         self.server.start()
 
@@ -78,15 +77,6 @@ class MainWindow(QMainWindow):
         if html == "KAVIMTEX CONNECTED":
             # self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
             self.browser.setHtml("KVT")
-
-    def adjust_window_to_content(self):
-        """Resizes the window to fit the content's size."""
-        self.browser.page().runJavaScript(
-            "document.body.scrollHeight;", self.resize_to_content_height
-        ) # this does work to give us the page height
-        self.browser.page().runJavaScript(
-            "document.body.scrollWidth;", self.resize_to_content_width
-        ) # this must then too
 
     def resize_to_content_height(self, height):
         # self.resize(self.width(), height)
@@ -119,7 +109,7 @@ class MainWindow(QMainWindow):
                 self.check_ratio()
 
                 return False
-        self.browser.page().runJavaScript("document.documentElement.scrollHeight;", after_height_retrieved)
+        self.browser.page().runJavaScript("window.innerHeight;", after_height_retrieved)
 
 
 
