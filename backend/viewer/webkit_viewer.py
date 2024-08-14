@@ -114,7 +114,7 @@ class MainWindow(QMainWindow):
                 return True
             else:
                 self.notify(" done false ")
-                #return False
+                return True
 
         self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
 
