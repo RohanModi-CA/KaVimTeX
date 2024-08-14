@@ -90,7 +90,7 @@ class MainWindow(QMainWindow):
         browser_h = self.browser.height()
         self.browser.setZoomFactor(((browser_h ) / height) )
         
-        for i in range(5):
+        for i in range(2):
             adjust_window_to_content()
 
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
