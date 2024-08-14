@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
             # self.browser.setHtml(r"""<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Display KVT</title><style>body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; } .serif { font-family: "Times New Roman", Times, serif; }</style></head><body><div class="serif">KVT</div></body></html>""")
             self.browser.setHtml("KVT")
  
-    def check_ratio(self, max_runs="1000"):
+    def check_ratio(self, max_runs=1000):
         def after_height_retrieved(height):
         
             ratio = height / self.browser.height()
@@ -96,11 +96,11 @@ class MainWindow(QMainWindow):
                     # self.notify(f"gb {ratio} ")
                     self.browser.page().setZoomFactor(current_zoom_factor * 1.1)
                 
-                iterator = int(max_runs) - 1
+                iterator = max_runs - 1
                 #iterator = 7
                 self.notify(str(iterator) + " ")
                 if iterator > 1:
-                    return (self.check_ratio(str(iterator)))
+                    return (self.check_ratio(self, max_runs=iterator))
 
                 return False
         
