@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
         browser_h = self.browser.height()
         self.browser.setZoomFactor(((browser_h ) / height) )
         
-        notify(f"{browser_h} and {height} \n")
+        self.notify(f"{browser_h} and {height} \n")
         # self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
     
     def record_page_height(self, height):
@@ -116,7 +116,7 @@ class MainWindow(QMainWindow):
         trials = 0
         while not self.check_ratio():
 
-            notify(f" buggstrials   ")
+            self.notify(f" buggstrials   ")
                 #buggs.write(f"{self.browser.height()} and ratio {ratio}")
 
             ratio = self.page_height / self.browser.height()
@@ -134,7 +134,7 @@ class MainWindow(QMainWindow):
                 # self.browser.getZoomFactor()*1.1
             trials += 1
             if trials >= 100:
-                notify("broken!")
+                self.notify("broken!")
                 break
 
 
