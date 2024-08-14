@@ -89,9 +89,14 @@ class MainWindow(QMainWindow):
         # self.update_html(f"katex {height}")
         browser_h = self.browser.height()
         self.browser.setZoomFactor(((browser_h ) / height) )
+        
+        for i in range(5):
+            adjust_window_to_content()
+
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
             buggs.write(f"{browser_h} and {height} \n")
-        self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
+        # self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
+        return()
 
 
     def resize_to_content_width(self, width):
