@@ -106,6 +106,7 @@ class MainWindow(QMainWindow):
 
         ratio = self.page_height / self.browser.height()
         #self.notify(f"{ratio} and viewer {self.browser.height()}")
+        self.notify(ratio)
         if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
             #self.notify(f"ITS DONE {self.page_height} and viewer {self.browser.height()} TABARNAK")
             self.notify("done true")
