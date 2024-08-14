@@ -56,7 +56,12 @@ class MainWindow(QMainWindow):
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
         self.browser.loadFinished.connect(self.adjust_window_to_content)
+        self.browser.loadFinished.connect(self.text_find_ideal_zoom)
         self.server.start()
+
+        self.page_height = 0
+        self.ratio_lower_bound = 0.6
+        self.ratio_upper_bound = 0.9
 
     def update_html(self, html):
         if html == "KAVIMTEX TERMINATED":
@@ -93,9 +98,31 @@ class MainWindow(QMainWindow):
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
             buggs.write(f"{browser_h} and {height} \n")
         # self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
-        return()
+    
+    def record_page_height(self, height):
+        self.page_height = height
+
+    def check_ratio(self):
+        self.browser.page().runJavaScript("document.body.scrollWidth;", record_page_height)
+        ratio = self.browser.height() / self.page_height
+        if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
+            return True
+        return False
+
+    def text_find_ideal_zoom(self):
+        while not check_ratio():
+            ratio = self.browser.height() / self.page_height
+            if ratio > self.ratio_upper_bound:
+                self.browser.setZoomFactor(getZoomFactor()*0.9)
+            elif ratio < self.ratio_lower_bound:
+                self.browser.setZoomFactor(getZoomFactor()*1.1)
 
 
+
+
+
+
+    
     def resize_to_content_width(self, width):
         # self.resize(width, self.height())
         pass
