@@ -110,7 +110,7 @@ class MainWindow(QMainWindow):
             buggs.write(f"{ratio}")
         if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
             pass
-            #return True
+            return True
         return False
 
     def text_find_ideal_zoom(self):
