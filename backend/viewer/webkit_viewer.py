@@ -138,6 +138,7 @@ class MainWindow(QMainWindow):
         trials = 0
         while not self.check_ratio():
 
+            """
             ratio = self.page_height / self.browser.height()
             if ratio > self.ratio_upper_bound:
                 pass
@@ -152,6 +153,7 @@ class MainWindow(QMainWindow):
 
                 # self.browser.setZoomFactor(0.7)
                 # self.browser.getZoomFactor()*1.1
+            """
             trials += 1
             if trials >= 100:
                 self.notify("broken!")
