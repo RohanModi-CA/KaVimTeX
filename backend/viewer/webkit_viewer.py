@@ -124,7 +124,7 @@ class MainWindow(QMainWindow):
             if ratio > self.ratio_upper_bound:
                 pass
                 #self.browser.setZoomFactor(0.7)
-                # self.browser.getZoomFactor()*0.9
+                hello = self.browser.getZoomFactor()*0.9
             elif ratio < self.ratio_lower_bound:
                 pass
                 #self.browser.setZoomFactor(0.7)
