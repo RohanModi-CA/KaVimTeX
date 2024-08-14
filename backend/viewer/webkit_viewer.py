@@ -99,11 +99,12 @@ class MainWindow(QMainWindow):
                 iterator = max_runs - 1
                 #iterator = 7
                 self.notify(str(iterator) + " ")
-                self.check_ratio(iterator)
+                if iterator > 1:
+                    self.check_ratio(iterator)
 
                 return False
-        if (max_runs > 0):
-            self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
+        
+        self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
 
 
 
