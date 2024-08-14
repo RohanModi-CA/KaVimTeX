@@ -102,7 +102,7 @@ class MainWindow(QMainWindow):
         self.page_height = height
 
     def check_ratio(self):
-        self.browser.page().runJavaScript("document.body.scrollHeight;", self.record_page_height)
+        self.browser.page().runJavaScript("document.body.scrollHeight;", lambda height: self.record_page_height(height))
 
         ratio = self.page_height / self.browser.height()
         #self.notify(f"{ratio} and viewer {self.browser.height()}")
