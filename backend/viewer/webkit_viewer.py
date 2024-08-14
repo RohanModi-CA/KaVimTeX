@@ -109,7 +109,8 @@ class MainWindow(QMainWindow):
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
             buggs.write(f"{ratio}")
         if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
-            return True
+            pass
+            #return True
         return False
 
     def text_find_ideal_zoom(self):
@@ -122,13 +123,13 @@ class MainWindow(QMainWindow):
             ratio = self.page_height / self.browser.height()
             if ratio > self.ratio_upper_bound:
                 pass
-                self.browser.setZoomFactor(0.7)
+                #self.browser.setZoomFactor(0.7)
                 # self.browser.getZoomFactor()*0.9
             elif ratio < self.ratio_lower_bound:
                 pass
-                self.browser.setZoomFactor(0.7)
+                #self.browser.setZoomFactor(0.7)
                 # self.browser.getZoomFactor()*1.1
-            
+            break
 
 
 
