@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
 
         self.server = HTMLServer()
         self.server.new_html_received.connect(self.update_html)
-        self.browser.loadFinished.connect(self.adjust_window_to_content)
+        #self.browser.loadFinished.connect(self.adjust_window_to_content)
         self.browser.loadFinished.connect(self.text_find_ideal_zoom)
         self.server.start()
 
