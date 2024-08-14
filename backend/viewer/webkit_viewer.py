@@ -157,7 +157,7 @@ class MainWindow(QMainWindow):
             if trials >= 100:
                 self.notify("broken!")
                 break
-
+        self.notify(" |TRUE| ")
 
 
 
