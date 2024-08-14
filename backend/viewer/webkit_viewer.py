@@ -120,7 +120,7 @@ class MainWindow(QMainWindow):
 
                 return False
 
-        self.browser.page().runJavaScript("document.html.scrollHeight;", after_height_retrieved)
+        self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
 
 
 
