@@ -105,7 +105,7 @@ class MainWindow(QMainWindow):
     def check_ratio(self):
         self.browser.page().runJavaScript("document.body.scrollWidth;", self.record_page_height)
 
-        ratio = self.browser.height() / self.page_height
+        ratio = self.page_height / self.browser.height()
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
             buggs.write(f"{ratio}")
         if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
@@ -116,9 +116,9 @@ class MainWindow(QMainWindow):
         ratio = 0
         while not self.check_ratio():
             with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-                buggs.write("hello")
+                buggs.write("  hello  ")
                 #buggs.write(f"{self.browser.height()} and ratio {ratio}")
-            ratio = self.browser.height() / self.page_height
+            ratio = self.page_height / self.browser.height()
             if ratio > self.ratio_upper_bound:
                 self.browser.setZoomFactor(self.browser.getZoomFactor()*0.9)
             elif ratio < self.ratio_lower_bound:
