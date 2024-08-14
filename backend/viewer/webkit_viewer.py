@@ -5,7 +5,6 @@ from PyQt5.QtCore import QUrl, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import socket
-import time
 import add_css
 # import io
 
@@ -104,8 +103,8 @@ class MainWindow(QMainWindow):
         self.page_height = height
 
     def check_ratio(self):
-        self.browser.page().runJavaScript("document.body.scrollWidth;", record_page_height)
-        time.sleep(2)
+        self.browser.page().runJavaScript("document.body.scrollWidth;", self.record_page_height)
+
         # ratio = self.browser.height() / self.page_height
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
             buggs.write(f"{self.page_height}")
