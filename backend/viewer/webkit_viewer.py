@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import sys
-import time
 from PyQt5.QtCore import QUrl, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -98,16 +97,11 @@ class MainWindow(QMainWindow):
         
         self.notify(f"{browser_h} and {height} \n")
         # self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
-    
-    def record_page_height(self, height):
-        self.page_height = height
-
-
+ 
     def check_ratio(self):
         def after_height_retrieved(height):
-            self.record_page_height(height)
             
-            ratio = self.page_height / self.browser.height()
+            ratio = height / self.browser.height()
             #self.notify(f"Ratio: {ratio} and height: {self.page_height}")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
@@ -117,7 +111,7 @@ class MainWindow(QMainWindow):
                 
                 current_zoom_factor = self.browser.page().zoomFactor()
                 if ratio > self.ratio_upper_bound:
-                    self.notify(f"gs {self.page_height} / {self.browser.height()} ")
+                    self.notify(f"gs {str(height)[:3]} / {self.browser.height()} ")
                     self.browser.setZoomFactor(current_zoom_factor * 0.9)
                 elif ratio < self.ratio_lower_bound:
                     self.notify(f"gb {ratio} ")
@@ -128,19 +122,12 @@ class MainWindow(QMainWindow):
                 return False
 
         self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
-        time.sleep(0.1)
 
 
 
     def notify(self,text):
         with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
             buggs.write(text)
-    
-    def resize_to_content_width(self, width):
-        # self.resize(width, self.height())
-        pass
-
-
 
 
 if __name__ == '__main__':
