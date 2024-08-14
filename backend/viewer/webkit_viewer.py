@@ -107,13 +107,13 @@ class MainWindow(QMainWindow):
             self.record_page_height(height)
             
             ratio = self.page_height / self.browser.height()
-            self.notify(f"Ratio: {ratio} and viewer height: {self.browser.height()}")
+            self.notify(f"Ratio: {ratio} and height: {self.page_height}")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
-                self.notify("done true")
+                self.notify(" done true ")
                 return True
             else:
-                self.notify("done false")
+                self.notify(" done false ")
                 return False
 
         self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
