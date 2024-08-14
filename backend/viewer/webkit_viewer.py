@@ -107,7 +107,8 @@ class MainWindow(QMainWindow):
         ratio = self.page_height / self.browser.height()
         self.notify(f"{ratio} and viewer {self.browser.height()}")
         if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
-            self.notify(f"ITS DONE {self.page_height} and viewer {self.browser.height()} TABARNAK")
+            #self.notify(f"ITS DONE {self.page_height} and viewer {self.browser.height()} TABARNAK")
+            self.notify("done true")
             return True
         return False
 
@@ -116,7 +117,7 @@ class MainWindow(QMainWindow):
         trials = 0
         while not self.check_ratio():
 
-            self.notify(f" buggs {trials}   ")
+            self.notify(f" -{trials}trial   ")
                 #buggs.write(f"{self.browser.height()} and ratio {ratio}")
 
             ratio = self.page_height / self.browser.height()
