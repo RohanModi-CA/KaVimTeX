@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import socket
 import add_css
+import time
 # import io
 
 WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
@@ -119,8 +120,8 @@ class MainWindow(QMainWindow):
                 self.check_ratio()
 
                 return False
-
-        self.browser.page().runJavaScript("document.body.offsetHeight;", after_height_retrieved)
+        time.sleep(1.2)
+        self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
 
 
 
