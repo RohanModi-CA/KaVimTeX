@@ -119,7 +119,7 @@ class MainWindow(QMainWindow):
         trials = 0
         while not self.check_ratio():
             with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-                buggs.write("  hello  ")
+                buggs.write(f" {trials}   ")
                 #buggs.write(f"{self.browser.height()} and ratio {ratio}")
 
             ratio = self.page_height / self.browser.height()
