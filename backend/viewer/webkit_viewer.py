@@ -81,7 +81,7 @@ class MainWindow(QMainWindow):
         def after_height_retrieved(height):
         
             ratio = height / self.browser.height()
-            self.notify(f"Ratio: {str(ratio)[:4]} and height: {height}, and m_r {max_runs} ")
+            # self.notify(f"Ratio: {str(ratio)[:4]} and height: {height}, and m_r {max_runs} ")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
                 # self.notify(" done true ")
@@ -97,7 +97,8 @@ class MainWindow(QMainWindow):
                     self.browser.page().setZoomFactor(current_zoom_factor * 1.1)
                 
                 iterator = max_runs - 1
-                self.check_ratio(iterator)
+                self.notify(iterator)
+                self.check_ratio(str(iterator) + " ")
 
                 return False
         if (max_runs > 0):
