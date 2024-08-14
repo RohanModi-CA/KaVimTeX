@@ -116,7 +116,7 @@ class MainWindow(QMainWindow):
         trials = 0
         while not self.check_ratio():
 
-            notify(f" buggs{trials}   ")
+            notify(f" buggstrials   ")
                 #buggs.write(f"{self.browser.height()} and ratio {ratio}")
 
             ratio = self.page_height / self.browser.height()
