@@ -101,17 +101,37 @@ class MainWindow(QMainWindow):
     def record_page_height(self, height):
         self.page_height = height
 
-    def check_ratio(self):
-        self.browser.page().runJavaScript("document.body.scrollHeight;", lambda height: self.record_page_height(height))
 
-        ratio = self.page_height / self.browser.height()
-        #self.notify(f"{ratio} and viewer {self.browser.height()}")
-        self.notify(self.browser.height())
-        if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
-            #self.notify(f"ITS DONE {self.page_height} and viewer {self.browser.height()} TABARNAK")
-            self.notify("done true")
-            return True
-        return False
+    def check_ratio(self):
+        def after_height_retrieved(height):
+            self.record_page_height(height)
+            
+            ratio = self.page_height / self.browser.height()
+            self.notify(f"Ratio: {ratio} and viewer height: {self.browser.height()}")
+            
+            if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
+                self.notify("done true")
+                return True
+            else:
+                self.notify("done false")
+                return False
+
+        self.browser.page().runJavaScript("document.body.scrollHeight;", after_height_retrieved)
+
+
+
+
+#     def check_ratio(self):
+#         self.browser.page().runJavaScript("document.body.scrollHeight;", lambda height: self.record_page_height(height))
+# 
+#         ratio = self.page_height / self.browser.height()
+#         #self.notify(f"{ratio} and viewer {self.browser.height()}")
+#         self.notify(self.browser.height())
+#         if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
+#             #self.notify(f"ITS DONE {self.page_height} and viewer {self.browser.height()} TABARNAK")
+#             self.notify("done true")
+#             return True
+#         return False
 
     def text_find_ideal_zoom(self):
         ratio = 0
