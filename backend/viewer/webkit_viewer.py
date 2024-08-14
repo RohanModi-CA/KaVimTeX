@@ -110,9 +110,10 @@ class MainWindow(QMainWindow):
         return False
 
     def text_find_ideal_zoom(self):
+        ratio = 0
         while not check_ratio():
             with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-                buggs.write(f"{self}", end=' bugg ')
+                buggs.write(f"{self.browser.height()} and ratio {ratio}")
             ratio = self.browser.height() / self.page_height
             if ratio > self.ratio_upper_bound:
                 self.browser.setZoomFactor(self.browser.getZoomFactor()*0.9)
