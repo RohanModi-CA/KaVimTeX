@@ -134,6 +134,7 @@ class MainWindow(QMainWindow):
                 # self.browser.getZoomFactor()*1.1
             trials += 1
             if trials >= 100:
+                notify("broken!")
                 break
 
 
