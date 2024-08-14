@@ -95,8 +95,7 @@ class MainWindow(QMainWindow):
         browser_h = self.browser.height()
         self.browser.setZoomFactor(((browser_h ) / height) )
         
-        with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-            buggs.write(f"{browser_h} and {height} \n")
+        notify(f"{browser_h} and {height} \n")
         # self.browser.page().runJavaScript("window.scrollTo(0, document.body.scrollHeight / 2)")
     
     def record_page_height(self, height):
@@ -106,11 +105,9 @@ class MainWindow(QMainWindow):
         self.browser.page().runJavaScript("document.body.scrollHeight;", self.record_page_height)
 
         ratio = self.page_height / self.browser.height()
-        with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-            buggs.write(f"{ratio} and viewer {self.browser.height()}")
+        self.notify(f"{ratio} and viewer {self.browser.height()}")
         if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
-            with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-                buggs.write(f"ITS DONE {self.page_height} and viewer {self.browser.height()} TABARNAK")
+            self.notify(f"ITS DONE {self.page_height} and viewer {self.browser.height()} TABARNAK")
             return True
         return False
 
@@ -118,8 +115,8 @@ class MainWindow(QMainWindow):
         ratio = 0
         trials = 0
         while not self.check_ratio():
-            with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
-                buggs.write(f" {trials}   ")
+
+            notify(f" {trials}   ")
                 #buggs.write(f"{self.browser.height()} and ratio {ratio}")
 
             ratio = self.page_height / self.browser.height()
@@ -143,6 +140,9 @@ class MainWindow(QMainWindow):
 
 
 
+    def notify(self,text):
+        with open("/home/rohan/Documents/FileFolder/minefield/minefield.buggs", "a") as buggs:
+            buggs.write(text)
     
     def resize_to_content_width(self, width):
         # self.resize(width, self.height())
