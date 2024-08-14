@@ -113,12 +113,13 @@ class MainWindow(QMainWindow):
                 self.notify(" done true ")
                 return True
             else: # recursion time...
-                self.notify(" done false ")
                 
                 current_zoom_factor = self.browser.page().zoomFactor()
                 if ratio > self.ratio_upper_bound:
+                    self.notify("getting smaller ")
                     self.browser.setZoomFactor(current_zoom_factor * 0.9)
                 elif ratio < self.ratio_lower_bound:
+                    self.notify("getting bigger ")
                     self.browser.setZoomFactor(current_zoom_factor * 1.1)
                 
                 self.check_ratio()
