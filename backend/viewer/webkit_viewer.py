@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+!/usr/bin/env python3
 
 import sys
 from PyQt5.QtCore import QUrl, QThread, pyqtSignal
@@ -81,7 +81,7 @@ class MainWindow(QMainWindow):
         def after_height_retrieved(height):
         
             ratio = height / self.browser.height()
-            self.notify(f"Ratio: {str(ratio)[:4]} and height: {height}, and m_r {max_runs - 1} ")
+            self.notify(f"Ratio: {str(ratio)[:4]} and height: {height}, and m_r {max_runs} ")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
                 # self.notify(" done true ")
@@ -96,7 +96,8 @@ class MainWindow(QMainWindow):
                     # self.notify(f"gb {ratio} ")
                     self.browser.page().setZoomFactor(current_zoom_factor * 1.1)
                 
-                self.check_ratio()
+                iterator = max_runs - 1
+                self.check_ratio(iterator)
 
                 return False
         if (max_runs > 0):
