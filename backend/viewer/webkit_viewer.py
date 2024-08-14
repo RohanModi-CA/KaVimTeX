@@ -81,7 +81,7 @@ class MainWindow(QMainWindow):
         def after_height_retrieved(height):
         
             ratio = height / self.browser.height()
-            self.notify(f"Ratio: {str(ratio)[:4]} and height: {height}")
+            self.notify(f"Ratio: {str(ratio)[:4]} and height: {height}, and m_r {max_runs} ")
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
                 # self.notify(" done true ")
