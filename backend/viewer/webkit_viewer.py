@@ -96,7 +96,7 @@ class MainWindow(QMainWindow):
                     # self.notify(f"gb {ratio} ")
                     self.browser.page().setZoomFactor(current_zoom_factor * 1.1)
                 
-                self.check_ratio(max_runs=8)
+                self.check_ratio()
 
                 return False
         if (max_runs > 0):
