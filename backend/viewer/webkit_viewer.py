@@ -100,7 +100,7 @@ class MainWindow(QMainWindow):
                 #iterator = 7
                 self.notify(str(iterator) + " ")
                 if iterator > 1:
-                    self.check_ratio(iterator)
+                    return (self.check_ratio(iterator))
 
                 return False
         
