@@ -105,7 +105,7 @@ class MainWindow(QMainWindow):
         self.browser.page().runJavaScript("document.body.scrollHeight;", self.record_page_height)
 
         ratio = self.page_height / self.browser.height()
-        self.notify(f"{ratio} and viewer {self.browser.height()}")
+        #self.notify(f"{ratio} and viewer {self.browser.height()}")
         if ( (self.ratio_lower_bound <= ratio) and (ratio <= self.ratio_upper_bound) ):
             #self.notify(f"ITS DONE {self.page_height} and viewer {self.browser.height()} TABARNAK")
             self.notify("done true")
@@ -117,18 +117,18 @@ class MainWindow(QMainWindow):
         trials = 0
         while not self.check_ratio():
 
-            self.notify(f" -{trials}trial   ")
+            # self.notify(f" -{trials}trial   ")
                 #buggs.write(f"{self.browser.height()} and ratio {ratio}")
 
             ratio = self.page_height / self.browser.height()
             if ratio > self.ratio_upper_bound:
                 pass
                 current_zoom_factor = self.browser.page().zoomFactor()
-                self.browser.setZoomFactor(current_zoom_factor * 1)
+                self.browser.setZoomFactor(current_zoom_factor * 0.9)
             elif ratio < self.ratio_lower_bound:
                 pass
                 current_zoom_factor = self.browser.page().zoomFactor()
-                self.browser.setZoomFactor(current_zoom_factor * 1)
+                self.browser.setZoomFactor(current_zoom_factor * 1.1)
  
                 # self.browser.setZoomFactor(0.7)
                 # self.browser.getZoomFactor()*1.1
