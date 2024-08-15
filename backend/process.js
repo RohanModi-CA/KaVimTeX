@@ -92,6 +92,7 @@ const server = net.createServer(async (socket) => {
 						pdf_path = KVTpdf_dir + filepath.slice(lastSlash + 1);
 					} else {
 						// Relative path
+						await notify("sip")
 						pdf_path = filepath.slice(0, lastSlash + 1) + KVTpdf_dir + filepath.slice(lastSlash + 1);
 						await notify("hello")
 					}
