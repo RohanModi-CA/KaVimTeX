@@ -93,6 +93,7 @@ const server = net.createServer(async (socket) => {
 					} else {
 						// Relative path
 						pdf_path = filepath.slice(0, lastSlash + 1) + KVTpdf_dir + filepath.slice(lastSlash + 1);
+						await notify("hello")
 					}
 				}
 				// Change file extension to .pdf
