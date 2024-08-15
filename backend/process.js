@@ -77,7 +77,7 @@ const server = net.createServer(async (socket) => {
 				}
 
 				let pdf_path = filepath;
-				await notify(KVTpdf_dir);
+				await notify(KVTpdf_dir.lastIndexOf("/"));
 				if (KVTpdf_dir) {
 					// Find the last slash in the filepath
 					let lastSlash = filepath.lastIndexOf("/");
@@ -86,7 +86,6 @@ const server = net.createServer(async (socket) => {
 					if (KVTpdf_dir.slice(-1) !== "/") {
 						KVTpdf_dir += "/";
 					}
-					await notify(lastSlash);
 					// Construct the new pdf_path based on whether KVTpdf_dir is absolute or relative
 					if (KVTpdf_dir.slice(0, 1) === "/") {
 						// Absolute path
