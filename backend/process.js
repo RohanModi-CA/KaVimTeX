@@ -6,7 +6,7 @@ const { exec } = require('child_process');
 
 const KVTRoot = process.argv[2];
 const filepath = process.argv[5];
-const KVTpdf_dir = process.argv[6];
+var KVTpdf_dir = process.argv[6];
 
 const newcommands_file = KVTRoot + "/backend/resources/aliases.txt";
 const kill_script_path = KVTRoot + "/backend/kill_processes.sh";
