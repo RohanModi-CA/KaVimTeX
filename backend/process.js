@@ -67,9 +67,6 @@ const server = net.createServer(async (socket) => {
 			try {
 				console.log('Neovim disconnected.'); 
 
-				// render.terminateViewer(WEBKIT_PORT); this is too finnicky
-				
-
 				let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'webkit_viewer.py'  | sort)"`); 
 				// await notify(KVTCommOut + " is the one to kill."); // Use stored KVTCommOut 
 				let KVTCommOutArray = KVTCommOut.split("\n");
@@ -101,6 +98,7 @@ const server = net.createServer(async (socket) => {
 				}
 				// Change file extension to .pdf
 				pdf_path = pdf_path.slice(0, -3) + "pdf";
+				await notify(pdf_path);
 
 				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${pdf_path}'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 				// await notify(ZathuraCommOut + " is the one to kill."); // Use stored ZathuraCommOut 
