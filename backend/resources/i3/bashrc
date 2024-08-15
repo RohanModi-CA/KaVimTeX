@@ -25,6 +25,6 @@ KVTremap="xdotool windowmap '$kitty_window_id'"
 # Execute Neovim commands
 KVTnvimcommand='nvim -c "KVTServer" -c "VimtexCompile" -c "redraw!"'
 
-alias vimtex="i3-msg append_layout $KVTlayout_path && $KVTunmap && $KVTremap && $KVTnvimcommand"
+alias vimtex="i3-msg append_layout $KVTlayout_path > /dev/null && $KVTunmap && $KVTremap && $KVTnvimcommand"
 
 # END OF KaVimTeX

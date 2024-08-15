@@ -7,6 +7,12 @@ local KVTRoot = "" -- after it is found, it will *not* contain a / after KaVimTe
 local FILENAME = vim.api.nvim_buf_get_name(0)
 
 
+local KVTpdf_dir = ""
+
+if vim.g.KVTpdf_dir then
+	KVTpdf_dir=vim.g.KVTpdf_dir
+end
+
 local function get_free_port()
 	local server = socket.tcp()
   	server:setoption("reuseaddr", true) -- Allow reusing the address
@@ -107,7 +113,7 @@ end
 
 local function run_script(interpreter, script_path)
 	if vim.fn.filereadable(script_path) == 1 then
-		local cmd = {interpreter, script_path, KVTRoot, WEBKIT_PORT, PROCESS_PORT, FILENAME }
+		local cmd = {interpreter, script_path, KVTRoot, WEBKIT_PORT, PROCESS_PORT, FILENAME, KVTpdf_dir }
 		vim.fn.jobstart(cmd, {detach = true})
 	else
     	print("File not found: " .. script_path)
