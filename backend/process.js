@@ -85,6 +85,7 @@ const server = net.createServer(async (socket) => {
 					// Ensure KVTpdf_dir ends with a slash
 					if (KVTpdf_dir.slice(-1) !== "/") {
 						KVTpdf_dir += "/";
+						await notify("11");
 					}
 					// Construct the new pdf_path based on whether KVTpdf_dir is absolute or relative
 					if (KVTpdf_dir.slice(0, 1) == "/") {
