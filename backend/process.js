@@ -77,7 +77,7 @@ const server = net.createServer(async (socket) => {
 				}
 
 				let pdf_path = filepath;
-
+				await notify(pdf_path);
 				if (KVTpdf_dir) {
 					// Find the last slash in the filepath
 					let lastSlash = filepath.lastIndexOf("/");
@@ -98,7 +98,6 @@ const server = net.createServer(async (socket) => {
 				}
 				// Change file extension to .pdf
 				pdf_path = pdf_path.slice(0, -3) + "pdf";
-				await notify("hello")
 				await notify(pdf_path);
 
 				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${pdf_path}'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
