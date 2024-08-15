@@ -77,7 +77,7 @@ const server = net.createServer(async (socket) => {
 				}
 
 				let pdf_path = filepath;
-				await notify(pdf_path);
+				await notify(KVTpdf_dir);
 				if (KVTpdf_dir) {
 					// Find the last slash in the filepath
 					let lastSlash = filepath.lastIndexOf("/");
