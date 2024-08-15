@@ -6,6 +6,7 @@ const { exec } = require('child_process');
 
 const KVTRoot = process.argv[2];
 const filepath = process.argv[5];
+const KVTpdf_dir = process.argv[6];
 
 const newcommands_file = KVTRoot + "/backend/resources/aliases.txt";
 const kill_script_path = KVTRoot + "/backend/kill_processes.sh";
@@ -78,7 +79,30 @@ const server = net.createServer(async (socket) => {
 					}
 				}
 
-				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${filepath.slice(0,-3)}pdf'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+				let pdf_path = filepath;
+
+				if (KVTpdf_dir) {
+					// Find the last slash in the filepath
+					let lastSlash = filepath.lastIndexOf("/");
+					
+					// Ensure KVTpdf_dir ends with a slash
+					if (KVTpdf_dir.slice(-1) !== "/") {
+						KVTpdf_dir += "/";
+					}
+
+					// Construct the new pdf_path based on whether KVTpdf_dir is absolute or relative
+					if (KVTpdf_dir.slice(0, 1) === "/") {
+						// Absolute path
+						pdf_path = KVTpdf_dir + filepath.slice(lastSlash + 1);
+					} else {
+						// Relative path
+						pdf_path = filepath.slice(0, lastSlash + 1) + KVTpdf_dir + filepath.slice(lastSlash + 1);
+					}
+				}
+				// Change file extension to .pdf
+				pdf_path = pdf_path.slice(0, -3) + "pdf";
+
+				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${pdf_path}'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 				// await notify(ZathuraCommOut + " is the one to kill."); // Use stored ZathuraCommOut 
 				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
 				for (pid of ZathuraCommOutArray) {
