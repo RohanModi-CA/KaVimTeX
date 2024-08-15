@@ -68,7 +68,6 @@ const server = net.createServer(async (socket) => {
 				console.log('Neovim disconnected.'); 
 
 				let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'webkit_viewer.py'  | sort)"`); 
-				// await notify(KVTCommOut + " is the one to kill."); // Use stored KVTCommOut 
 				let KVTCommOutArray = KVTCommOut.split("\n");
 				for (pid of KVTCommOutArray) {
 					if (pid && pid.trim()) {
@@ -77,11 +76,9 @@ const server = net.createServer(async (socket) => {
 				}
 
 				let pdf_path = filepath;
-				await notify(KVTpdf_dir.lastIndexOf("/"));
 				if (KVTpdf_dir) {
 					// Find the last slash in the filepath
 					let lastSlash = filepath.lastIndexOf("/");
-					await notify(lastSlash);	
 					// Ensure KVTpdf_dir ends with a slash
 					if (!(KVTpdf_dir.endsWith("/"))) {
 						KVTpdf_dir = KVTpdf_dir + "/";
@@ -89,21 +86,16 @@ const server = net.createServer(async (socket) => {
 					// Construct the new pdf_path based on whether KVTpdf_dir is absolute or relative
 					if (KVTpdf_dir.slice(0, 1) == "/") {
 						// Absolute path
-						await notify("bus");
 						pdf_path = KVTpdf_dir + filepath.slice(lastSlash + 1);
 					} else {
 						// Relative path
-						await notify("sip");
 						pdf_path = filepath.slice(0, lastSlash + 1) + KVTpdf_dir + filepath.slice(lastSlash + 1);
-						await notify("hello");
 					}
 				}
 				// Change file extension to .pdf
 				pdf_path = pdf_path.slice(0, -3) + "pdf";
-				await notify(pdf_path);
 
 				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${pdf_path}'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
-				// await notify(ZathuraCommOut + " is the one to kill."); // Use stored ZathuraCommOut 
 				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
 				for (pid of ZathuraCommOutArray) {
 					if (pid && pid.trim()) {
@@ -112,7 +104,6 @@ const server = net.createServer(async (socket) => {
 				}
 
 			} catch (error) {
-				// await notify(`Error in socket.on('end'): ${error.message}`); 
 				console.error(`Error in socket.on('end'): ${error.message}`); 
 			}
 		}); 
