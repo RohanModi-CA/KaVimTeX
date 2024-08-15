@@ -87,14 +87,15 @@ const server = net.createServer(async (socket) => {
 						KVTpdf_dir += "/";
 					}
 					// Construct the new pdf_path based on whether KVTpdf_dir is absolute or relative
-					if (KVTpdf_dir.slice(0, 1) === "/") {
+					if (KVTpdf_dir.slice(0, 1) == "/") {
 						// Absolute path
+						await notify("bus");
 						pdf_path = KVTpdf_dir + filepath.slice(lastSlash + 1);
 					} else {
 						// Relative path
-						await notify("sip")
+						await notify("sip");
 						pdf_path = filepath.slice(0, lastSlash + 1) + KVTpdf_dir + filepath.slice(lastSlash + 1);
-						await notify("hello")
+						await notify("hello");
 					}
 				}
 				// Change file extension to .pdf
