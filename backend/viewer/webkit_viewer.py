@@ -74,7 +74,7 @@ class MainWindow(QMainWindow):
     def check_ratio(self):
 
         def width_check(width):
-            self.notify(width)
+            self.notify(not width)
             
             if not (width):
                 self.browser.page().setZoomFactor(self.browser.page().zoomFactor() * 0.9)
