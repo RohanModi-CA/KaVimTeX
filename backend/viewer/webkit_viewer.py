@@ -76,14 +76,12 @@ class MainWindow(QMainWindow):
         def width_check(width):
             self.notify(width)
             
-            """if False and (w_ratio > self.ratio_upper_bound):
-                
+            if not (width):
                 self.browser.page().setZoomFactor(self.browser.page().zoomFactor() * 0.9)
                 return self.check_ratio() # recursion
             else:
                 self.width_checking_bool = False
                 return True
-            """
 
         def after_height_retrieved(height):
 
