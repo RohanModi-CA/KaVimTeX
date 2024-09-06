@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import socket
 import add_css
+import os
 
 WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
 FILENAME = sys.argv[4]
@@ -110,7 +111,7 @@ class MainWindow(QMainWindow):
 
 
     def notify(self,text):
-        print(text)
+        os.system("notify-send hello")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
