@@ -73,7 +73,6 @@ class MainWindow(QMainWindow):
 
     def check_ratio(self):
 
-        self.notify("hello")
         def width_check(width):
             self.notify("jello")
             w_ratio = width / self.browser.width()
