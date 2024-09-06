@@ -91,7 +91,7 @@ class MainWindow(QMainWindow):
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
                 self.width_checking_bool = True
                 self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio ;", width_check)
-                return True # it is within range
+                # return True # it is within range
 
             else: # recursion time...
                 current_zoom_factor = self.browser.page().zoomFactor()
@@ -106,6 +106,7 @@ class MainWindow(QMainWindow):
             self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
         elif (self.width_checking_bool) and not(self.recursion_count > 100):
             self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio ;", width_check)
+
 
 
     def notify(self,text):
