@@ -59,16 +59,27 @@ class MainWindow(QMainWindow):
         self.ratio_lower_bound = 0.6
         self.ratio_upper_bound = 0.9
         self.recursion_count = 0
+        self.width_checking_bool = False
 
     def update_html(self, html):
         if html.find("katex") != -1:
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
             self.recursion_count = 0
+            self.width_checking_bool = False
         if html == "KAVIMTEX CONNECTED":
             self.browser.setHtml("KVT")
 
     def check_ratio(self):
+
+        def width_check(width):
+            w_ratio = width / self.browser.width()
+            if w_ratio > self.ratio.upper_bound:
+                self.browser.page().setZoomFactor(self.browser.page().zoomFactor() * 0.9)
+                return self.check_ratio() # recursion
+            else:
+                return True
+
         def after_height_retrieved(height):
 
             self.recursion_count += 1
@@ -78,6 +89,8 @@ class MainWindow(QMainWindow):
             ratio = height / self.browser.height()
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
+                self.width_checking_bool = True
+                self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio ;", width_check)
                 return True # it is within range
 
             else: # recursion time...
@@ -89,7 +102,10 @@ class MainWindow(QMainWindow):
                 
                 return self.check_ratio()  # Recursion call
 
-        self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
+        if not (self.recursion_count > 100 or self.width_checking_bool):
+            self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
+        elif (self.width_checking_bool) and not(self.recursion_count > 100):
+            self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio ;", width_check)
 
 
     def notify(self,text):
