@@ -74,8 +74,8 @@ class MainWindow(QMainWindow):
     def check_ratio(self):
 
         def width_check(width):
-            self.notify("jello")
             w_ratio = width / self.browser.width()
+            self.notify(w_ratio)
             if w_ratio > self.ratio.upper_bound:
                 self.browser.page().setZoomFactor(self.browser.page().zoomFactor() * 0.9)
                 return self.check_ratio() # recursion
@@ -112,7 +112,7 @@ class MainWindow(QMainWindow):
 
 
     def notify(self,text):
-        os.system("notify-send hello")
+        os.system(f"notify-send {text}")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
