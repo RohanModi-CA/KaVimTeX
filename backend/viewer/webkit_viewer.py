@@ -74,7 +74,6 @@ class MainWindow(QMainWindow):
     def check_ratio(self):
 
         def width_check(width):
-            w_ratio = width / self.browser.width()
             self.notify(width)
             
             """if False and (w_ratio > self.ratio_upper_bound):
