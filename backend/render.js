@@ -32,7 +32,8 @@ function addText(line_number, rawTek, WEBKIT_PORT) {
 			return renderDollarSign(p1);
 		});
 		
-		sendHTML(line_number, fixed, WEBKIT_PORT)
+		fixed = line_number + "KVTCURRENTLINE" + fixed;
+		sendHTML(line_number, fixed, WEBKIT_PORT);
 		// createTextHTML(fixed, WEBKIT_PORT);
 		isTextAndDone = true;
 	}
