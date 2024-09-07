@@ -17,7 +17,7 @@ function expandAliases(rawTek, newlist, oldlist) {
 }
 
 
-function addText(rawTek, WEBKIT_PORT) {
+function addText(line_number, rawTek, WEBKIT_PORT) {
 	let isTextAndDone = false;
 	let fixed = rawTek.trim();
 	
@@ -67,8 +67,17 @@ function stripMathMode(rawTek) {
     return cleaned;
 }
 
+function grabLineNumber(text) {
 
-function createDisplayHTML(fixed_latex, WEBKIT_PORT) {	
+	let line_and_text = [];
+	let separator_index = text.find("KVTCURRENTLINE");
+	line_and_text.push(text.substring(0, separator_index));
+	line_and_text.push(text.substring(separator_index + "KVTCURRENTLINE".length + 1, text.length));
+	return line_and_text;
+
+}
+
+function createDisplayHTML(line_number, fixed_latex, WEBKIT_PORT) {	
 	let htmlFile = "Error";
 	try{
 		let math = katex.renderToString(fixed_latex, {displayMode: true});
@@ -131,5 +140,6 @@ module.exports = {
     stripMathMode: stripMathMode,
     createDisplayHTML: createDisplayHTML,
 	terminateViewer: terminateViewer,
-	greetViewer: greetViewer
+	greetViewer: greetViewer,
+	grabLineNumber: grabLineNumber
 };

@@ -74,6 +74,7 @@ end
 
 function kvt.process_current_line()
 	local current_line = vim.fn.getline('.')
+	current_line = vim.api.nvim_win_get_cursor(0)[1] + "KVTCURRENTLINE" + current_line
 	kvt.send_data(current_line)
 end
 

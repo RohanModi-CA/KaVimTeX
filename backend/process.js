@@ -53,13 +53,19 @@ const server = net.createServer(async (socket) => {
 
 		socket.on('data', async (data) => {
 			let processed_line = data.toString();
+
+			g_l_b_array = render.grabLineNumber(processed_line);
+
+			line_number = g_l_b_array[0];
+			processed_line = g_l_b_array[1];
+
 			processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
-			addTextArray = render.addText(processed_line, WEBKIT_PORT);
+			addTextArray = render.addText(line_number, processed_line, WEBKIT_PORT);
 			processed_line = addTextArray[0];
 			
 			if (!(addTextArray[1])) {
 				processed_line = render.stripMathMode(processed_line);
-				render.createDisplayHTML(processed_line, WEBKIT_PORT);
+				render.createDisplayHTML(line_number, processed_line, WEBKIT_PORT);
 			}
 		});
 
