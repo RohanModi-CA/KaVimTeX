@@ -66,7 +66,7 @@ class MainWindow(QMainWindow):
         self.width_checking_bool = False
 
         self.current_line = -1
-        self.old_line = -1
+        self.old_line = -2
         self.same_line_bool = False
 
     def update_html(self, html):
