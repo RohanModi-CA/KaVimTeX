@@ -90,7 +90,6 @@ function createDisplayHTML(line_number, fixed_latex, WEBKIT_PORT) {
 		let math = katex.renderToString(fixed_latex, {displayMode: true});
 		
 		htmlFile = math;
-		htmlFile = "katex hi"
 
 	}
 	catch(error) {
@@ -107,7 +106,7 @@ function sendHTML(line_number, final_send, WEBKIT_PORT) {
 				// console.log(htmlFile);
 				
 				find_send = "katex";
-				client.write(final_send);
+				//client.write(final_send);
 				client.end();
 			});
 }
