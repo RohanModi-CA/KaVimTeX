@@ -44,6 +44,8 @@ function addText(rawTek, WEBKIT_PORT) {
 function stripMathMode(rawTek) {
     let cleaned = rawTek.trim();
     
+	cleaned = cleaned.length + "katex"
+
     if (cleaned.length >= 2) {
         if ((cleaned.substring(0, 2) === "\\[") || (cleaned.substring(0, 2) === "$$")) {
             cleaned = cleaned.substring(2); 
@@ -63,7 +65,6 @@ function stripMathMode(rawTek) {
 
 	}
     
-	cleaned = cleaned.length
     return cleaned;
 }
 
