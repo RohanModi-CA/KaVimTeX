@@ -59,8 +59,8 @@ function stripMathMode(rawTek) {
 			cleaned = cleaned.substring(16);
 		}
 		if (cleaned.substring(cleaned.length - 14) === "\end{equation}") {
-			cleaned = cleaned.substring(0, cleaned.length - 14);
 			cleaned =  "katex hi";
+			cleaned = cleaned.substring(0, cleaned.length - 14);
 		}
 
 	}
