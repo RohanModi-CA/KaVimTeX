@@ -65,9 +65,11 @@ end
 
 -- add the universal fixes:
 local universal_fixes = [[
-\medskipKVTNEWCOMMANDmedskip.     .           
+\medskipKVTNEWCOMMAND.     .           
 \smallskipKVTNEWCOMMAND.   .
-\bigskipKVTNEWCOMMANDbigskip.        .                 
+\bigskipKVTNEWCOMMAND.        .                 
+\section*KVTNEWCOMMAND\textbf
+\subsection*KVTNEWCOMMAND\textbf
 ]] -- in lua strings in [[]] do not require escape characters
 
 file:write(universal_fixes)
