@@ -61,7 +61,6 @@ const server = net.createServer(async (socket) => {
 			
 			line_number = g_l_b_array[0];
 			processed_line = g_l_b_array[1];
-			*/
 
 			processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
 			addTextArray = render.addText(line_number, processed_line, WEBKIT_PORT);
