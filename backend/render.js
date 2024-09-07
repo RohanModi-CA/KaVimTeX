@@ -32,7 +32,7 @@ function addText(line_number, rawTek, WEBKIT_PORT) {
 			return renderDollarSign(p1);
 		});
 		
-		sendHTML(fixed, WEBKIT_PORT)
+		sendHTML(line_number, fixed, WEBKIT_PORT)
 		// createTextHTML(fixed, WEBKIT_PORT);
 		isTextAndDone = true;
 	}
@@ -88,12 +88,12 @@ function createDisplayHTML(line_number, fixed_latex, WEBKIT_PORT) {
 		// console.log(error); // this constantly errors because of user typing. 
 	}
 	finally{
-		sendHTML(htmlFile, WEBKIT_PORT);
+		sendHTML(line_number, htmlFile, WEBKIT_PORT);
 	};
 }
 
 
-function sendHTML(final_send, WEBKIT_PORT) {
+function sendHTML(line_number, final_send, WEBKIT_PORT) {
 	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 				// console.log(htmlFile);
 				client.write(final_send);
