@@ -73,7 +73,7 @@ function grabLineNumber(text) {
 	try {
 		let separator_index = text.find("KVTCURRENTLINE");
 		line_and_text.push(text.substring(0, separator_index));
-		line_and_text.push(text.substring(separator_index + "KVTCURRENTLINE".length + 1));
+		line_and_text.push(text.substring(separator_index + "KVTCURRENTLINE".length));
 		return line_and_text;
 	}
 	catch (error) {
