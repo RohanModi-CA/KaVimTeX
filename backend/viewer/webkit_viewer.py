@@ -73,10 +73,10 @@ class MainWindow(QMainWindow):
         if (kvt_c_l != -1):
             current_line = html[:kvt_c_l]
             html = html[kvt_c_l + len("KVTCURRENTLINE"):]
-
+        """
         same_line_bool = current_line == old_line
         old_line = current_line
-
+        """
         if html.find("katex") != -1:
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
