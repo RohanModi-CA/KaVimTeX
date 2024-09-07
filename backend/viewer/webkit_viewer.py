@@ -120,7 +120,7 @@ class MainWindow(QMainWindow):
                 
                 return self.check_ratio()  # Recursion call
 
-        if not (self.recursion_count > 100 or self.width_checking_bool or same_line_bool):
+        if not (self.recursion_count > 100 or self.width_checking_bool):
             self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
         elif (self.width_checking_bool) and not(self.recursion_count > 110):
             self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio", width_check)
