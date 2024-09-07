@@ -8,6 +8,11 @@ import socket
 import add_css
 import os
 
+current_line = -1
+old_line = -1
+same_line_bool = False
+
+
 WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
 FILENAME = sys.argv[4]
 
@@ -69,6 +74,9 @@ class MainWindow(QMainWindow):
             current_line = html[:kvt_c_l]
             html = html[kvt_c_l + len("KVTCURRENTLINE"):]
 
+        same_line_bool = current_line == old_line
+        old_line = current_line
+
         if html.find("katex") != -1:
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
@@ -112,7 +120,7 @@ class MainWindow(QMainWindow):
                 
                 return self.check_ratio()  # Recursion call
 
-        if not (self.recursion_count > 100 or self.width_checking_bool):
+        if not (self.recursion_count > 100 or self.width_checking_bool or same_line_bool):
             self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
         elif (self.width_checking_bool) and not(self.recursion_count > 110):
             self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio", width_check)
