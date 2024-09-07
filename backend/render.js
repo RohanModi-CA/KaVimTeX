@@ -78,7 +78,7 @@ function grabLineNumber(text) {
 	}
 	catch (error) {
 		line_and_text.push("0");
-		line_and_text.push("hello");
+		line_and_text.push("hello" + error);
 		return line_and_text;
 	}
 
