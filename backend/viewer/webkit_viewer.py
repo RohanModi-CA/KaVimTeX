@@ -8,9 +8,7 @@ import socket
 import add_css
 import os
 
-current_line = -1
-old_line = -1
-same_line_bool = False
+
 
 
 WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
@@ -67,16 +65,20 @@ class MainWindow(QMainWindow):
         self.recursion_count = 0
         self.width_checking_bool = False
 
+        self.current_line = -1
+        self.old_line = -1
+        self.same_line_bool = False
+
     def update_html(self, html):
     
         kvt_c_l = html.find("KVTCURRENTLINE")
         if (kvt_c_l != -1):
             current_line = html[:kvt_c_l]
             html = html[kvt_c_l + len("KVTCURRENTLINE"):]
-        """
-        same_line_bool = current_line == old_line
-        old_line = current_line
-        """
+
+        self.same_line_bool = self.current_line == self.old_line
+        self.old_line = self.current_line
+
         if html.find("katex") != -1:
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
