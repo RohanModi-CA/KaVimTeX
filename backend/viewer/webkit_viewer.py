@@ -63,6 +63,12 @@ class MainWindow(QMainWindow):
         self.width_checking_bool = False
 
     def update_html(self, html):
+    
+        kvt_c_l = html.find("KVTCURRENTLINE")
+        if (kvt_c_l != -1):
+            current_line = html[:kvt_c_l]
+            html = html[kvt_c_l + len("KVTCURRENTLINE")]
+
         if html.find("katex") != -1:
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
