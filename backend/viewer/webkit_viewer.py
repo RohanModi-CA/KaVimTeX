@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
         kvt_c_l = html.find("KVTCURRENTLINE")
         if (kvt_c_l != -1):
             current_line = html[:kvt_c_l]
-            #html = html[kvt_c_l + len("KVTCURRENTLINE")]
+            html = html[kvt_c_l:]
 
         if html.find("katex") != -1:
             html = add_css.addCSS(html)
