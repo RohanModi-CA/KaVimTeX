@@ -21,7 +21,7 @@ function addText(rawTek, WEBKIT_PORT) {
 	let isTextAndDone = false;
 	let fixed = rawTek.trim();
 	
-	if( fixed.length > 0 &&  !(fixed.substring(0,2) === "\\[" || fixed.substring(0,2) === "$$" )  ) {
+	if( fixed.length > 0 &&  !( fixed.substring(0,16 === "\\begin{equation}")   ||  fixed.substring(0,2) === "\\[" || fixed.substring(0,2) === "$$" )  ) {
 		// fixed = "\\text{" + fixed + "}";
 		// we already expanded aliases in process.js, so we just directly create the html
 		
@@ -44,7 +44,6 @@ function addText(rawTek, WEBKIT_PORT) {
 function stripMathMode(rawTek) {
     let cleaned = rawTek.trim();
     
-	cleaned = cleaned.length + "katex"
 
     if (cleaned.length >= 2) {
         if ((cleaned.substring(0, 2) === "\\[") || (cleaned.substring(0, 2) === "$$")) {
