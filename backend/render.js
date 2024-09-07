@@ -89,7 +89,7 @@ function createDisplayHTML(line_number, fixed_latex, WEBKIT_PORT) {
 	try{
 		let math = katex.renderToString(fixed_latex, {displayMode: true});
 		
-		htmlFile = math;
+		htmlFile = line_number + "KVTCURRENTLINE" + math;
 
 	}
 	catch(error) {
@@ -105,7 +105,6 @@ function sendHTML(line_number, final_send, WEBKIT_PORT) {
 	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 				// console.log(htmlFile);
 				
-				find_send = "katex dadsa";
 				client.write(final_send);
 				client.end();
 			});
