@@ -56,9 +56,10 @@ const server = net.createServer(async (socket) => {
 			
 			line_number = 5; 
 			
+			/*
 			g_l_b_array = render.grabLineNumber(processed_line);
 			
-			/*
+			
 			line_number = g_l_b_array[0];
 			processed_line = g_l_b_array[1];
 			*/
