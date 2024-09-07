@@ -66,7 +66,7 @@ end
 -- add the universal fixes:
 local universal_fixes = [[
 \medskipKVTNEWCOMMANDmedskip
-\smallskipKVTNEWCOMMANDsmallskip
+\smallskipKVTNEWCOMMAND\n
 \bigskipKVTNEWCOMMANDbigskip
 ]] -- in lua strings in [[]] do not require escape characters
 
