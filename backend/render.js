@@ -54,6 +54,7 @@ function stripMathMode(rawTek) {
     }
 
 	if (cleaned.length >= "\\begin{equation}".length) {
+		cleaned = "katex hello"
 		if (cleaned.substring(0,16) === "\\begin{equation}"){
 			cleaned = cleaned.substring(16);
 		}
