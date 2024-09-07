@@ -66,7 +66,7 @@ class MainWindow(QMainWindow):
         self.width_checking_bool = False
 
         self.current_line = -1
-        self.old_line = -2
+        self.old_line = -1
         self.same_line_bool = False
 
     def update_html(self, html):
@@ -122,7 +122,7 @@ class MainWindow(QMainWindow):
                 
                 return self.check_ratio()  # Recursion call
 
-        if not (self.recursion_count > 100 or self.width_checking_bool or self.same_line_bool):
+        if not (self.recursion_count > 100 or self.width_checking_bool or not self.same_line_bool):
             self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
         elif (self.width_checking_bool) and not(self.recursion_count > 110):
             self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio", width_check)
