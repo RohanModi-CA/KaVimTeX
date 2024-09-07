@@ -1,4 +1,4 @@
-local kvt = {}
+Local kvt = {}
 
 local socket = require('socket')
 
@@ -95,7 +95,11 @@ vim.api.nvim_create_autocmd({"CursorMoved"}, {
 	-- Only process if the line actually changed
 	if vim.g.KVTPreviouslyViewedLine ~= current_line then 
 		kvt.process_current_line()
+	else
+		kvt.process_current_line()
 	end
+	
+
 	vim.g.KVTPreviouslyViewedLine = current_line
 
 end,
