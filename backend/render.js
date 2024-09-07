@@ -104,7 +104,7 @@ function sendHTML(line_number, final_send, WEBKIT_PORT) {
 	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 				// console.log(htmlFile);
 				
-				find_send = line_number + "katex";
+				find_send = "katex";
 				client.write(final_send);
 				client.end();
 			});
