@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
             self.recursion_count += 1
             self.notify(f"{width / self.browser.width()}")
             
-            if (width / self.browser.width() > 1.01):
+            if (width / self.browser.width() > 1.01): # this is stupid and hacky but this is killing me.
                 self.browser.page().setZoomFactor(self.browser.page().zoomFactor() * 0.9)
                 return self.check_ratio() # recursion
             else:

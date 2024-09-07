@@ -52,6 +52,16 @@ function stripMathMode(rawTek) {
             cleaned = cleaned.substring(0, cleaned.length - 2); 
         }
     }
+
+	if (cleaned.length >= "\\begin{equation}".length) {
+		if (cleaned.substring(0,16) === "\\begin{equation}"){
+			cleaned = cleaned.substring(16);
+		}
+		if (cleaned.substring(cleaned.length - 14) === "\end{equation}") {
+			cleaned = cleaned.substring(0, cleaned.length - 14);
+		}
+
+	}
     
     return cleaned;
 }
