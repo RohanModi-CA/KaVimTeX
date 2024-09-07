@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
                 self.width_checking_bool = True
-                self.browser.page().runJavaScript("document.body.scrollWidth > window.innerWidth", width_check)
+                self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio", width_check)
                 # return True # it is within range
 
             else: # recursion time...
