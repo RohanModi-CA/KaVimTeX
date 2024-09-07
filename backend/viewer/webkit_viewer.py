@@ -75,7 +75,7 @@ class MainWindow(QMainWindow):
 
         def width_check(width):
             self.recursion_count += 1
-            self.notify(f"{self.browser.height()}")
+            self.notify(f"{self.browser.width()}")
             
             """if not (width):
                 self.browser.page().setZoomFactor(self.browser.page().zoomFactor() * 0.9)
