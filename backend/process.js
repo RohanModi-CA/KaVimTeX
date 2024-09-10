@@ -113,7 +113,6 @@ const server = net.createServer(async (socket) => {
 					);
 								let i3_ZathuraCommOutArray = i3_ZathuraCommOut.split("\n");
 					for (pid of i3_ZathuraCommOutArray) {
-						notify(pid)
 						if (pid && pid.trim()) {
 							try {
 								await execAsync(`bash -c "xdotool windowclose ${pid}"`);}
