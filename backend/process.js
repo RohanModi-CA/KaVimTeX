@@ -107,13 +107,14 @@ const server = net.createServer(async (socket) => {
 				pdf_path = pdf_path.slice(0, -3) + "pdf";
 
 				try{
-					let { stdout: i3_ZathuraCommOut } = await execAsync(`bash -c "xdotool search --name 'org.pwmt.zathura' | sort"`); 
+					let { stdout: i3_ZathuraCommOut } = await execAsync(`bash -c "xwininfo -tree -root | grep "\"org.pwmt.zathura\": ()" | awk '{print $1}'"`); 
+
 					let i3_ZathuraCommOutArray = i3_ZathuraCommOut.split("\n");
 					for (pid of i3_ZathuraCommOutArray) {
 						notify(pid)
 						if (pid && pid.trim()) {
 							try {
-								await execAsync(`bash -c "xdotool windowkill ${pid}"`);}
+								await execAsync(`bash -c "xdotool windowclose ${pid}"`);}
 							catch (error) {notify(error)}
 						}
 					}
