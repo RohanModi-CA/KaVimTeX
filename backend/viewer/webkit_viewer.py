@@ -65,6 +65,7 @@ class MainWindow(QMainWindow):
         self.ratio_upper_bound = 0.9
         self.recursion_count = 0
         self.width_checking_bool = False
+        self.is_welcome = False
 
         self.current_line = -1
         self.old_line = -1
@@ -83,12 +84,12 @@ class MainWindow(QMainWindow):
         if html.find("katex") != -1:
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
+            self.is_welcome = False
             self.recursion_count = 0
             self.width_checking_bool = False
         if html == "KAVIMTEX CONNECTED":
-            self.recursion_count = 1000
+            self.is_welcome = True
             self.browser.setHtml("<html><body><h1>KVT</h1></body></html>")
-            time.sleep(20.05)
             self.recursion_count = 0
 
     def check_ratio(self):
@@ -126,9 +127,9 @@ class MainWindow(QMainWindow):
                 
                 return self.check_ratio()  # Recursion call
 
-        if not (self.recursion_count > 100 or self.width_checking_bool or not self.same_line_bool):
+        if not (self.recursion_count > 100 or self.width_checking_bool or self.is_welcome or not self.same_line_bool):
             self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
-        elif (self.width_checking_bool) and not(self.recursion_count > 110):
+        elif (self.width_checking_bool) and not(self.recursion_count > 110) and not self.is_welcome:
             self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio", width_check)
 
 
