@@ -113,10 +113,10 @@ const server = net.createServer(async (socket) => {
 						if (pid && pid.trim()) {
 							try {
 								await execAsync(`bash -c "xdotool windowkill ${pid}"`);}
-							catch (error) {}
+							catch (error) {notify(error)}
 						}
 					}
-				}		catch (error) {}
+				}		catch (error) {notify(error)}
 				
 
 
