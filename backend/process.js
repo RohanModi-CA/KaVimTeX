@@ -105,13 +105,14 @@ const server = net.createServer(async (socket) => {
 				pdf_path = pdf_path.slice(0, -3) + "pdf";
 
 
-				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  'org.pwmt.zathura'  | sort) <(xdotool search --name 'org.pwmt.zathura'  | sort)"`); 
-				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
-				for (pid of ZathuraCommOutArray) {
+				let { stdout: i3_zathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  'org.pwmt.zathura'  | sort) <(xdotool search --name 'org.pwmt.zathura'  | sort)"`); 
+				let i3_ZathuraCommOutArray = i3_ZathuraCommOut.split("\n");
+				for (pid of i3_ZathuraCommOutArray) {
 					if (pid && pid.trim()) {
 						await execAsync(`bash -c "xdotool windowkill ${pid}"`);
 					}
 				}
+				
 
 
 
