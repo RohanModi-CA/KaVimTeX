@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import socket
 import add_css
+import time
 import os
 
 
@@ -85,7 +86,10 @@ class MainWindow(QMainWindow):
             self.recursion_count = 0
             self.width_checking_bool = False
         if html == "KAVIMTEX CONNECTED":
+            self.recursion_count = 1000
             self.browser.setHtml("<html><body><h1>KVT</h1></body></html>")
+            time.sleep(0.05)
+            self.recursion_count = 0
 
     def check_ratio(self):
 
