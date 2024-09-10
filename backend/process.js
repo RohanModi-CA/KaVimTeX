@@ -104,6 +104,17 @@ const server = net.createServer(async (socket) => {
 				// Change file extension to .pdf
 				pdf_path = pdf_path.slice(0, -3) + "pdf";
 
+
+				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  'org.pwmt.zathura'  | sort) <(xdotool search --name 'org.pwmt.zathura'  | sort)"`); 
+				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
+				for (pid of ZathuraCommOutArray) {
+					if (pid && pid.trim()) {
+						await execAsync(`bash -c "xdotool windowkill ${pid}"`);
+					}
+				}
+
+
+
 				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${pdf_path}'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
 				for (pid of ZathuraCommOutArray) {
