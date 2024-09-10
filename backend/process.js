@@ -109,7 +109,6 @@ const server = net.createServer(async (socket) => {
 				try{
 					let { stdout: i3_ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  'org.pwmt.zathura'  | sort) <(xdotool search --name 'org.pwmt.zathura'  | sort)"`); 
 					let i3_ZathuraCommOutArray = i3_ZathuraCommOut.split("\n");
-					notify("hello")
 					for (pid of i3_ZathuraCommOutArray) {
 						notify(pid)
 						if (pid && pid.trim()) {
@@ -124,6 +123,7 @@ const server = net.createServer(async (socket) => {
 
 
 				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${pdf_path}'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
+				notify(ZathuraCommOut)
 				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
 				for (pid of ZathuraCommOutArray) {
 					if (pid && pid.trim()) {
