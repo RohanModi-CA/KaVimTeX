@@ -17,11 +17,11 @@ function expandAliases(rawTek, newlist, oldlist) {
 }
 
 
-function addText(rawTek, WEBKIT_PORT) {
+function addText(line_number, rawTek, WEBKIT_PORT) {
 	let isTextAndDone = false;
 	let fixed = rawTek.trim();
 	
-	if( fixed.length > 0 &&  !(fixed.substring(0,2) === "\\[" || fixed.substring(0,2) === "$$" )  ) {
+	if( fixed.length > 0 &&  !( fixed.substring(0,16) === "\\begin{equation}"   ||  fixed.substring(0,2) === "\\[" || fixed.substring(0,2) === "$$" )  ) {
 		// fixed = "\\text{" + fixed + "}";
 		// we already expanded aliases in process.js, so we just directly create the html
 		
@@ -32,7 +32,8 @@ function addText(rawTek, WEBKIT_PORT) {
 			return renderDollarSign(p1);
 		});
 		
-		sendHTML(fixed, WEBKIT_PORT)
+		fixed = line_number + "KVTCURRENTLINE" + fixed;
+		sendHTML(fixed, WEBKIT_PORT);
 		// createTextHTML(fixed, WEBKIT_PORT);
 		isTextAndDone = true;
 	}
@@ -44,6 +45,7 @@ function addText(rawTek, WEBKIT_PORT) {
 function stripMathMode(rawTek) {
     let cleaned = rawTek.trim();
     
+
     if (cleaned.length >= 2) {
         if ((cleaned.substring(0, 2) === "\\[") || (cleaned.substring(0, 2) === "$$")) {
             cleaned = cleaned.substring(2); 
@@ -52,17 +54,44 @@ function stripMathMode(rawTek) {
             cleaned = cleaned.substring(0, cleaned.length - 2); 
         }
     }
+
+	if (cleaned.length >= "\\begin{equation}".length) {
+		if (cleaned.substring(0,16) === "\\begin{equation}"){
+			cleaned = cleaned.substring(16);
+		}
+		if (cleaned.substring(cleaned.length - 14) === "\\end{equation}") {
+			cleaned = cleaned.substring(0, cleaned.length - 14);
+		}
+
+	}
     
     return cleaned;
 }
 
+function grabLineNumber(text) {
 
-function createDisplayHTML(fixed_latex, WEBKIT_PORT) {	
+	let line_and_text = [];
+	try {
+		let separator_index = text.search("KVTCURRENTLINE");
+		line_and_text.push(text.substring(0, separator_index));
+		line_and_text.push(text.substring(separator_index + "KVTCURRENTLINE".length));
+		return line_and_text;
+	}
+	catch (error) {
+		line_and_text.push("0");
+		line_and_text.push("hello" + error);
+		return line_and_text;
+	}
+
+}
+
+function createDisplayHTML(line_number, fixed_latex, WEBKIT_PORT) {	
 	let htmlFile = "Error";
 	try{
 		let math = katex.renderToString(fixed_latex, {displayMode: true});
 		
-		htmlFile = math;
+		htmlFile = line_number + "KVTCURRENTLINE" + math;
+
 	}
 	catch(error) {
 		// console.log(error); // this constantly errors because of user typing. 
@@ -76,6 +105,7 @@ function createDisplayHTML(fixed_latex, WEBKIT_PORT) {
 function sendHTML(final_send, WEBKIT_PORT) {
 	const client = net.createConnection({ host: serverHost, port: WEBKIT_PORT }, () => {
 				// console.log(htmlFile);
+				
 				client.write(final_send);
 				client.end();
 			});
@@ -120,5 +150,6 @@ module.exports = {
     stripMathMode: stripMathMode,
     createDisplayHTML: createDisplayHTML,
 	terminateViewer: terminateViewer,
-	greetViewer: greetViewer
+	greetViewer: greetViewer,
+	grabLineNumber: grabLineNumber
 };

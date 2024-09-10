@@ -6,6 +6,10 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 import socket
 import add_css
+import os
+
+
+
 
 WEBKIT_PORT = int(sys.argv[2]) # What? Why is it argv[2]? In the JS, this is argv[3].. Well, it works. But why would argv[3] correspond to the same thing as argv[4] in JS..
 FILENAME = sys.argv[4]
@@ -59,16 +63,43 @@ class MainWindow(QMainWindow):
         self.ratio_lower_bound = 0.6
         self.ratio_upper_bound = 0.9
         self.recursion_count = 0
+        self.width_checking_bool = False
+
+        self.current_line = -1
+        self.old_line = -1
+        self.same_line_bool = False
 
     def update_html(self, html):
+    
+        kvt_c_l = html.find("KVTCURRENTLINE")
+        if (kvt_c_l != -1):
+            current_line = html[:kvt_c_l]
+            html = html[kvt_c_l + len("KVTCURRENTLINE"):]
+
+        self.same_line_bool = self.current_line == self.old_line
+        self.old_line = self.current_line
+
         if html.find("katex") != -1:
             html = add_css.addCSS(html)
             self.browser.setHtml(html)
             self.recursion_count = 0
+            self.width_checking_bool = False
         if html == "KAVIMTEX CONNECTED":
             self.browser.setHtml("KVT")
 
     def check_ratio(self):
+
+        def width_check(width):
+            self.recursion_count += 1
+            #self.notify(f"{width / self.browser.width()}")
+            
+            if (width / self.browser.width() > 1.01): # this is stupid and hacky but this is killing me.
+                self.browser.page().setZoomFactor(self.browser.page().zoomFactor() * 0.9)
+                return self.check_ratio() # recursion
+            else:
+                self.width_checking_bool = False
+                return True
+
         def after_height_retrieved(height):
 
             self.recursion_count += 1
@@ -78,7 +109,9 @@ class MainWindow(QMainWindow):
             ratio = height / self.browser.height()
             
             if self.ratio_lower_bound <= ratio <= self.ratio_upper_bound:
-                return True # it is within range
+                self.width_checking_bool = True
+                self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio", width_check)
+                # return True # it is within range
 
             else: # recursion time...
                 current_zoom_factor = self.browser.page().zoomFactor()
@@ -89,11 +122,15 @@ class MainWindow(QMainWindow):
                 
                 return self.check_ratio()  # Recursion call
 
-        self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
+        if not (self.recursion_count > 100 or self.width_checking_bool or not self.same_line_bool):
+            self.browser.page().runJavaScript("document.body.scrollHeight * window.devicePixelRatio ;", after_height_retrieved)
+        elif (self.width_checking_bool) and not(self.recursion_count > 110):
+            self.browser.page().runJavaScript("document.body.scrollWidth * window.devicePixelRatio", width_check)
+
 
 
     def notify(self,text):
-        print(text)
+        os.system(f"notify-send {text}")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

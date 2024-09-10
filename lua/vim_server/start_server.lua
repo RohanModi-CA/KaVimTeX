@@ -8,10 +8,11 @@ local FILENAME = vim.api.nvim_buf_get_name(0)
 
 
 local KVTpdf_dir = ""
-
 if vim.g.KVTpdf_dir then
 	KVTpdf_dir=vim.g.KVTpdf_dir
 end
+
+vim.g.KVTPreviouslyViewedLine = nil
 
 local function get_free_port()
 	local server = socket.tcp()
@@ -73,6 +74,7 @@ end
 
 function kvt.process_current_line()
 	local current_line = vim.fn.getline('.')
+	current_line = vim.api.nvim_win_get_cursor(0)[1] .. "KVTCURRENTLINE" .. current_line
 	kvt.send_data(current_line)
 end
 
@@ -87,13 +89,19 @@ vim.api.nvim_create_autocmd({"TextChangedI"},{
 vim.api.nvim_create_autocmd({"CursorMoved"}, {
 	pattern = "*.tex",
 	callback = function()
-	local prev_line = vim.fn.line("'-") -- Get previous line number
-	local current_line = vim.fn.line(".") -- Get current line number
+	local current_line =  vim.api.nvim_win_get_cursor(0)[1] 
+
 
 	-- Only process if the line actually changed
-	if prev_line ~= current_line then 
+	if vim.g.KVTPreviouslyViewedLine ~= current_line then 
+		kvt.process_current_line()
+	else
 		kvt.process_current_line()
 	end
+	
+
+	vim.g.KVTPreviouslyViewedLine = current_line
+
 end,
 })
 

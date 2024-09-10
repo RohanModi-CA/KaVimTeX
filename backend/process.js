@@ -53,13 +53,22 @@ const server = net.createServer(async (socket) => {
 
 		socket.on('data', async (data) => {
 			let processed_line = data.toString();
+			
+			line_number = 5; 
+			
+			g_l_b_array = render.grabLineNumber(processed_line);
+			
+			
+			line_number = g_l_b_array[0];
+			processed_line = g_l_b_array[1];
+
 			processed_line = render.expandAliases(processed_line, newCommands, oldCommands);
-			addTextArray = render.addText(processed_line, WEBKIT_PORT);
+			addTextArray = render.addText(line_number, processed_line, WEBKIT_PORT);
 			processed_line = addTextArray[0];
 			
 			if (!(addTextArray[1])) {
 				processed_line = render.stripMathMode(processed_line);
-				render.createDisplayHTML(processed_line, WEBKIT_PORT);
+				render.createDisplayHTML(line_number, processed_line, WEBKIT_PORT);
 			}
 		});
 
@@ -67,13 +76,15 @@ const server = net.createServer(async (socket) => {
 			try {
 				console.log('Neovim disconnected.'); 
 
-				let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'webkit_viewer.py'  | sort)"`); 
-				let KVTCommOutArray = KVTCommOut.split("\n");
-				for (pid of KVTCommOutArray) {
-					if (pid && pid.trim()) {
-						await execAsync(`bash -c "xdotool windowkill ${pid}"`);
+				try{
+					let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'webkit_viewer.py'  | sort)"`); 
+					let KVTCommOutArray = KVTCommOut.split("\n");
+					for (pid of KVTCommOutArray) {
+						if (pid && pid.trim()) {
+							await execAsync(`bash -c "xdotool windowkill ${pid}"`);
+						}
 					}
-				}
+				} catch (error) { }
 
 				let pdf_path = filepath;
 				if (KVTpdf_dir) {
@@ -94,6 +105,24 @@ const server = net.createServer(async (socket) => {
 				}
 				// Change file extension to .pdf
 				pdf_path = pdf_path.slice(0, -3) + "pdf";
+
+				try{
+	//				let { stdout: i3_ZathuraCommOut } = await execAsync(`bash -c "xwininfo -tree -root | grep '\\\"org.pwmt.zathura\\\": ()' | awk '{print \$1}'"`); 
+					let { stdout: i3_ZathuraCommOut } = await execAsync(
+						`bash -c 'xwininfo -tree -root | grep "\\\"org.pwmt.zathura\\\": ()" | awk "{print \\$1}"'`
+					);
+								let i3_ZathuraCommOutArray = i3_ZathuraCommOut.split("\n");
+					for (pid of i3_ZathuraCommOutArray) {
+						if (pid && pid.trim()) {
+							try {
+								await execAsync(`bash -c "xdotool windowclose ${pid}"`);}
+							catch (error) {notify(error)}
+						}
+					}
+				}		catch (error) {notify(error)}
+				
+
+
 
 				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${pdf_path}'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
 				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
