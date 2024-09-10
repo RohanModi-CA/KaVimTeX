@@ -85,7 +85,7 @@ class MainWindow(QMainWindow):
             self.recursion_count = 0
             self.width_checking_bool = False
         if html == "KAVIMTEX CONNECTED":
-            self.browser.setHtml("KVT")
+            self.browser.setHtml("<html><body><h1>KVT</h1></body></html>")
 
     def check_ratio(self):
 
