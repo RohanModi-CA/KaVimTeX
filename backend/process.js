@@ -125,7 +125,6 @@ const server = net.createServer(async (socket) => {
 
 
 				let { stdout: ZathuraCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${pdf_path}'  | sort) <(xdotool search --classname 'zathura'  | sort)"`); 
-				notify(ZathuraCommOut)
 				let ZathuraCommOutArray = ZathuraCommOut.split("\n");
 				for (pid of ZathuraCommOutArray) {
 					if (pid && pid.trim()) {
