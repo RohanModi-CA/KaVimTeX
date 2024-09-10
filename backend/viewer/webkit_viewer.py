@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
         if html == "KAVIMTEX CONNECTED":
             self.recursion_count = 1000
             self.browser.setHtml("<html><body><h1>KVT</h1></body></html>")
-            time.sleep(1.05)
+            time.sleep(20.05)
             self.recursion_count = 0
 
     def check_ratio(self):
