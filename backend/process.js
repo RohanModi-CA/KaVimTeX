@@ -76,13 +76,15 @@ const server = net.createServer(async (socket) => {
 			try {
 				console.log('Neovim disconnected.'); 
 
-				let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'webkit_viewer.py'  | sort)"`); 
-				let KVTCommOutArray = KVTCommOut.split("\n");
-				for (pid of KVTCommOutArray) {
-					if (pid && pid.trim()) {
-						await execAsync(`bash -c "xdotool windowkill ${pid}"`);
+				try{
+					let { stdout: KVTCommOut } = await execAsync(`bash -c "comm -12 <(xdotool search --name  '${WEBKIT_PORT}'  | sort) <(xdotool search --classname 'webkit_viewer.py'  | sort)"`); 
+					let KVTCommOutArray = KVTCommOut.split("\n");
+					for (pid of KVTCommOutArray) {
+						if (pid && pid.trim()) {
+							await execAsync(`bash -c "xdotool windowkill ${pid}"`);
+						}
 					}
-				}
+				} catch (error) { }
 
 				let pdf_path = filepath;
 				if (KVTpdf_dir) {
