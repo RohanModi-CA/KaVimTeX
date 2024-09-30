@@ -33,7 +33,7 @@ class HTMLServer(QThread):
     def handle_client(self, client_socket):
         try:
             while True:
-                data = client_socket.recv(30999).decode('utf-8')
+                data = client_socket.recv(100999).decode('utf-8')
                 if data:
                     self.new_html_received.emit(data)
                 else:
