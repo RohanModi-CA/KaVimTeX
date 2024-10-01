@@ -106,7 +106,7 @@ local universal_fixes = [[
 	\bigskipKVTNEWCOMMAND.        .                 
 	\section*KVTNEWCOMMAND.
 	\subsection*KVTNEWCOMMAND.
-	\label*KVTNEWCOMMAND{}
+	\label*KVTNEWCOMMAND\text{ }\text
 ]] -- in lua strings in [[]] do not require escape characters
 file:write(universal_fixes)
 
